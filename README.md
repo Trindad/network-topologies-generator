@@ -1,2 +1,2 @@
-network-topologies-generator
+Network Topologies Generator
 ============================
