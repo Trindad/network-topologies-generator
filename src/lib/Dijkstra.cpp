@@ -4,6 +4,7 @@
  #include <algorithm> 
 #include <stdexcept> // for std::runtime_error
 
+#include "Graph.h"
 #include "Dijkstra.h"
 
 using std::cout;

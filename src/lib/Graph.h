@@ -21,7 +21,7 @@ public:
 	
 	void setNode();
 
-	void setAvarageDegree();
+	void setAverageDegree();
 
 	void setMinimumDegree();
 
@@ -31,7 +31,7 @@ public:
 	
 	int getNode();
 
-	double getAvarageDegree();
+	double getAverageDegree();
 
 	int getMinimumDegree();
 
@@ -40,7 +40,7 @@ public:
 private:
 
 	int nLinks; 		//número de links
-	int nNode;			//número de nós
+	int nNodes;			//número de nós
 	int maxDegree;		//grau máximo da topologia
 	int minDegree;		//grau minimo da topologia
 	double avgDegree;	//grau médio da topologia
