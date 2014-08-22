@@ -4,12 +4,12 @@
 #include <iostream>
 #include <deque>
 #include <iterator>
- #include <algorithm> 
+#include <algorithm> 
 #include <stdexcept> // for std::runtime_error
 
-#include "/usr/include/boost/graph/graph_traits.hpp"
-#include "/usr/include/boost/graph/adjacency_list.hpp"
-using namespace boost;
+using std::cout;
+using std::cin;
+using std::endl;
 
 class Graph
 {
@@ -27,19 +27,22 @@ public:
 
 	void setMaximumDegree();
 
-
-	void getLink();
+	int getLink();
 	
-	void getNode();
+	int getNode();
 
-	void getAvarageDegree();
+	double getAvarageDegree();
 
-	void getMinimumDegree();
+	int getMinimumDegree();
 
-	void getMaximumDegree();
+	int getMaximumDegree();
 
 private:
 
-	typedef adjacency_list <vecS, vecS, undirectedS> UndirectedGraph;
+	int nLinks; 		//número de links
+	int nNode;			//número de nós
+	int maxDegree;		//grau máximo da topologia
+	int minDegree;		//grau minimo da topologia
+	double avgDegree;	//grau médio da topologia
 };
 

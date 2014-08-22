@@ -7,39 +7,59 @@
  #include <algorithm> 
 #include <stdexcept> // for std::runtime_error
 
-#include "/usr/include/boost/graph/graph_traits.hpp"
-#include "/usr/include/boost/graph/adjacency_list.hpp"
-
 #include "Graph.h" /*Inclui  a definição da classe Graph*/
 
-using namespace boost;
 
 Graph::Graph() {
 
 }
 
-void Graph::setLink()
+void Graph::setLink(int nLinks)
 {
 
 }
 
-void Graph::setNode()
+void Graph::setNode(int nNodes)
 {
 
 }
 
-void Graph::setAvarageDegree() 
+void Graph::setAvarageDegree(double avgDegree) 
 {
 
 }
 
-void Graph::setMinimumDegree()
+void Graph::setMinimumDegree(int minDegree)
 {
 
 }
 
-void Graph::setMaximumDegree()
+void Graph::setMaximumDegree(int maxDegree)
 {
 
 }
 
+void Graph::getLink()
+{
+	return nLinks;
+}
+
+int Graph::getNode()
+{
+	return nNodes;
+}
+
+double Graph::getAvarageDegree() 
+{
+	return avgDegree;
+}
+
+int Graph::getMinimumDegree()
+{
+	return minDegree;
+}
+
+int Graph::getMaximumDegree()
+{
+	return maxDegree;
+}
