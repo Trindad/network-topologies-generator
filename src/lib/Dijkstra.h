@@ -13,7 +13,5 @@ class Dijkstra
 public:
 
 	Dijkstra();
-private:
-
 };
 

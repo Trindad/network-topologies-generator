@@ -12,38 +12,38 @@
 
 Graph::Graph() {
 
-	setLink();
-	setNode();
-	setMaximumDegree();
-	setMaximumDegree();
+	// setLink();
+	// setNode();
+	// setMaximumDegree();
+	// setMaximumDegree();
 }
 
-void Graph::setLink(int nLinks)
+void Graph::setLink(int n)
 {
-	this.nLinks = nLinks;
+	nLinks = n;
 }
 
-void Graph::setNode(int nNodes)
+void Graph::setNode(int n)
 {
-	this.nNodes = nNodes;
+	nNodes = n;
 }
 
-void Graph::setAverageDegree(double avgDegree) 
+void Graph::setAverageDegree(double avg) 
 {
-	this.avgDegree = avgDegree;
+	avgDegree = avg;
 }
 
-void Graph::setMinimumDegree(int minDegree)
+void Graph::setMinimumDegree(int min)
 {
-	this.minDegree = minDegree;
+	minDegree = min;
 }
 
-void Graph::setMaximumDegree(int maxDegree)
+void Graph::setMaximumDegree(int max)
 {
-	this.maxDegree = maxDegree;
+	maxDegree = max;
 }
 
-void Graph::getLink()
+int Graph::getLink()
 {
 	return nLinks;
 }

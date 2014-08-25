@@ -14,10 +14,7 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-class Dijkstra
-{
-public:
 
-	Dijkstra();
+Dijkstra::Dijkstra(){
+}
 	
-};

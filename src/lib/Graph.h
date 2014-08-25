@@ -17,15 +17,15 @@ public:
 
 	Graph();
 
-	void setLink();
+	void setLink(int nLinks);
 	
-	void setNode();
+	void setNode(int nNodes);
 
-	void setAverageDegree();
+	void setAverageDegree(double avgDegree);
 
-	void setMinimumDegree();
+	void setMinimumDegree(int minDegree);
 
-	void setMaximumDegree();
+	void setMaximumDegree(int maxDegree);
 
 	int getLink();
 	
