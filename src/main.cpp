@@ -1,4 +1,11 @@
 /**
+ *
+ * ****************************************************************
+ * Gerador de topologias físicas de redes reais de telecomunicações
+ * Desenvolvido em linguagem C++ utilizando o conceito de classes
+ * ****************************************************************
+ *
+ * Copyright(c) 2014 S. Trindade
  * 
  */
 
@@ -13,5 +20,6 @@ using std::endl;
 int main()
 {
 
+	
 	return 0;
 }
