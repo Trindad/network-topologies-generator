@@ -6,26 +6,24 @@
 #include <iterator>
 #include <algorithm> 
 #include <stdexcept> // for std::runtime_error
-
-using std::cout;
-using std::cin;
-using std::endl;
+#include <string>
 
 class Graph
 {
 public:
 
 	Graph();
+	~Graph();
 
-	void setLink(int nLinks);
+	void setLink(int);
 	
-	void setNode(int nNodes);
+	void setNode(int);
 
-	void setAverageDegree(double avgDegree);
+	void setAverageDegree(double);
 
-	void setMinimumDegree(int minDegree);
+	void setMinimumDegree(int);
 
-	void setMaximumDegree(int maxDegree);
+	void setMaximumDegree(int);
 
 	int getLink();
 	

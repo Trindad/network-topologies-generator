@@ -1,6 +1,7 @@
 /**
  * Definições de função-membro que aparecem em Regions.cpp
  */
+
 #include <iostream>
 #include <deque>
 #include <iterator>
