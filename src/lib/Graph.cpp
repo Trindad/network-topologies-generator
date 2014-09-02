@@ -48,6 +48,11 @@ void Graph::setMaximumDegree(int max)
 	this->maxDegree = max;
 }
 
+void Graph::setMinimumDistance(int min)
+{
+	this->minDistance = min;
+}
+
 //gets
 int Graph::getLink()
 {
@@ -72,4 +77,9 @@ int Graph::getMinimumDegree()
 int Graph::getMaximumDegree()
 {
 	return this->maxDegree;
+}
+
+int Graph::getMinimumDistance()
+{
+	return this->minDistance;
 }

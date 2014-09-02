@@ -25,6 +25,8 @@ public:
 
 	void setMaximumDegree(int);
 
+	void setMinimumDistance(int);
+
 	int getLink();
 	
 	int getNode();
@@ -35,6 +37,8 @@ public:
 
 	int getMaximumDegree();
 
+	int getMinimumDistance();
+
 private:
 
 	int nLinks; 		//número de links
@@ -42,5 +46,6 @@ private:
 	int maxDegree;		//grau máximo da topologia
 	int minDegree;		//grau minimo da topologia
 	double avgDegree;	//grau médio da topologia
+	int minDistance; 	//distancia minima entre um par de vertices/nós
 };
 

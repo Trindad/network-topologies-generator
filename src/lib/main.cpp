@@ -20,21 +20,51 @@ using std::cin;
 using std::endl;
 using std::getline;
 
-#include "Graph.h"
+#include "Regions.h"
 
 int main(void)
 {
 
-	int nNos,nLinks;
+	int nNos,min,max,area,nSimulations = 1,breadth,length,minDistance;
+	double prWaxman1,prWaxman2;
 	Graph graph; // cria objeto grafo
+	Regions regions;
 
 	cout << "Digite o número de nós: "<<endl;
 	cin >> nNos;
 	graph.setNode(nNos);
 
-	cout << "Digite o número de links: "<<endl;
-	cin >> nLinks;
-	graph.setLink(nLinks);
+	cout << "Digite o número do grau médio mínimo: "<<endl;
+	cin >> min;
+	graph.setMinimumDegree(min);
+
+	cout << "Digite o número do grau médio máximo: "<<endl;
+	cin >> max;
+	graph.setMaximumDegree(max);
+
+	cout << "Digite a distância mínima entre dois nós: "<<endl;
+	cin >> minDistance;
+	graph.setMinimumDistance(minDistance);
+
+	cout << "Digite a area: "<<endl;
+	cin >> nNos;
+	regions.setArea(nNos);
+
+	cout << "Digite o comprimento de uma região: "<<endl;
+	cin >> length;
+	regions.setLength(length);
+
+	cout << "Digite a largura de uma região: "<<endl;
+	cin >> breadth;
+	regions.setBreadth(breadth);
+
+	// cout << "Probabilidade de Waxman: "<<endl;
+	// cin >> prWaxman1;
+	// graph.setWaxmanOne(prWaxman1);
+
+	// cout << "Probabilidade de Waxman: "<<endl;
+	// cin >> prWaxman2;
+	// graph.setWaxmanTwo(prWaxman2);
 
 	return 0;
 }

@@ -12,11 +12,25 @@ using std::cout;
 using std::cin;
 using std::endl;
 
+#include "Graph.h"
+
 class Regions
 {
 public:
 
 	Regions();
-	void setRegions();
+	~Regions();
+	void setArea(int);
+	void setBreadth(int);
+	void setLength(int);
 
+	int getArea();
+	int getBreadth();
+	int getLength();
+
+private:
+
+	int area;
+	int breadth;
+	int length;
 };
