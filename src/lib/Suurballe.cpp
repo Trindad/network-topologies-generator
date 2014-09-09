@@ -8,7 +8,7 @@
 #include <stdexcept> // for std::runtime_error
 
 #include "Graph.h"
-#include "Dijkstra.h"
+#include "GraphUtility.h"
 
 using std::cout;
 using std::cin;

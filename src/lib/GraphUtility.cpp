@@ -34,3 +34,13 @@ void  GraphUtility::createLinks(int s,int t) {
 double GraphUtility::distance(int s,int t) {
 
 }
+
+void GraphUtility::memsetVector(int n,int vetor[]) {
+
+	int i;
+
+	for (i = 0; i < n; i++)
+	{
+			vetor[i] = 0;
+	}
+}

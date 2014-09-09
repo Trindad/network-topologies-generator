@@ -20,7 +20,9 @@ using std::cin;
 using std::endl;
 using std::getline;
 
-#include "Regions.h"
+#include "Plane.h"
+#include "Graph.h"
+
 
 int main(void)
 {
@@ -28,7 +30,7 @@ int main(void)
 	int nNos,min,max,area,nSimulations = 1,breadth,length,minDistance;
 	double prWaxman1,prWaxman2;
 	Graph graph; // cria objeto grafo
-	Regions regions;
+	Plane plane;
 
 	cout << "Digite o número de nós: "<<endl;
 	cin >> nNos;
@@ -48,16 +50,24 @@ int main(void)
 
 	cout << "Digite a area: "<<endl;
 	cin >> nNos;
-	regions.setArea(nNos);
+	plane.setArea(nNos);
 
 	cout << "Digite o comprimento de uma região: "<<endl;
 	cin >> length;
-	regions.setLength(length);
+	plane.setLength(length);
 
 	cout << "Digite a largura de uma região: "<<endl;
 	cin >> breadth;
-	regions.setBreadth(breadth);
+	plane.setBreadth(breadth);
 
+
+	try{
+
+		plane.limitArea(graph.getNode());
+	}
+	catch(int error) {
+
+	}
 	// cout << "Probabilidade de Waxman: "<<endl;
 	// cin >> prWaxman1;
 	// graph.setWaxmanOne(prWaxman1);

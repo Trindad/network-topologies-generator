@@ -8,14 +8,14 @@
 #include <algorithm> 
 #include <stdexcept> // for std::runtime_error
 
-
 class GraphUtility
 {
 public:
 
 	GraphUtility();
-	double distance(int s,int t);
+	double distance(int,int);
 	double radiusGraph();
-	void createLinks(int s,int t);
-	
+	void createLinks(int,int);
+	void Dijkstra();
+	void memsetVector(int,int vetor[]);	
 };
