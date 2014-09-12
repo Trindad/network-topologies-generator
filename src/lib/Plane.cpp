@@ -15,19 +15,19 @@ Plane::Plane() {}
 
 Plane::~Plane() {}
 
-void Plane::setArea(int a){
+void Plane::setArea(int side){
 
-	this->side = a;
+	this->side = side;
 	memsetPlane();
 }
 
-void Plane::setBreadth(int b){
+void Plane::setBreadth(int breadth){
 
-	this->breadth = b;
+	this->breadth = breadth;
 }
-void Plane::setLength(int l){
+void Plane::setLength(int length){
 
-	this->length = l;
+	this->length = length;
 }
 
 int Plane::getArea(){
@@ -46,15 +46,20 @@ int Plane::getLength(){
 }
 
 /**
- * value region
+ * value one region
  * breadth and length
  */
 void Plane::setRegion(int nNodes) {
 
 	this->regionBreadth = (int)floor(this->side/this->breadth);
 	this->regionLength = (int)floor(this->side/this->length);
+
+	setNodeRandomRegion(nNodes);
 }
 
+/**
+ * Set values in 0
+ */
 void Plane::memsetPlane() {
 
 	int i,j,n = this->side;
@@ -78,5 +83,19 @@ void Plane::limitArea(int nNodes) {
 
 	if (this->side > (nNodes*nNodes) || this->side < (2*nNodes)) {
 		throw("2N ≤ R ≤ N²");
+	}
+}
+
+/**
+ * Choose any N regions randomly, out of the total R regions, and some of the
+ * regions may be chosen more than once (i.e., have more than one nodes).
+ */
+void Plane::setNodeRandomRegion(int nNodes) {
+
+	int i;
+
+	for (i = 0; i < nNodes; i++)
+	{
+		
 	}
 }

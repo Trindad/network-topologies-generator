@@ -27,12 +27,14 @@ public:
 	int getLength();
 
 	void memsetPlane();
-	void limitArea(int nNodes); //verifica se o número de nós é : 2N <= R <= N^2
+	void limitArea(int); 			//verifica se o número de nós é : 2N <= R <= N^2
+	void limitRegion(int,int);		//limites de cada região do plano
+	void setNodeRandomRegion(int);	//distribui os nós nas regiões de forma randomica
 
 	int side; 			//area do plano -- refere-se a quanto irá medir um lado 
 	int breadth; 		//comprimento de cada região do plano
 	int length; 		//largura de cada região do plano
 	int regionBreadth;	//comprimento de cada região do plano
 	int regionLength;	//largura de cada região do plano
-	vector < vector<int> > plane;  //matriz do plano
+	vector < vector<int> > plane;  //matriz do plano dinâmica
 };
