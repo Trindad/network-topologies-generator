@@ -5,9 +5,9 @@
 #include <stdexcept> // for std::runtime_error
 #include <string>
 
-#include "GraphUtility.h"
-#include "Plane.h"
-#include "BetweennessCentrality.h"
+#include "GraphUtility.hpp"
+#include "Plane.hpp"
+#include "BetweennessCentrality.hpp"
 
 
 BetweennessCentrality::BetweennessCentrality(){

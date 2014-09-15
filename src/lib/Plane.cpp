@@ -5,8 +5,8 @@
 #include <cmath>
 #include <stdexcept> // for std::runtime_error
 
-#include "Plane.h"
-#include "Graph.h"
+#include "Plane.hpp"
+#include "Graph.hpp"
 
 
 using namespace std;
@@ -92,7 +92,7 @@ void Plane::limitArea(int nNodes) {
  */
 void Plane::setNodeRandomRegion(int nNodes) {
 
-	int i;
+	int i,aux[nNodes];
 
 	for (i = 0; i < nNodes; i++)
 	{

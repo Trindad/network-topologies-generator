@@ -8,7 +8,6 @@
 #include <stdexcept> // for std::runtime_error
 #include <string>
 
-#include "Graph.h"
  
  class BetweennessCentrality
  {

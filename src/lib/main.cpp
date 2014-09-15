@@ -20,8 +20,8 @@ using std::cin;
 using std::endl;
 using std::getline;
 
-#include "Graph.h"
-#include "Plane.h"
+#include "Graph.hpp"
+#include "Plane.hpp"
 
 int main(void)
 {

@@ -8,7 +8,7 @@
 #include <stdexcept> // for std::runtime_error
 #include <string>
 
-#include "Graph.h" /*Inclui  a definição da classe Graph*/
+#include "Graph.hpp" /*Inclui  a definição da classe Graph*/
 
 
 Graph::Graph() {

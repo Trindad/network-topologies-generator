@@ -7,8 +7,8 @@
 #include <algorithm> 
 #include <stdexcept> // for std::runtime_error
 
-#include "Graph.h"
-#include "GraphUtility.h"
+#include "Graph.hpp"
+#include "GraphUtility.hpp"
 
 using std::cout;
 using std::cin;
