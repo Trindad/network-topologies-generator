@@ -51,10 +51,10 @@ int Plane::getLength(){
  */
 void Plane::setRegion(int nNodes) {
 
-	this->regionBreadth = (int)floor(this->side/this->breadth);
-	this->regionLength = (int)floor(this->side/this->length);
+	this->nRegions = this->breadth * this->length;
 
-	setNodeRandomRegion(nNodes);
+	this->regionBreadth = (int)floor(this->nRegions/this->length);
+	this->regionLength = (int)floor(this->nRegions/this->breadth);	
 }
 
 /**
@@ -73,6 +73,10 @@ void Plane::memsetPlane() {
 	}
 }
 
+void Plane::getRegionX(int index) {
+
+	return (index*this->length) % this->side; 
+}
 /**
  * For N nodes, the number of regions in the area should be at least 2N, as seen from the real networks (Of
  * course, some networks may need more than 2N regions. N^2 is the upper limit. So number of regions, R

@@ -36,5 +36,6 @@ public:
 	int length; 		//largura de cada região do plano
 	int regionBreadth;	//comprimento de cada região do plano
 	int regionLength;	//largura de cada região do plano
+	int nRegions;		//número de regiões
 	vector < vector<int> > plane;  //matriz do plano dinâmica
 };
