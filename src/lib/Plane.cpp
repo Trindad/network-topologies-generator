@@ -15,39 +15,61 @@ Plane::Plane() {}
 
 Plane::~Plane() {}
 
+/**
+ * Atribui o valor do lado de um plano (lado X lado)
+ * Atribui 0 a todas as posições da matriz do plano
+ */
 void Plane::setArea(int side){
 
 	this->side = side;
 	memsetPlane();
 }
 
+/**
+ * Atribui o valor a largura do plano
+ */
 void Plane::setBreadth(int breadth){
 
 	this->breadth = breadth;
 }
+
+/**
+ * Atribui valor ao comprimento do plano
+ */
 void Plane::setLength(int length){
 
 	this->length = length;
 }
 
+/**
+ * Retorna o lado de uma area 
+ * a area do plano é quadrada
+ */
 int Plane::getArea(){
 
 	return this->side;
 }
 
+/**
+ * Retorna o largura do plano
+ */
 int Plane::getBreadth(){
 
 	return this->breadth;
 }
 
+/**
+ * Retorna a comprimento do plano
+ */
 int Plane::getLength(){
 
 	return this->length;
 }
 
 /**
- * value one region
- * breadth and length
+ * Obtêm o número de regiões no plano
+ * Obtêm o número de linhas por região
+ * Obém o número de colunas por região
  */
 void Plane::setRegion(int nNodes) {
 
@@ -58,7 +80,7 @@ void Plane::setRegion(int nNodes) {
 }
 
 /**
- * Set values in 0
+ * Função para atribuir zero a todas as coordenadas do plano
  */
 void Plane::memsetPlane() {
 
@@ -73,11 +95,22 @@ void Plane::memsetPlane() {
 	}
 }
 
+/**
+ * Obtêm o eixo X inicial 
+ * Passa como parâmetro o indice da região
+ * Multiplica o indice pelo número de colunas da região (todas terão o mesmo número de colunas)
+ * faz o módulo com a área do plano 
+ */
 int Plane::getRegionX(int index) {
 
 	return (index*this->regionColumn) % this->side; 
 }
 
+/**
+ * Obtêm o eixo Y inicial 
+ * Multiplica o número de linhas de uma região (todas as linhas terão o mesmo número)
+ * por o indice da região dividido pela largura da mesma
+ */
 int Plane::getRegionY(int index) {
 
 	return this->regionRow*floor(index/this->length);
