@@ -80,7 +80,7 @@ int Plane::getRegionX(int index) {
 
 int Plane::getRegionY(int index) {
 
-	return ;
+	return this->regionRow*floor(index/this->length);
 	
 }
 /**
