@@ -28,13 +28,10 @@ void  GraphUtility::createLinks(int s,int t) {
 }
 
 /**
- * Calcula a distância entre dois nós
- * s é o destino e t a origem .
+ * [GraphUtility::memsetVector description]
+ * @param n     [description]
+ * @param vetor [description]
  */
-double GraphUtility::distance(int s,int t) {
-
-}
-
 void GraphUtility::memsetVector(int n,int vetor[]) {
 
 	int i;

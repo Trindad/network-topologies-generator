@@ -53,7 +53,7 @@ void Plane::setRegion(int nNodes) {
 
 	this->nRegions = this->breadth * this->length;
 
-	this->regionsRow = (int)floor(this->nRegions/this->length);
+	this->regionRow = (int)floor(this->nRegions/this->length);
 	this->regionColumn = (int)floor(this->nRegions/this->breadth);	
 }
 

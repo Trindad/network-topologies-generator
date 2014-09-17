@@ -26,7 +26,7 @@ void GraphUtility::Dijkstra() {
 	memsetVector(plane.getArea(),sptSet);
 }
 
-int BetweennessCentrality::distanceMinimum() {
+int GraphUtility::distanceMinimum() {
 
 }
 
@@ -46,6 +46,6 @@ int GraphUtility::searchPath() {
 
 }
 
-double BetweennessCentrality::calGeodesic() {
+double BetweennessCentrality::calculateGeodesic() {
 
 }

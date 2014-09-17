@@ -14,5 +14,6 @@
  public:
  	BetweennessCentrality();
  	~BetweennessCentrality();
- 	
+ 	double calculateGeodesic();
+
  };

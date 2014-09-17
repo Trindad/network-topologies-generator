@@ -32,8 +32,8 @@ public:
 	int getArea();
 	int getBreadth();
 	int getLength();
-	int getRegionX(index);
-	int getRegionY(int index);
+	int getRegionX(int);
+	int getRegionY(int);
 
 	void memsetPlane();
 	void limitArea(int); 			//verifica se o número de nós é : 2N <= R <= N^2
