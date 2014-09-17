@@ -53,8 +53,8 @@ void Plane::setRegion(int nNodes) {
 
 	this->nRegions = this->breadth * this->length;
 
-	this->regionBreadth = (int)floor(this->nRegions/this->length);
-	this->regionLength = (int)floor(this->nRegions/this->breadth);	
+	this->regionsRow = (int)floor(this->nRegions/this->length);
+	this->regionColumn = (int)floor(this->nRegions/this->breadth);	
 }
 
 /**
@@ -73,9 +73,15 @@ void Plane::memsetPlane() {
 	}
 }
 
-void Plane::getRegionX(int index) {
+int Plane::getRegionX(int index) {
 
-	return (index*this->length) % this->side; 
+	return (index*this->regionColumn) % this->side; 
+}
+
+int Plane::getRegionY(int index) {
+
+	return ;
+	
 }
 /**
  * For N nodes, the number of regions in the area should be at least 2N, as seen from the real networks (Of

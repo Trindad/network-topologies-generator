@@ -13,7 +13,9 @@ class GraphUtility
 public:
 
 	GraphUtility();
-	double distance(int,int);
+	~GraphUtility();
+	
+	int distance();
 	double radiusGraph();
 	void createLinks(int,int);
 	void Dijkstra();
