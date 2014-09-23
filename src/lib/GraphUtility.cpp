@@ -22,15 +22,14 @@ GraphUtility::GraphUtility() {
  * Cria a ligação entre dois nós
  * s é o nó de origem
  * t é o nó de destino.
+ * Armazena em uma matriz de adjacências
  */
 void  GraphUtility::createLinks(int s,int t) {
 
 }
 
 /**
- * [GraphUtility::memsetVector description]
- * @param n     [description]
- * @param vetor [description]
+ * Preenche todas as posições de uma matriz com zero(0)
  */
 void GraphUtility::memsetVector(int n,int vetor[]) {
 
@@ -40,4 +39,13 @@ void GraphUtility::memsetVector(int n,int vetor[]) {
 	{
 			vetor[i] = 0;
 	}
+}
+
+/**
+ * Obtêm o  grau do nó passado como parâmetro do método
+ */
+int GraphUtility::degree(int node) {
+	int degree  = 0;
+
+	return degree;
 }

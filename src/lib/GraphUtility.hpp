@@ -24,4 +24,5 @@ public:
 	void insertPath();
  	void addPath();
  	int searchPath();
+ 	int degree(int);
 };

@@ -8,6 +8,7 @@
 #include <algorithm> 
 #include <stdexcept> // for std::runtime_error
 #include <vector>
+#include <random>
 
 using namespace std;
 
@@ -39,6 +40,7 @@ public:
 	void limitArea(int); 			//verifica se o número de nós é : 2N <= R <= N^2
 	void limitRegion(int,int);		//limites de cada região do plano
 	void setNodeRandomRegion(int);	//distribui os nós nas regiões de forma randomica
+	int random(int,int); //gera um número randomico através de uma função probalistica
 
 	int side; 			//area do plano -- refere-se a quanto irá medir um lado 
 	int breadth; 		//comprimento de cada região do plano

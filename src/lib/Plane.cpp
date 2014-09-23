@@ -3,6 +3,7 @@
 #include <iterator>
 #include <algorithm> 
 #include <cmath>
+#include <random>
 #include <stdexcept> // for std::runtime_error
 
 #include "Plane.hpp"
@@ -141,4 +142,18 @@ void Plane::setNodeRandomRegion(int nNodes) {
 	{
 		
 	}
+}
+
+/**
+ * Geração de número de nós randomicos  
+ */
+int Plane::random(int minimum,int maximum) {
+
+	default_random_engine generator;
+	random_device rd;
+	mt19937_64 gen(rd());
+
+	uniform_int_distribution<> dis(minimum, maximum);
+	
+	return	dis(gen);
 }
