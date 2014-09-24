@@ -87,11 +87,11 @@ void Plane::memsetPlane() {
 
 	int i,j,n = this->side;
 
-	for (i = 0; i < n; i++)
+	for (i = 0; i < n-1; i++)
 	{
-		for (i = 0; i < n; j++)
+		for (j = i+1; i < n; j++)
 		{
-			this->plane[i][j] = 0;
+			this->plane[i][j] = this->plane[j][i] = -1;
 		}
 	}
 }
@@ -117,6 +117,15 @@ int Plane::getRegionY(int index) {
 	return this->regionRow*floor(index/this->length);
 	
 }
+
+/**
+ * Retorna o número máximo de nós 
+ * que cabem em uma região
+ */
+int Plane::getMaximumNodesRegion() {
+
+	return (this->regionRow*this->regionColumn);
+}
 /**
  * For N nodes, the number of regions in the area should be at least 2N, as seen from the real networks (Of
  * course, some networks may need more than 2N regions. N^2 is the upper limit. So number of regions, R
@@ -138,9 +147,25 @@ void Plane::setNodeRandomRegion(int nNodes) {
 
 	int i,aux[nNodes];
 
+	/**
+	 * Distribuição dos nós de forma randomica
+	 */
 	for (i = 0; i < nNodes; i++)
 	{
-		
+		/**
+		 * Gera coordenadas x e y randomicas para o nó i
+		 */
+		x = random(0,this->side-1);
+		y = random(0,this->side-1);
+
+		/**
+		 * Verifica se não existe nenhum nó 
+		 * nas coordenadas x e y
+		 */
+		if (this->plane[x][y] == -1)
+		{
+			this->plane[x][y] = i;
+		}
 	}
 }
 
@@ -157,3 +182,4 @@ int Plane::random(int minimum,int maximum) {
 	
 	return	dis(gen);
 }
+
