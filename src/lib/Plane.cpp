@@ -143,8 +143,8 @@ void Plane::coordinates(int node) {
 /**
 		 * Gera coordenadas x e y randomicas para o nó i
 		 */
-		x = random(0,this->side-1);
-		y = random(0,this->side-1);
+		int x = random(0,this->side-1);
+		int y = random(0,this->side-1);
 
 		/**
 		 * Verifica se não existe nenhum nó 

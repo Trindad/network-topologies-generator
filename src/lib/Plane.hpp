@@ -26,6 +26,7 @@ public:
 	void setBreadth(int);
 	void setLength(int);
 	void setRegion(int);
+	void setNodeRandomRegion(int);	//distribui os nós nas regiões de forma randomica
 
 	/**
 	 * Get
@@ -35,12 +36,15 @@ public:
 	int getLength();
 	int getRegionX(int);
 	int getRegionY(int);
+	int getMaximumNodesRegion();
+
 
 	void memsetPlane();
 	void limitArea(int); 			//verifica se o número de nós é : 2N <= R <= N^2
 	void limitRegion(int,int);		//limites de cada região do plano
-	void setNodeRandomRegion(int);	//distribui os nós nas regiões de forma randomica
+	void coordinates(int);	//gera coordenadas de forma randomica para um nó
 	int random(int,int); //gera um número randomico através de uma função probalistica
+
 
 	int side; 			//area do plano -- refere-se a quanto irá medir um lado 
 	int breadth; 		//comprimento de cada região do plano
