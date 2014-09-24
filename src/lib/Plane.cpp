@@ -139,6 +139,27 @@ void Plane::limitArea(int nNodes) {
 	}
 }
 
+void Plane::coordinates(int node) {
+/**
+		 * Gera coordenadas x e y randomicas para o nó i
+		 */
+		x = random(0,this->side-1);
+		y = random(0,this->side-1);
+
+		/**
+		 * Verifica se não existe nenhum nó 
+		 * nas coordenadas x e y
+		 */
+		if (this->plane[x][y] == -1)
+		{
+			this->plane[x][y] = node;
+			return;
+		}
+		else
+		{
+			coordinates(node);
+		}
+}
 /**
  * Choose any N regions randomly, out of the total R regions, and some of the
  * regions may be chosen more than once (i.e., have more than one nodes).
@@ -152,20 +173,7 @@ void Plane::setNodeRandomRegion(int nNodes) {
 	 */
 	for (i = 0; i < nNodes; i++)
 	{
-		/**
-		 * Gera coordenadas x e y randomicas para o nó i
-		 */
-		x = random(0,this->side-1);
-		y = random(0,this->side-1);
-
-		/**
-		 * Verifica se não existe nenhum nó 
-		 * nas coordenadas x e y
-		 */
-		if (this->plane[x][y] == -1)
-		{
-			this->plane[x][y] = i;
-		}
+		coordinates(i);
 	}
 }
 
