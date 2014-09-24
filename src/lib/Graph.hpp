@@ -15,28 +15,26 @@ public:
 	Graph();
 	~Graph();
 
+	/**
+	 * Set
+	 */
 	void setLink(int);
-	
 	void setNode(int);
-
 	void setAverageDegree(double);
-
 	void setMinimumDegree(int);
-
 	void setMaximumDegree(int);
-
 	void setMinimumDistance(int);
 
-	int getLink();
-	
+
+
+	/**
+	 * Get
+	 */
+	int getLink();	
 	int getNode();
-
 	double getAverageDegree();
-
 	int getMinimumDegree();
-
 	int getMaximumDegree();
-
 	int getMinimumDistance();
 
 private:

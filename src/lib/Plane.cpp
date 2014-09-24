@@ -68,6 +68,31 @@ int Plane::getLength(){
 }
 
 /**
+ * Insere as coordenadas(x,y) correspondente ao número do nó
+ */
+void Plane::setNodeCoordinates(int node, int x, int y) {
+
+	this->coordinates[node][0] = x;
+	this->coordinates[node][1] = y;
+}
+
+/**
+ * Retorna eixo X do no passado como referência 
+ */
+void Plane::getCoordinateX(int node) {
+
+	return this->coordinates[node][0];
+}
+
+/**
+ * Retorna eixo Y do no passado como referência 
+ */
+void Plane::getCoordinateY(int node) {
+
+	return this->coordinates[node][1];
+}  
+
+/**
  * Obtêm o número de regiões no plano
  * Obtêm o número de linhas por região
  * Obém o número de colunas por região
@@ -92,6 +117,22 @@ void Plane::memsetPlane() {
 		for (j = i+1; i < n; j++)
 		{
 			this->plane[i][j] = this->plane[j][i] = -1;
+		}
+	}
+}
+
+/**
+ * Função para atribuir zero a todas as coordenadas do plano
+ */
+void Plane::memsetPlane(int nodes) {
+
+	int i,j;
+
+	for (i = 0; i < nodes; i++)
+	{
+		for (j = 0; i < 2; j++)
+		{
+			this->coordinates[i][j] =  0;
 		}
 	}
 }
@@ -140,26 +181,29 @@ void Plane::limitArea(int nNodes) {
 }
 
 void Plane::coordinates(int node) {
-/**
-		 * Gera coordenadas x e y randomicas para o nó i
-		 */
-		int x = random(0,this->side-1);
-		int y = random(0,this->side-1);
+	/**
+	 * Gera coordenadas x e y randomicas para o nó i
+	 */
+	int x = random(0,this->side-1);
+	int y = random(0,this->side-1);
 
-		/**
-		 * Verifica se não existe nenhum nó 
-		 * nas coordenadas x e y
-		 */
-		if (this->plane[x][y] == -1)
-		{
-			this->plane[x][y] = node;
-			return;
-		}
-		else
-		{
-			coordinates(node);
-		}
+	/**
+	 * Verifica se não existe nenhum nó 
+	 * nas coordenadas x e y
+	 */
+	if (this->plane[x][y] == -1)
+	{
+		this->plane[x][y] = node;
+		setNodeCoordinate(node,x,y);
+		return;
+	}
+	else
+	{
+		coordinates(node);
+	}
 }
+
+
 /**
  * Choose any N regions randomly, out of the total R regions, and some of the
  * regions may be chosen more than once (i.e., have more than one nodes).
@@ -190,4 +234,5 @@ int Plane::random(int minimum,int maximum) {
 	
 	return	dis(gen);
 }
+
 
