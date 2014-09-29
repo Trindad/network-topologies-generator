@@ -15,10 +15,7 @@
 #include <iterator>
 #include <algorithm> 
  
-using std::cout;
-using std::cin;
-using std::endl;
-using std::getline;
+using namespace std;
 
 #include "Graph.hpp"
 #include "Plane.hpp"
@@ -29,7 +26,7 @@ int main(void)
 	int nNos,min,max,area,nSimulations = 1,breadth,length,minDistance;
 	double prWaxman1,prWaxman2;
 	Graph graph; // cria objeto grafo
-	Plane plane;
+	
 
 	cout << "Digite o número de nós: "<<endl;
 	cin >> nNos;
@@ -47,9 +44,15 @@ int main(void)
 	cin >> minDistance;
 	graph.setMinimumDistance(minDistance);
 
+	/**
+	 * Configurações do plano
+	 */
+	
+	Plane plane;
+
 	cout << "Digite a area: "<<endl;
-	cin >> nNos;
-	plane.setArea(nNos);
+	cin >> area;
+	plane.setArea(area);
 
 	cout << "Digite o comprimento de uma região: "<<endl;
 	cin >> length;
@@ -59,14 +62,14 @@ int main(void)
 	cin >> breadth;
 	plane.setBreadth(breadth);
 
-
 	try{
-
-		plane.limitArea(graph.getNode());
+		// cout<<graph.getNumberOfNodes()<<endl;
+		plane.limitArea(graph.getNumberOfNodes());
 	}
-	catch(int error) {
-
+	catch(const char *error) {
+		cout<<error<<endl;
 	}
+
 	// cout << "Probabilidade de Waxman: "<<endl;
 	// cin >> prWaxman1;
 	// graph.setWaxmanOne(prWaxman1);

@@ -31,7 +31,7 @@ public:
 	 * Get
 	 */
 	int getLink();	
-	int getNode();
+	int getNumberOfNodes();
 	double getAverageDegree();
 	int getMinimumDegree();
 	int getMaximumDegree();

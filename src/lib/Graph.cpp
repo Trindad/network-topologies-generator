@@ -59,7 +59,7 @@ int Graph::getLink()
 	return this->nLinks;
 }
 
-int Graph::getNode()
+int Graph::getNumberOfNodes()
 {
 	return this->nNodes;
 }

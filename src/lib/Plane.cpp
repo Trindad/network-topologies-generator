@@ -79,7 +79,7 @@ void Plane::setNodeCoordinates(int node, int x, int y) {
 /**
  * Retorna eixo X do no passado como referência 
  */
-void Plane::getCoordinateX(int node) {
+int Plane::getCoordinateX(int node) {
 
 	return this->coordinates[node][0];
 }
@@ -87,7 +87,7 @@ void Plane::getCoordinateX(int node) {
 /**
  * Retorna eixo Y do no passado como referência 
  */
-void Plane::getCoordinateY(int node) {
+int Plane::getCoordinateY(int node) {
 
 	return this->coordinates[node][1];
 }  
@@ -110,31 +110,19 @@ void Plane::setRegion(int nNodes) {
  */
 void Plane::memsetPlane() {
 
-	int i,j,n = this->side;
+	int n = this->side;
 
-	for (i = 0; i < n-1; i++)
-	{
-		for (j = i+1; i < n; j++)
-		{
-			this->plane[i][j] = this->plane[j][i] = -1;
-		}
-	}
+	this->plane = vector<vector<int>> (n,vector<int>(n,-1));
+
+	// print();
 }
 
 /**
  * Função para atribuir zero a todas as coordenadas do plano
  */
-void Plane::memsetPlane(int nodes) {
+void Plane::memsetCoordinates(int nodes) {
 
-	int i,j;
-
-	for (i = 0; i < nodes; i++)
-	{
-		for (j = 0; i < 2; j++)
-		{
-			this->coordinates[i][j] =  0;
-		}
-	}
+	this->coordinates = vector<vector<int>> (nodes,vector<int>(nodes,0));
 }
 
 /**
@@ -176,11 +164,15 @@ int Plane::getMaximumNodesRegion() {
 void Plane::limitArea(int nNodes) {
 
 	if (this->side > (nNodes*nNodes) || this->side < (2*nNodes)) {
-		throw("2N ≤ R ≤ N²");
+		throw "2N ≤ R ≤ N²";
 	}
 }
 
-void Plane::coordinates(int node) {
+/**
+ * Atribui coordenadas randomicas
+ * para o nó passado como parâmetro
+ */
+void Plane::generateCoordinates(int node) {
 	/**
 	 * Gera coordenadas x e y randomicas para o nó i
 	 */
@@ -194,12 +186,12 @@ void Plane::coordinates(int node) {
 	if (this->plane[x][y] == -1)
 	{
 		this->plane[x][y] = node;
-		setNodeCoordinate(node,x,y);
+		setNodeCoordinates(node,x,y);
 		return;
 	}
 	else
 	{
-		coordinates(node);
+		generateCoordinates(node);
 	}
 }
 
@@ -217,7 +209,7 @@ void Plane::setNodeRandomRegion(int nNodes) {
 	 */
 	for (i = 0; i < nNodes; i++)
 	{
-		coordinates(i);
+		generateCoordinates(i);
 	}
 }
 
@@ -235,4 +227,14 @@ int Plane::random(int minimum,int maximum) {
 	return	dis(gen);
 }
 
+void Plane::print() {
 
+	for (int i = 0; i < this->side; i++)
+	{
+		for (int j = 0; j < this->side; j++)
+		{
+			cout<<this->plane[i][j]<<"\t"<<endl;
+		}
+		cout<<"\n"<<endl;
+	}
+}
