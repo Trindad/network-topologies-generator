@@ -62,14 +62,16 @@ int main(void)
 	cin >> breadth;
 	plane.setBreadth(breadth);
 
-	try{
-		// cout<<graph.getNumberOfNodes()<<endl;
+	try 
+	{
 		plane.limitArea(graph.getNumberOfNodes());
 	}
-	catch(const char *error) {
+	catch(const char *error) 
+	{
 		cout<<error<<endl;
 	}
 
+	plane.initialize(graph.getNumberOfNodes());
 	// cout << "Probabilidade de Waxman: "<<endl;
 	// cin >> prWaxman1;
 	// graph.setWaxmanOne(prWaxman1);

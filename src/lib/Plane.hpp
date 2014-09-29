@@ -35,19 +35,24 @@ public:
 	int getArea();
 	int getBreadth();
 	int getLength();
+	int getNumberRegions();
 	int getRegionX(int);
 	int getRegionY(int);
 	int getMaximumNodesRegion();
 	int getCoordinateX(int); //coordenada X
 	int getCoordinateY(int); //coordenada Y
 
+	/**
+	 * Funções do plano
+	 */
 	void memsetPlane();
-	void memsetCoordinates(int);  	//inicializa vetor de coordenads em 0
-	void limitArea(int); 			//verifica se o número de nós é : 2N <= R <= N^2
-	void limitRegion(int,int);		//limites de cada região do plano
-	void generateCoordinates(int);			//gera coordenadas de forma randomica para um nó
-	int random(int,int); 			//gera um número randomico através de uma função probalistica
-	void print(); 					//imprimir o plano
+	void memsetCoordinates(int);  		//inicializa vetor de coordenads em 0
+	void initialize(int);					//inicializa as configurações 
+	void limitArea(int); 				//verifica se o número de nós é : 2N <= R <= N^2
+	void limitRegion(int,int);			//limites de cada região do plano
+	void generateCoordinates(int);		//gera coordenadas de forma randomica para um nó
+	int random(int,int); 				//gera um número randomico através de uma função probalistica
+	void print(); 						//imprimir o plano
 
 
 private:

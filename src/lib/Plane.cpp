@@ -43,6 +43,26 @@ void Plane::setLength(int length){
 }
 
 /**
+ * Insere as coordenadas(x,y) correspondente ao número do nó
+ */
+void Plane::setNodeCoordinates(int node, int x, int y) {
+
+	this->coordinates[node][0] = x;
+	this->coordinates[node][1] = y;
+}
+
+/**
+ * Obtêm o número de regiões no plano
+ * Obtêm o número de linhas por região
+ * Obém o número de colunas por região
+ */
+void Plane::setRegion(int nRegions) {
+
+	this->regionRow = (int)floor(nRegions/this->length);
+	this->regionColumn = (int)floor(nRegions/this->breadth);	
+}
+
+/**
  * Retorna o lado de uma area 
  * a area do plano é quadrada
  */
@@ -68,12 +88,11 @@ int Plane::getLength(){
 }
 
 /**
- * Insere as coordenadas(x,y) correspondente ao número do nó
+ * Retorna o número de regiões que terá o plano
  */
-void Plane::setNodeCoordinates(int node, int x, int y) {
+int Plane::getNumberRegions() {
 
-	this->coordinates[node][0] = x;
-	this->coordinates[node][1] = y;
+	return (this->breadth * this->length);
 }
 
 /**
@@ -93,39 +112,6 @@ int Plane::getCoordinateY(int node) {
 }  
 
 /**
- * Obtêm o número de regiões no plano
- * Obtêm o número de linhas por região
- * Obém o número de colunas por região
- */
-void Plane::setRegion(int nNodes) {
-
-	this->nRegions = this->breadth * this->length;
-
-	this->regionRow = (int)floor(this->nRegions/this->length);
-	this->regionColumn = (int)floor(this->nRegions/this->breadth);	
-}
-
-/**
- * Função para atribuir zero a todas as coordenadas do plano
- */
-void Plane::memsetPlane() {
-
-	int n = this->side;
-
-	this->plane = vector<vector<int>> (n,vector<int>(n,-1));
-
-	// print();
-}
-
-/**
- * Função para atribuir zero a todas as coordenadas do plano
- */
-void Plane::memsetCoordinates(int nodes) {
-
-	this->coordinates = vector<vector<int>> (nodes,vector<int>(nodes,0));
-}
-
-/**
  * Obtêm o eixo X inicial 
  * Passa como parâmetro o indice da região
  * Multiplica o indice pelo número de colunas da região (todas terão o mesmo número de colunas)
@@ -143,8 +129,7 @@ int Plane::getRegionX(int index) {
  */
 int Plane::getRegionY(int index) {
 
-	return this->regionRow*floor(index/this->length);
-	
+	return this->regionRow*floor(index/this->length);	
 }
 
 /**
@@ -155,6 +140,25 @@ int Plane::getMaximumNodesRegion() {
 
 	return (this->regionRow*this->regionColumn);
 }
+
+/**
+ * Função para atribuir zero a todas as coordenadas do plano
+ */
+void Plane::memsetPlane() {
+
+	int n = this->side;
+
+	this->plane = vector<vector<int>> (n,vector<int>(n,-1));
+}
+
+/**
+ * Função para atribuir zero a todas as coordenadas do plano
+ */
+void Plane::memsetCoordinates(int nodes) {
+
+	this->coordinates = vector<vector<int>> (nodes,vector<int>(2,0));
+}
+
 /**
  * For N nodes, the number of regions in the area should be at least 2N, as seen from the real networks (Of
  * course, some networks may need more than 2N regions. N^2 is the upper limit. So number of regions, R
@@ -168,6 +172,23 @@ void Plane::limitArea(int nNodes) {
 	}
 }
 
+void Plane::initialize(int nNodes) {
+
+	/**
+	 * Obtêm valores referentes a área de cada região do plano
+	 */
+	setRegion(getNumberRegions());
+
+	/**
+	 * Gerando coordenadas (X,Y) de forma randomica
+	 * para distribuir os nós nas regiões
+	 */
+	setNodeRandomRegion(nNodes);
+
+	print();
+	
+
+}
 /**
  * Atribui coordenadas randomicas
  * para o nó passado como parâmetro
@@ -202,12 +223,11 @@ void Plane::generateCoordinates(int node) {
  */
 void Plane::setNodeRandomRegion(int nNodes) {
 
-	int i,aux[nNodes];
-
+	memsetCoordinates(nNodes);
 	/**
 	 * Distribuição dos nós de forma randomica
 	 */
-	for (i = 0; i < nNodes; i++)
+	for (int i = 0; i < nNodes; i++)
 	{
 		generateCoordinates(i);
 	}
@@ -227,13 +247,16 @@ int Plane::random(int minimum,int maximum) {
 	return	dis(gen);
 }
 
+/**
+ * Imprimir o plano
+ */
 void Plane::print() {
 
 	for (int i = 0; i < this->side; i++)
 	{
 		for (int j = 0; j < this->side; j++)
 		{
-			cout<<this->plane[i][j]<<"\t"<<endl;
+			cout<<this->plane[i][j]<<"\t";
 		}
 		cout<<"\n"<<endl;
 	}
