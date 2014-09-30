@@ -16,7 +16,7 @@ public:
 	~Graph();
 
 	/**
-	 * Set
+	 * Setters
 	 */
 	void setLink(int);
 	void setNode(int);
@@ -28,7 +28,7 @@ public:
 
 
 	/**
-	 * Get
+	 * Getters
 	 */
 	int getLink();	
 	int getNumberOfNodes();
@@ -36,6 +36,10 @@ public:
 	int getMinimumDegree();
 	int getMaximumDegree();
 	int getMinimumDistance();
+	int getMinimumNumberOfLinks();
+	int getMaximumNumberOfLinks();
+
+	int limitLinks(int); 
 
 private:
 

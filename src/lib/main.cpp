@@ -3,6 +3,9 @@
  * ****************************************************************
  * Gerador de topologias físicas de redes reais de telecomunicações
  * Desenvolvido em linguagem C++ utilizando o conceito de classes
+ *
+ * Compile:
+ * 	g++ *.cpp -o main -std=c++11 -g
  * ****************************************************************
  *
  * Copyright(c) 2014 S. Trindade
@@ -23,7 +26,7 @@ using namespace std;
 int main(void)
 {
 
-	int nNos,min,max,area,nSimulations = 1,breadth,length,minDistance;
+	int nNos = 2,min = 2,max = 2,area = 4,nSimulations = 1,breadth = 1,length = 4,minDistance = 1;
 	double prWaxman1,prWaxman2;
 	Graph graph; // cria objeto grafo
 	

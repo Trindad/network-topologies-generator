@@ -186,8 +186,6 @@ void Plane::initialize(int nNodes) {
 	setNodeRandomRegion(nNodes);
 
 	print();
-	
-
 }
 /**
  * Atribui coordenadas randomicas

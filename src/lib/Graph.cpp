@@ -10,6 +10,7 @@
 
 #include "Graph.hpp" /*Inclui  a definição da classe Graph*/
 
+using namespace std;
 
 Graph::Graph() {
 
@@ -64,6 +65,24 @@ int Graph::getNumberOfNodes()
 	return this->nNodes;
 }
 
+int Graph::getMaximumNumberOfLinks() {
+
+	try 
+	{
+		limitLinks( (this->maxDegree*this->nNodes)/2 );
+	}
+	catch(const char *error) 
+	{
+		cout<<error<<endl;
+	}
+	return (this->maxDegree*this->nNodes)/2;
+}
+
+int Graph::getMinimumNumberOfLinks() {
+
+	return (this->minDegree*this->nNodes)/2;
+}
+
 double Graph::getAverageDegree() 
 {
 	return this->avgDegree;
@@ -82,4 +101,14 @@ int Graph::getMaximumDegree()
 int Graph::getMinimumDistance()
 {
 	return this->minDistance;
+}
+
+int Graph::limitLinks(int max) {
+
+	int temp = (this->nNodes*(this->nNodes-1))/2; //número máximo de nós em um grafo completo
+
+	if ( max > temp )	
+	{
+		throw "2 ≤ Maximum Degree ≤ [N*(N-1)]/2";
+	}
 }
