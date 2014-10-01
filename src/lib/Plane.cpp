@@ -7,12 +7,17 @@
 #include <stdexcept> // for std::runtime_error
 
 #include "Plane.hpp"
-#include "Graph.hpp"
+
 
 
 using namespace std;
 
-Plane::Plane() {}
+Plane::Plane() {
+
+	setArea(0);
+	setBreadth(0);
+	setLength(0);
+}
 
 Plane::~Plane() {}
 
@@ -45,10 +50,42 @@ void Plane::setLength(int length){
 /**
  * Insere as coordenadas(x,y) correspondente ao número do nó
  */
-void Plane::setNodeCoordinates(int node, int x, int y) {
+void Plane::setNodeCoordinates(Graph graph,int node, int x, int y) {
+
 
 	this->coordinates[node][0] = x;
 	this->coordinates[node][1] = y;
+
+	/**
+	 * Bloqueia zona conforme a distância minima 
+	 * Insere -2 na coordenada de bloqueio
+	 */
+	cout<<"\n"<<node<<endl;
+	blockedAreaAroundTheNode(graph,x,y);
+}
+
+void Plane::blockedAreaAroundTheNode(Graph graph,int x,int y) {
+
+	int distance = graph.getMinimumDistanceOfNode(); 
+
+	for (int i = -distance; i <= distance; i++)
+	{
+		if (x+i >= 0 && x+i < getArea())
+		{
+			int cordX = x+i;
+
+			for (int j = -distance; j <= distance; j++)
+			{
+				int cordY = y+j;
+
+				cout<<cordX<<"\t"<<cordY<<endl;
+				if (y+j >= 0 && y+j < getArea() && this->plane[cordX][cordY] == -1)
+				{
+					this->plane[cordX][cordY] = -2;
+				}
+			}
+		}
+	}		
 }
 
 /**
@@ -172,7 +209,7 @@ void Plane::limitArea(int nNodes) {
 	}
 }
 
-void Plane::initialize(int nNodes) {
+void Plane::initialize(Graph graph) {
 
 	/**
 	 * Obtêm valores referentes a área de cada região do plano
@@ -183,15 +220,16 @@ void Plane::initialize(int nNodes) {
 	 * Gerando coordenadas (X,Y) de forma randomica
 	 * para distribuir os nós nas regiões
 	 */
-	setNodeRandomRegion(nNodes);
+	setNodeRandomRegion(graph);
 
 	print();
 }
+
 /**
  * Atribui coordenadas randomicas
  * para o nó passado como parâmetro
  */
-void Plane::generateCoordinates(int node) {
+void Plane::generateCoordinates(Graph graph,int node) {
 	/**
 	 * Gera coordenadas x e y randomicas para o nó i
 	 */
@@ -201,16 +239,19 @@ void Plane::generateCoordinates(int node) {
 	/**
 	 * Verifica se não existe nenhum nó 
 	 * nas coordenadas x e y
+	 * testa se a posição esta livre e 
+	 * se o nó não esta na posição correspondente 
+	 * a diagonal principal
 	 */
 	if (this->plane[x][y] == -1)
 	{
 		this->plane[x][y] = node;
-		setNodeCoordinates(node,x,y);
+		setNodeCoordinates(graph,node,x,y);
 		return;
 	}
 	else
 	{
-		generateCoordinates(node);
+		generateCoordinates(graph,node);
 	}
 }
 
@@ -219,15 +260,20 @@ void Plane::generateCoordinates(int node) {
  * Choose any N regions randomly, out of the total R regions, and some of the
  * regions may be chosen more than once (i.e., have more than one nodes).
  */
-void Plane::setNodeRandomRegion(int nNodes) {
+void Plane::setNodeRandomRegion(Graph graph) {
 
+	int nNodes = graph.getNumberOfNodes();
 	memsetCoordinates(nNodes);
 	/**
 	 * Distribuição dos nós de forma randomica
 	 */
 	for (int i = 0; i < nNodes; i++)
 	{
-		generateCoordinates(i);
+		/**
+		 * insere nó no plano e cria zona de bloqueio
+		 * conforme a distância entre nós minima passada
+		 */
+		generateCoordinates(graph,i); 
 	}
 }
 
@@ -258,4 +304,15 @@ void Plane::print() {
 		}
 		cout<<"\n"<<endl;
 	}
+}
+
+void Plane::nearestNode() {
+
+}
+
+/**
+ * Estabelcer a conecção dos nós entre as regiões
+ */
+void Plane::regionInterconnection() {
+
 }

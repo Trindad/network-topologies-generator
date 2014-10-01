@@ -49,7 +49,7 @@ void Graph::setMaximumDegree(int max)
 	this->maxDegree = max;
 }
 
-void Graph::setMinimumDistance(int min)
+void Graph::setMinimumDistanceOfNode(int min)
 {
 	this->minDistance = min;
 }
@@ -67,15 +67,16 @@ int Graph::getNumberOfNodes()
 
 int Graph::getMaximumNumberOfLinks() {
 
+	int maximumDegree = (this->maxDegree*this->nNodes)/2;
 	try 
 	{
-		limitLinks( (this->maxDegree*this->nNodes)/2 );
+		limitLinks( maximumDegree );
 	}
 	catch(const char *error) 
 	{
 		cout<<error<<endl;
 	}
-	return (this->maxDegree*this->nNodes)/2;
+	return maximumDegree;
 }
 
 int Graph::getMinimumNumberOfLinks() {
@@ -98,11 +99,17 @@ int Graph::getMaximumDegree()
 	return this->maxDegree;
 }
 
-int Graph::getMinimumDistance()
+int Graph::getMinimumDistanceOfNode()
 {
 	return this->minDistance;
 }
 
+/**
+ * Verifica se o número máximo do grau 
+ * no pior caso onde todos os grafos 
+ * possuem o mesmo grau ele não ultrapassa o limite
+ * Se passar lança uma exception.
+ */
 int Graph::limitLinks(int max) {
 
 	int temp = (this->nNodes*(this->nNodes-1))/2; //número máximo de nós em um grafo completo

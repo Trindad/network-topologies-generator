@@ -23,7 +23,7 @@ public:
 	void setAverageDegree(double);
 	void setMinimumDegree(int);
 	void setMaximumDegree(int);
-	void setMinimumDistance(int);
+	void setMinimumDistanceOfNode(int);
 
 
 
@@ -35,7 +35,7 @@ public:
 	double getAverageDegree();
 	int getMinimumDegree();
 	int getMaximumDegree();
-	int getMinimumDistance();
+	int getMinimumDistanceOfNode();
 	int getMinimumNumberOfLinks();
 	int getMaximumNumberOfLinks();
 

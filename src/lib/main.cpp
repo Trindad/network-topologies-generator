@@ -20,13 +20,12 @@
  
 using namespace std;
 
-#include "Graph.hpp"
 #include "Plane.hpp"
 
 int main(void)
 {
 
-	int nNos = 2,min = 2,max = 2,area = 4,nSimulations = 1,breadth = 1,length = 4,minDistance = 1;
+	int nNos = 2,min = 2,max = 2,area = 4,nSimulations = 1,breadth = 1,length = 4,minDistanceNode = 1;
 	double prWaxman1,prWaxman2;
 	Graph graph; // cria objeto grafo
 	
@@ -44,8 +43,8 @@ int main(void)
 	graph.setMaximumDegree(max);
 
 	cout << "Digite a distância mínima entre dois nós: "<<endl;
-	cin >> minDistance;
-	graph.setMinimumDistance(minDistance);
+	cin >> minDistanceNode;
+	graph.setMinimumDistanceOfNode(minDistanceNode);
 
 	/**
 	 * Configurações do plano
@@ -74,7 +73,7 @@ int main(void)
 		cout<<error<<endl;
 	}
 
-	plane.initialize(graph.getNumberOfNodes());
+	plane.initialize(graph);
 	// cout << "Probabilidade de Waxman: "<<endl;
 	// cin >> prWaxman1;
 	// graph.setWaxmanOne(prWaxman1);
