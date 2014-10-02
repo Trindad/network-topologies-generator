@@ -60,7 +60,6 @@ void Plane::setNodeCoordinates(Graph graph,int node, int x, int y) {
 	 * Bloqueia zona conforme a distância minima 
 	 * Insere -2 na coordenada de bloqueio
 	 */
-	cout<<"\n"<<node<<endl;
 	blockedAreaAroundTheNode(graph,x,y);
 }
 
@@ -70,7 +69,7 @@ void Plane::blockedAreaAroundTheNode(Graph graph,int x,int y) {
 
 	for (int i = -distance; i <= distance; i++)
 	{
-		if (x+i >= 0 && x+i < getArea())
+		if (x+i >= 0 && x+i < getSqrtArea())
 		{
 			int cordX = x+i;
 
@@ -78,8 +77,7 @@ void Plane::blockedAreaAroundTheNode(Graph graph,int x,int y) {
 			{
 				int cordY = y+j;
 
-				cout<<cordX<<"\t"<<cordY<<endl;
-				if (y+j >= 0 && y+j < getArea() && this->plane[cordX][cordY] == -1)
+				if (y+j >= 0 && y+j < getSqrtArea() && this->plane[cordX][cordY] == -1)
 				{
 					this->plane[cordX][cordY] = -2;
 				}
@@ -103,7 +101,7 @@ void Plane::setRegion(int nRegions) {
  * Retorna o lado de uma area 
  * a area do plano é quadrada
  */
-int Plane::getArea(){
+int Plane::getSqrtArea(){
 
 	return this->side;
 }
@@ -216,13 +214,19 @@ void Plane::initialize(Graph graph) {
 	 */
 	setRegion(getNumberRegions());
 
+	
 	/**
 	 * Gerando coordenadas (X,Y) de forma randomica
 	 * para distribuir os nós nas regiões
-	 */
+	*/
 	setNodeRandomRegion(graph);
-
 	print();
+
+	for (int i = 0; i < graph.getNumberOfNodes(); i++)
+	{
+		int neighbor = nearestNode(i,graph);
+		cout<<" origem = "<<i<<" destino = "<<neighbor<<endl;
+	}
 }
 
 /**
@@ -306,8 +310,31 @@ void Plane::print() {
 	}
 }
 
-void Plane::nearestNode() {
+/**
+ * Busca no plano por força bruta pelo nó mais próximo
+ */
+int Plane::nearestNode(int node,Graph graph) {
 
+	int neighbor = node;
+	int distance = 9999; //número infinito
+
+	for (int i = 0; i < graph.getNumberOfNodes(); i++)
+	{
+		if (i != node)
+		 {
+			int X = abs(getCoordinateX(i)-getCoordinateX(node));
+			int Y = abs(getCoordinateY(i)-getCoordinateY(node));
+
+			int distanceNow = X+Y;
+
+			if (distance > distanceNow)
+			{
+				neighbor = i;
+			}
+
+		} 
+	}
+	return neighbor;		
 }
 
 /**

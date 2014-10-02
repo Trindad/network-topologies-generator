@@ -17,13 +17,13 @@ BetweennessCentrality::~BetweennessCentrality(){}
 
 void GraphUtility::Dijkstra() {
 
-	Plane plane;
+	// Plane plane;
 
-	int distance[plane.getArea()];
-	int sptSet[plane.getArea()];
+	// int distance[plane.getSrcArea()];
+	// int sptSet[plane.getSrcArea()];
 
-	memsetVector(plane.getArea(),distance);
-	memsetVector(plane.getArea(),sptSet);
+	// memsetVector(plane.getSrcArea(),distance);
+	// memsetVector(plane.getSrcArea(),sptSet);
 }
 
 int GraphUtility::distanceMinimum() {

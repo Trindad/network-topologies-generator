@@ -34,7 +34,7 @@ public:
 	/**
 	 * Getters
 	 */
-	int getArea();
+	int getSqrtArea();
 	int getBreadth();
 	int getLength();
 	int getNumberRegions();
@@ -54,7 +54,7 @@ public:
 	void limitRegion(int,int);			//limites de cada região do plano
 	void generateCoordinates(Graph,int);		//gera coordenadas de forma randomica para um nó
 	void blockedAreaAroundTheNode(Graph,int,int); // bloqueio da área conforme a distância passada pelo usuário
-	void nearestNode();					//busca nó mais próximo pelo raio
+	int nearestNode(int,Graph);					//busca um nó mais próximo pelo raio e retorna 
 	void regionInterconnection(); 		//conecção dos nós entre as regiões
 	int random(int,int); 				//gera um número randomico através de uma função probalistica
 	void print(); 						//imprimir o plano
