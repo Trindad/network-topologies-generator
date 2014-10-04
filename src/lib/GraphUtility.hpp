@@ -18,7 +18,6 @@ public:
 	void addNode();
 	int distanceMinimum();
 	double radiusGraph();
-	void createLinks(int,int);
 	void Dijkstra();
 	void memsetVector(int,int vetor[]);	
 	void insertPath();

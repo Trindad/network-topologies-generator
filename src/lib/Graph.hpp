@@ -6,7 +6,10 @@
 #include <iterator>
 #include <algorithm> 
 #include <stdexcept> // for std::runtime_error
-#include <string>
+#include <vector>
+#include <random>
+
+using namespace std;
 
 class Graph
 {
@@ -18,7 +21,7 @@ public:
 	/**
 	 * Setters
 	 */
-	void setLink(int);
+	void setLink(int,int);
 	void setNode(int);
 	void setAverageDegree(double);
 	void setMinimumDegree(int);
@@ -30,7 +33,8 @@ public:
 	/**
 	 * Getters
 	 */
-	int getLink();	
+	int getLink(int,int); //verifica a existência de uma ligação entre dois vértices passados como parâmetros
+	int getNumberOfLinks();	
 	int getNumberOfNodes();
 	double getAverageDegree();
 	int getMinimumDegree();
@@ -40,6 +44,7 @@ public:
 	int getMaximumNumberOfLinks();
 
 	int limitLinks(int); 
+	void memsetGraph();
 
 private:
 
@@ -49,5 +54,6 @@ private:
 	int minDegree;		//grau minimo da topologia
 	double avgDegree;	//grau médio da topologia
 	int minDistance; 	//distancia minima entre um par de vertices/nós
+	vector < vector<int> > graph;  //matriz de ligações dos nós
 };
 

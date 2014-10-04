@@ -225,6 +225,9 @@ void Plane::initialize(Graph graph) {
 	for (int i = 0; i < graph.getNumberOfNodes(); i++)
 	{
 		int neighbor = nearestNode(i,graph);
+
+		graph.setLink(i,neighbor); //faz a ligação dos nós no grafo de matriz adjacente
+
 		cout<<" origem = "<<i<<" destino = "<<neighbor<<endl;
 	}
 }
@@ -327,7 +330,10 @@ int Plane::nearestNode(int node,Graph graph) {
 
 			int distanceNow = X+Y;
 
-			if (distance > distanceNow)
+			/**
+			 * Distância deve ser menor que a anterior e não haver ligações já entre o node e i
+			 */
+			if (distance > distanceNow && graph.getLink(node,i) == 0)
 			{
 				neighbor = i;
 			}

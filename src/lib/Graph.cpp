@@ -4,9 +4,10 @@
 #include <iostream>
 #include <deque>
 #include <iterator>
- #include <algorithm> 
+#include <algorithm> 
 #include <stdexcept> // for std::runtime_error
-#include <string>
+#include <vector>
+#include <random>
 
 #include "Graph.hpp" /*Inclui  a definição da classe Graph*/
 
@@ -14,19 +15,20 @@ using namespace std;
 
 Graph::Graph() {
 
-	setLink(0); 				//número de links
 	setNode(0);					//número de nós
 	setAverageDegree(0);		//grau máximo da topologia
 	setMinimumDegree(0);		//grau minimo da topologia
 	setMaximumDegree(0.0);		//grau médio da topologia
+	memsetGraph();
 }
 
 Graph::~Graph() {}
 
-//sets
-void Graph::setLink(int n)
+
+void Graph::setLink(int u,int v)
 {
-	this->nLinks = n;
+	this->graph[u][v] = 1;
+	this->graph[v][u] = 1;
 }
 
 void Graph::setNode(int n)
@@ -54,8 +56,16 @@ void Graph::setMinimumDistanceOfNode(int min)
 	this->minDistance = min;
 }
 
-//gets
-int Graph::getLink()
+int Graph::getLink(int u,int v)
+{
+	if (this->graph[u][v] == 1 && this->graph[v][u])
+	{
+		return 1;
+	}
+	return 0;
+}
+
+int Graph::getNumberOfLinks()
 {
 	return this->nLinks;
 }
@@ -102,6 +112,16 @@ int Graph::getMaximumDegree()
 int Graph::getMinimumDistanceOfNode()
 {
 	return this->minDistance;
+}
+
+/**
+ * Inicializa grafo de ligações com todas as posições em 0
+ */
+void Graph::memsetGraph() {
+
+	int n = this->nNodes;
+
+	this->graph = vector<vector<int>> (n,vector<int>(n,0));
 }
 
 /**
