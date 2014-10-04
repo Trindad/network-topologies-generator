@@ -333,7 +333,7 @@ int Plane::nearestNode(int node,Graph graph) {
 			/**
 			 * Distância deve ser menor que a anterior e não haver ligações já entre o node e i
 			 */
-			if (distance > distanceNow && graph.getLink(node,i) == 0)
+			if (distance > distanceNow && graph.getLink(node,i) == 0 && graph.getDegree() < graph.getMaximumDegree())
 			{
 				neighbor = i;
 			}

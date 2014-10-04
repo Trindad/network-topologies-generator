@@ -65,6 +65,21 @@ int Graph::getLink(int u,int v)
 	return 0;
 }
 
+int Graph::getDegree(int node)
+{
+	int degree = 0;
+	/**
+	 * Obtêm o grau do node
+	 */
+	for (int i = 0; i < getNumberOfNodes(); i++)
+	{
+		degree = this->graph[node][i] + degree ; 
+	}
+
+	return degree;
+}
+
+
 int Graph::getNumberOfLinks()
 {
 	return this->nLinks;
@@ -77,7 +92,8 @@ int Graph::getNumberOfNodes()
 
 int Graph::getMaximumNumberOfLinks() {
 
-	int maximumDegree = (this->maxDegree*this->nNodes)/2;
+	int maximumDegree = (int)(this->maxDegree*this->nNodes)/2; //máximo de ligações que terá a topologia
+
 	try 
 	{
 		limitLinks( maximumDegree );
