@@ -19,7 +19,6 @@ Graph::Graph() {
 	setAverageDegree(0);		//grau máximo da topologia
 	setMinimumDegree(0);		//grau minimo da topologia
 	setMaximumDegree(0.0);		//grau médio da topologia
-	memsetGraph();
 }
 
 Graph::~Graph() {}
@@ -34,6 +33,7 @@ void Graph::setLink(int u,int v)
 void Graph::setNode(int n)
 {
 	this->nNodes = n;
+	memsetGraph();
 }
 
 void Graph::setAverageDegree(double avg) 
@@ -56,9 +56,14 @@ void Graph::setMinimumDistanceOfNode(int min)
 	this->minDistance = min;
 }
 
+void Graph::setDistancePairofNodes(int u,int v,int distance) {
+
+	graph[u][v] = graph[v][u] = distance;
+}
+
 int Graph::getLink(int u,int v)
 {
-	if (this->graph[u][v] == 1 && this->graph[v][u])
+	if (this->graph[u][v] == 1 && this->graph[v][u] == 1)
 	{
 		return 1;
 	}
@@ -73,7 +78,8 @@ int Graph::getDegree(int node)
 	 */
 	for (int i = 0; i < getNumberOfNodes(); i++)
 	{
-		degree = this->graph[node][i] + degree ; 
+		int tempDegree = this->graph[node][i];
+		degree = tempDegree + degree ; 
 	}
 
 	return degree;

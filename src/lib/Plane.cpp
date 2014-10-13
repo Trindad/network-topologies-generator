@@ -8,8 +8,6 @@
 
 #include "Plane.hpp"
 
-
-
 using namespace std;
 
 Plane::Plane() {
@@ -47,21 +45,69 @@ void Plane::setLength(int length){
 	this->length = length;
 }
 
-/**
- * Insere as coordenadas(x,y) correspondente ao número do nó
- */
-void Plane::setNodeCoordinates(Graph graph,int node, int x, int y) {
+void Plane::setNodeCoordinates(Graph graph, int x, int y,int node) {
 
+	this->plane[x][y] = node;
 
 	this->coordinates[node][0] = x;
 	this->coordinates[node][1] = y;
-
-	/**
-	 * Bloqueia zona conforme a distância minima 
-	 * Insere -2 na coordenada de bloqueio
-	 */
-	blockedAreaAroundTheNode(graph,x,y);
 }
+
+/**
+ * Insere as coordenadas(x,y) correspondente ao número do nó
+ */
+void Plane::setNodesCoordinates(Graph graph) {
+
+	int nNodes = graph.getNumberOfNodes();
+
+	// cout<<"coordinates"<<endl;
+
+	for (int i = 0; i < nNodes ; i++)
+	{
+		int x = this->xy[i][0];
+		int y = this->xy[i][1];
+		// cout<<"x= "<<x<<"y= "<<y<<endl;
+		while(true) 
+		{
+
+			int node = random(0,nNodes-1);
+
+			if (this->coordinates[node][0] == -1 && this->coordinates[node][1] == -1)
+			{
+				setNodeCoordinates(graph,x,y,node);
+				break;
+			}
+		}
+	}
+}
+
+void Plane::setWaxmanParameters(int alpha,int betha) {
+	
+	this->alpha = alpha;
+	this->betha = betha;
+}
+
+/**
+ * Calcula a distância euclidiana
+ * entre um par de nós u e v
+ * através das coordenas do plano
+ */
+int Plane::getEuclidean(int u, int v) {
+
+	int baseU = this->coordinates[u][0]-this->coordinates[u][1];
+	int baseV = this->coordinates[v][0]-this->coordinates[v][1];
+	
+	int distance = sqrt( pow(baseU,2) + pow(baseV,2));
+	
+	return distance;
+}
+
+
+void Plane::setEuclidean(Graph graph,int u,int v) {
+
+	graph.setDistancePairofNodes(u,v,getEuclidean(u,v));
+}
+
 
 void Plane::blockedAreaAroundTheNode(Graph graph,int x,int y) {
 
@@ -79,7 +125,7 @@ void Plane::blockedAreaAroundTheNode(Graph graph,int x,int y) {
 
 				if (y+j >= 0 && y+j < getSqrtArea() && this->plane[cordX][cordY] == -1)
 				{
-					this->plane[cordX][cordY] = -2;
+					this->plane[cordX][cordY] = -graph.getMinimumDistanceOfNode();
 				}
 			}
 		}
@@ -89,7 +135,7 @@ void Plane::blockedAreaAroundTheNode(Graph graph,int x,int y) {
 /**
  * Obtêm o número de regiões no plano
  * Obtêm o número de linhas por região
- * Obém o número de colunas por região
+ * Obêm o número de colunas por região
  */
 void Plane::setRegion(int nRegions) {
 
@@ -191,7 +237,7 @@ void Plane::memsetPlane() {
  */
 void Plane::memsetCoordinates(int nodes) {
 
-	this->coordinates = vector<vector<int>> (nodes,vector<int>(2,0));
+	this->coordinates = vector<vector<int>> (nodes,vector<int>(2,-1));
 }
 
 /**
@@ -209,6 +255,10 @@ void Plane::limitArea(int nNodes) {
 
 void Plane::initialize(Graph graph) {
 
+	memsetCoordinates(graph.getNumberOfNodes());
+
+	this->xy = vector<vector<int>> (graph.getNumberOfNodes(),vector<int>(2,0));
+
 	/**
 	 * Obtêm valores referentes a área de cada região do plano
 	 */
@@ -219,27 +269,28 @@ void Plane::initialize(Graph graph) {
 	 * Gerando coordenadas (X,Y) de forma randomica
 	 * para distribuir os nós nas regiões
 	*/
-	setNodeRandomRegion(graph);
+	setCoodinatesRandomRegion(graph);
+	setNodesCoordinates(graph);
+
 	print();
 
-	for (int i = 0; i < graph.getNumberOfNodes(); i++)
-	{
-		int neighbor = nearestNode(i,graph);
-
-		graph.setLink(i,neighbor); //faz a ligação dos nós no grafo de matriz adjacente
-
-		cout<<" origem = "<<i<<" destino = "<<neighbor<<endl;
-	}
+	/**
+	 * Primeiro conecta nós em uma região
+	 * Depois interconecta nós mais próximos entre regiões
+	 */
+	connectionNodesRegion(graph);
+	regionsInterconnection(graph);
 }
 
 /**
- * Atribui coordenadas randomicas
- * para o nó passado como parâmetro
+ * Atribui coordenadas randomicas no plano
  */
-void Plane::generateCoordinates(Graph graph,int node) {
+void Plane::generateCoordinates(Graph graph,int position) {
+
 	/**
-	 * Gera coordenadas x e y randomicas para o nó i
+	 * Gera coordenadas x e y randomicas para a  matriz xy
 	 */
+
 	int x = random(0,this->side-1);
 	int y = random(0,this->side-1);
 
@@ -252,13 +303,20 @@ void Plane::generateCoordinates(Graph graph,int node) {
 	 */
 	if (this->plane[x][y] == -1)
 	{
-		this->plane[x][y] = node;
-		setNodeCoordinates(graph,node,x,y);
+		xy[position][0] = x;
+		xy[position][1] = y;
+
+		/**
+		* Bloqueia zona conforme a distância minima 
+		* Insere -2 na coordenada de bloqueio
+		*/
+		blockedAreaAroundTheNode(graph,x,y);
+
 		return;
 	}
 	else
 	{
-		generateCoordinates(graph,node);
+		generateCoordinates(graph,position);
 	}
 }
 
@@ -267,19 +325,15 @@ void Plane::generateCoordinates(Graph graph,int node) {
  * Choose any N regions randomly, out of the total R regions, and some of the
  * regions may be chosen more than once (i.e., have more than one nodes).
  */
-void Plane::setNodeRandomRegion(Graph graph) {
+void Plane::setCoodinatesRandomRegion(Graph graph) {
 
 	int nNodes = graph.getNumberOfNodes();
-	memsetCoordinates(nNodes);
+	
 	/**
-	 * Distribuição dos nós de forma randomica
+	 * Gera coordenadas randomicas
 	 */
 	for (int i = 0; i < nNodes; i++)
 	{
-		/**
-		 * insere nó no plano e cria zona de bloqueio
-		 * conforme a distância entre nós minima passada
-		 */
 		generateCoordinates(graph,i); 
 	}
 }
@@ -289,7 +343,6 @@ void Plane::setNodeRandomRegion(Graph graph) {
  */
 int Plane::random(int minimum,int maximum) {
 
-	default_random_engine generator;
 	random_device rd;
 	mt19937_64 gen(rd());
 
@@ -331,11 +384,14 @@ int Plane::nearestNode(int node,Graph graph) {
 			int distanceNow = X+Y;
 
 			/**
-			 * Distância deve ser menor que a anterior e não haver ligações já entre o node e i
+			 * Distância deve ser menor que a anterior
+			 * Não haver ligações já entre o node e i e
+			 * O grau deve ser inferior ao grau máximo
 			 */
-			if (distance > distanceNow && graph.getLink(node,i) == 0 && graph.getDegree() < graph.getMaximumDegree())
+			if (distance > distanceNow && graph.getLink(node,i) == 0 && graph.getDegree(i) < graph.getMaximumDegree())
 			{
 				neighbor = i;
+				distance = distanceNow;
 			}
 
 		} 
@@ -344,8 +400,32 @@ int Plane::nearestNode(int node,Graph graph) {
 }
 
 /**
- * Estabelcer a conecção dos nós entre as regiões
+ * Estabelece a conecção entre nós em sua respectiva região
  */
-void Plane::regionInterconnection() {
+void Plane::connectionNodesRegion(Graph graph) {
 
+	/**
+	 * Percorre todas as regiões estabelecendo conecção
+	 */
+	for (int i = 0; i < getNumberRegions(); i++)
+	{
+		
+	}
+
+}
+
+/**
+ * Estabelcer a conecção dos nós entre as regiões
+ * Busca pelo raio de modo que os nós interligados serão os mais próximos
+ */
+void Plane::regionsInterconnection(Graph graph) {
+
+	for (int i = 0; i < graph.getNumberOfNodes(); i++)
+	{
+		int neighbor = nearestNode(i,graph);
+
+		graph.setLink(i,neighbor); //faz a ligação dos nós no grafo de matriz adjacente
+
+		cout<<" origem = "<<i<<" destino = "<<neighbor<<endl;
+	}
 }

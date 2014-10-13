@@ -22,11 +22,12 @@ using namespace std;
 
 #include "Plane.hpp"
 
-int main(void)
+int
+main(void)
 {
 
 	int nNos = 2,min = 2,max = 2,area = 4,nSimulations = 1,breadth = 1,length = 4,minDistanceNode = 1;
-	double prWaxman1,prWaxman2;
+	double betha,alpha;
 	Graph graph; // cria objeto grafo
 	
 
@@ -64,6 +65,14 @@ int main(void)
 	cin >> breadth;
 	plane.setBreadth(breadth);
 
+	plane.initialize(graph);
+	cout << "Probabilidade de Waxman: "<<endl;
+	cin >> betha;
+
+	cout << "Probabilidade de Waxman: "<<endl;
+	cin >> alpha;
+	plane.setWaxmanParameters(alpha,betha);
+	
 	try 
 	{
 		plane.limitArea(graph.getNumberOfNodes());
@@ -73,14 +82,6 @@ int main(void)
 		cout<<error<<endl;
 	}
 
-	plane.initialize(graph);
-	// cout << "Probabilidade de Waxman: "<<endl;
-	// cin >> prWaxman1;
-	// graph.setWaxmanOne(prWaxman1);
-
-	// cout << "Probabilidade de Waxman: "<<endl;
-	// cin >> prWaxman2;
-	// graph.setWaxmanTwo(prWaxman2);
 
 	return 0;
 }
