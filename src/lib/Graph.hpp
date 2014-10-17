@@ -34,13 +34,13 @@ public:
 	/**
 	 * Getters
 	 */
-	int getLink(int,int); //verifica a existência de uma ligação entre dois vértices passados como parâmetros
-	int getDegree(int); //retorna o grau do nó passado como parâmetro do método
+	int getDegree(int); 	//retorna o grau do nó passado como parâmetro do método
+	int getLink(int,int); 	//verifica a existência de uma ligação entre dois vértices passados como parâmetros
 	int getNumberOfLinks();	
-	int getNumberOfNodes();
-	double getAverageDegree();
 	int getMinimumDegree();
 	int getMaximumDegree();
+	int getNumberOfNodes();
+	double getAverageDegree();
 	int getMinimumDistanceOfNode();
 	int getMinimumNumberOfLinks();
 	int getMaximumNumberOfLinks();
@@ -50,12 +50,12 @@ public:
 
 private:
 
-	int nLinks; 		//número de links
-	int nNodes;			//número de nós
-	int maxDegree;		//grau máximo da topologia
-	int minDegree;		//grau minimo da topologia
-	double avgDegree;	//grau médio da topologia
-	int minDistance; 	//distancia minima entre um par de vertices/nós
+	int nLinks; 					//número de links
+	int nNodes;						//número de nós
+	int maxDegree;					//grau máximo da topologia
+	int minDegree;					//grau minimo da topologia
+	double avgDegree;				//grau médio da topologia
+	int minDistance; 				//distancia minima entre um par de vertices/nós
 	vector < vector<int> > graph;  //matriz de ligações dos nós
 };
 

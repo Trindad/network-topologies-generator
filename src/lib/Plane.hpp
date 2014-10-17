@@ -25,45 +25,46 @@ public:
 	 * Setters
 	 */
 	void setArea(int);
-	void setBreadth(int);
 	void setLength(int);
 	void setRegion(int);
+	void setBreadth(int);
+	void setNodesCoordinates(Graph); 			//set de coordenadas randomicas X e Y do plano
 	void setEuclidean(Graph,int,int);
 	void setWaxmanParameters(int,int);
-	void setCoodinatesRandomRegion(Graph);	//distribui os nós nas regiões de forma randomica
-	void setNodeCoordinates(Graph,int,int,int);			// set nas coordenadas
-	void setNodesCoordinates(Graph); //set de coordenadas randomicas X e Y do plano
+	void setCoodinatesRandomRegion(Graph);		//distribui os nós nas regiões de forma randomica
+	void setNodeCoordinates(Graph,int,int,int);	// set nas coordenadas
 	
 	/**
 	 * Getters
 	 */
-	int getSqrtArea();
+	int getLength();	
 	int getBreadth();
-	int getLength();
-	int getNumberRegions();
+	int getSqrtArea();				//retorna a raíz do plano sendo o mesmo com lados iguais
 	int getRegionX(int);
 	int getRegionY(int);
+	int getNumberRegions();
+	int getCoordinateX(int); 		//coordenada X
+	int getCoordinateY(int); 		//coordenada Y
+	int getEuclidean(int,int);		//calcula distância euclidiana entre um par de nós
 	int getMaximumNodesRegion();
-	int getCoordinateX(int); //coordenada X
-	int getCoordinateY(int); //coordenada Y
-	int getEuclidean(int,int);//calcula distância euclidiana entre um par de nós
+	int getNumberOfNodesRegion(int);//retorna o número de nós na região passada como parâmetro
 
 
 	/**
-	 * Funções do plano
+	 * Funções auxiliares do plano
 	 */
-	void memsetPlane();
-	void memsetCoordinates(int);  					//inicializa vetor de coordenads em 0
-	void initialize(Graph);							//inicializa as configurações 
-	void limitArea(int); 							//verifica se o número de nós é : 2N <= R <= N^2
-	void limitRegion(int,int);						//limites de cada região do plano
-	void generateCoordinates(Graph,int);				//gera coordenadas de forma randomica para um nó randomico
-	void blockedAreaAroundTheNode(Graph,int,int); 	// bloqueio da área conforme a distância passada pelo usuário
-	int nearestNode(int,Graph);						//busca um nó mais próximo pelo raio e retorna 
-	void connectionNodesRegion(Graph);
-	void regionsInterconnection(Graph); 			//conecção dos nós entre as regiões
-	int random(int,int); 							//gera um número randomico através de uma função probalistica
 	void print(); 									//imprimir o plano
+	void memsetPlane();								//inicializa matriz do plano em -1 para todos as coordenadas
+	void limitArea(int); 							//verifica se o número de nós é : 2N <= R <= N^2
+	int random(int,int); 							//gera um número randomico através de uma função probalistica
+	void initialize(Graph);							//inicializa as configurações 
+	void limitRegion(int,int);						//limites de cada região do plano
+	int nearestNode(int,Graph);						//busca um nó mais próximo pelo raio e retorna 
+	void memsetCoordinates(int);  					//inicializa vetor de coordenads em 0
+	void connectionNodesRegion(Graph);				//conecta nós por região utilizando a probabilidade de Waxman
+	void regionsInterconnection(Graph); 			//conecção dos nós entre as regiões
+	void generateCoordinates(Graph,int);			//gera coordenadas de forma randomica para um nó randomico
+	void blockedAreaAroundTheNode(Graph,int,int); 	// bloqueio da área conforme a distância passada pelo usuário
 
 
 private:
@@ -75,7 +76,8 @@ private:
 	int nRegions;		//número de regiões
 	double betha;
 	double alpha;
-	vector < vector<int> > plane;  //matriz do plano dinâmica
-	vector < vector<int> > coordinates;  //matriz de coordenadas de cada nó da rede
-	vector<vector<int>> xy; //armazena as coordenas randomicas
+	vector < vector<int> > plane;  			//matriz do plano dinâmica
+	vector < vector<int> > coordinates;  	//matriz de coordenadas de cada nó da rede
+	vector <int> nNodesRegions; 			// armazena a quantidade de nós em uma região
+	vector < vector<int> > xy; 				//armazena as coordenas randomicas
 };
