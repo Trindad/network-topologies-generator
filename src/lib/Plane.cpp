@@ -256,6 +256,15 @@ int Plane::getRegionY(int index) {
 	return this->regionRow*floor(index/this->length);	
 }
 
+double Plane::getBetha(){
+
+	return this->betha;
+}				
+double Plane::getAlpha(){
+
+	return this->alpha;
+}
+
 /**
  * Retorna o número máximo de nós 
  * que cabem em uma região
@@ -265,6 +274,21 @@ int Plane::getMaximumNodesRegion() {
 	return (this->regionRow*this->regionColumn);
 }
 
+void Plane::waxmanProbability(Graph graph,int u,int v) {
+
+	double probability = getBetha()*exp(getEuclidean(u,v)/(getAlpha()*graph.getMinimumDistanceOfNode()));
+
+	double temp = randomDouble(0,1)*0.75f;
+
+	if (probability > temp)
+	{
+		/* code */
+	}
+	else
+	{
+
+	}
+}
 /**
  * Função para atribuir zero a todas as coordenadas do plano
  */
@@ -366,6 +390,16 @@ int Plane::random(int minimum,int maximum) {
 }
 
 /**
+ * Geração de número de nós randomicos  
+ */
+double Plane::randomDouble(int minimum,int maximum) {
+
+	double f = (double)rand() / RAND_MAX;
+
+    return minimum + f * (maximum - minimum);
+}
+
+/**
  * Imprimir o plano
  */
 void Plane::print() {
@@ -416,16 +450,18 @@ int Plane::nearestNode(int node,Graph graph) {
 /**
  * Estabelece a conecção entre nós em sua respectiva região
  */
-void Plane::connectionNodesRegion(Graph graph,vector<int> nodes) {
+void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion) {
 
 	/**
-	 * Percorre todas as regiões estabelecendo conecção
+	 * Faz a ligação de nós em uma região
 	 */
-	for (int i = 0; i < this->nRegions; i++)
+	if (nodes.size() > 1)
 	{
-		
+		for (int i = 0; i < nodes.size(); i++)
+		{
+			
+		}
 	}
-
 }
 
 /**
@@ -488,7 +524,7 @@ void Plane::initialize(Graph graph) {
 		vector<int> nodes;
 
 		nodes = getNumberOfNodesRegion(i,nodes);
-		connectionNodesRegion(graph,nodes);	
+		connectionNodesRegion(graph,nodes,i);	
 	}
 	regionsInterconnection(graph);
 }

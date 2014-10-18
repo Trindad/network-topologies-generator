@@ -49,7 +49,7 @@ public:
 	int getCoordinateY(int); 		//coordenada Y
 	int getEuclidean(int,int);		//calcula distância euclidiana entre um par de nós
 	int getMaximumNodesRegion();	//máximo de nós que cabem em uma região
-	vector<int> getNumberOfNodesRegion(int,vector<int>);//retorna o número de nós na região passada como parâmetro
+	vector<int> getNumberOfNodesRegion(int,vector<int>);	//retorna o número de nós na região passada como parâmetro
 
 
 	/**
@@ -63,10 +63,12 @@ public:
 	void limitRegion(int,int);						//limites de cada região do plano
 	int nearestNode(int,Graph);						//busca um nó mais próximo pelo raio e retorna 
 	void memsetCoordinates(int);  					//inicializa vetor de coordenads em 0
+	double randomDouble(int,int);					//gera um número randomico do tipo double
 	void regionsInterconnection(Graph); 			//conecção dos nós entre as regiões
 	void generateCoordinates(Graph,int);			//gera coordenadas de forma randomica para um nó randomico
+	void waxmanProbability(Graph,int,int);			//calcula a probabilidade de waxman para nós u e v 
 	void blockedAreaAroundTheNode(Graph,int,int); 	// bloqueio da área conforme a distância passada pelo usuário
-	void connectionNodesRegion(Graph,vector<int>);	//conecta nós por região utilizando a probabilidade de Waxman
+	void connectionNodesRegion(Graph,vector<int>,int);	//conecta nós por região utilizando a probabilidade de Waxman
 
 private:
 	int side; 			//area do plano -- refere-se a quanto irá a raiz quadrada do planos
