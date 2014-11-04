@@ -10,6 +10,8 @@
 
 using namespace std;
 
+#define MIN 2
+
 Plane::Plane() {
 
 	setArea(0);
@@ -259,7 +261,8 @@ int Plane::getRegionY(int index) {
 double Plane::getBetha(){
 
 	return this->betha;
-}				
+}
+
 double Plane::getAlpha(){
 
 	return this->alpha;
@@ -453,15 +456,57 @@ int Plane::nearestNode(int node,Graph graph) {
 void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion) {
 
 	/**
-	 * Faz a ligação de nós em uma região
+	 * verifica se existe mais de um nó em uma região
 	 */
-	if (nodes.size() > 1)
+	if (nodes.size() <= 1)
 	{
-		for (int i = 0; i < nodes.size(); i++)
-		{
-			
-		}
+		return;
 	}
+
+	random_shuffle(nodes.begin(),nodes.end());//sorteio
+
+	vector<int>::iterator it = nodes.begin();
+
+	/**
+	 * Região possui somente dois nós
+	 */
+	if (nodes.size() <= 1)
+	{
+		return;
+	}
+
+
+	/**
+	 * Interliga nós até formar um anel
+	 */
+	int source = *it;
+
+	while(true)
+	{
+
+		it++;
+		int target = *it;
+
+		if (graph.getDegree(source) == graph.getMaximumDegree() || source == target)
+		{
+			continue;
+		}
+
+		waxmanProbability(graph,source,target);//aplica probabilidade de woxman
+
+		if (graph.getDegree(source) == MIN)		
+		{
+			*it == -1;
+		}
+
+		if (graph.getDegree(target) == MIN)		
+		{
+			*it+1 == -1;
+		}
+		source = target;//a origem recebe o destino de modo que forme o anel
+	}
+
+	return;
 }
 
 /**
@@ -523,7 +568,7 @@ void Plane::initialize(Graph graph) {
 		 */
 		vector<int> nodes;
 
-		nodes = getNumberOfNodesRegion(i,nodes);
+		nodes = getNumberOfNodesRegion(i,nodes);//retorna os nós de uma região
 		connectionNodesRegion(graph,nodes,i);	
 	}
 	regionsInterconnection(graph);
