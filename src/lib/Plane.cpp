@@ -280,7 +280,9 @@ int Plane::getMaximumNodesRegion() {
 bool Plane::waxmanProbability(Graph graph,int u,int v) {
 
 	double distance = graph.getMinimumDistanceOfNode();
-	double probability = getBetha()*exp(getEuclidean(u,v)/(getAlpha()*distance));//calculo da probalidade 
+	double exponent = exp( getEuclidean(u,v) / (getAlpha()*distance) );
+
+	double probability = getBetha()*exponent;//calculo da probalidade 
 
 	double temp = randomDouble(0,1)*0.75f;
 
@@ -506,8 +508,13 @@ void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion)
 		do
 		{
 			target = *it;//seleciona nó de destino enquanto a probabilidade de waxman não for satisfeita
+
+			if (source != target || graph.getLink(source,target) == 1)
+			{
+				continue;
+			}
 		}
-		while( waxmanProbability(graph,source,target) == false || source != target);
+		while( waxmanProbability(graph,source,target) == false );
 
 		if (graph.getDegree(source) == MIN)		
 		{
@@ -517,7 +524,7 @@ void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion)
 		/**
 		 * verifica se anel já esta formado
 		 */
-		if (ring(graph) == true)
+		if ( ring(graph) == true )
 		{
 			break;
 		}
