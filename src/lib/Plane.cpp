@@ -279,12 +279,14 @@ int Plane::getMaximumNodesRegion() {
 
 bool Plane::waxmanProbability(Graph graph,int u,int v) {
 
-	double probability = getBetha()*exp(getEuclidean(u,v)/(getAlpha()*graph.getMinimumDistanceOfNode()));
+	double distance = graph.getMinimumDistanceOfNode();
+	double probability = getBetha()*exp(getEuclidean(u,v)/(getAlpha()*distance));//calculo da probalidade 
 
 	double temp = randomDouble(0,1)*0.75f;
 
 	if (probability > temp)
 	{
+		graph.getLink(u,v);
 		return true;
 	}
 	else
