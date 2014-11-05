@@ -277,7 +277,7 @@ int Plane::getMaximumNodesRegion() {
 	return (this->regionRow*this->regionColumn);
 }
 
-void Plane::waxmanProbability(Graph graph,int u,int v) {
+bool Plane::waxmanProbability(Graph graph,int u,int v) {
 
 	double probability = getBetha()*exp(getEuclidean(u,v)/(getAlpha()*graph.getMinimumDistanceOfNode()));
 
@@ -285,13 +285,14 @@ void Plane::waxmanProbability(Graph graph,int u,int v) {
 
 	if (probability > temp)
 	{
-		/* code */
+		return true;
 	}
 	else
 	{
-
+		return false;
 	}
 }
+
 /**
  * Função para atribuir zero a todas as coordenadas do plano
  */
@@ -451,6 +452,14 @@ int Plane::nearestNode(int node,Graph graph) {
 }
 
 /**
+ * Verifica se já foi formado um anel dentro de uma região
+ */
+bool Plane::ring(Graph graph) {
+
+
+	return true;
+}
+/**
  * Estabelece a conecção entre nós em sua respectiva região
  */
 void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion) {
@@ -470,43 +479,48 @@ void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion)
 	/**
 	 * Região possui somente dois nós
 	 */
-	if (nodes.size() <= 1)
+	if (nodes.size() == 2)
 	{
+		graph.setLink(nodes[0],nodes[1]);//liga os dois nós no grafo
 		return;
 	}
 
+	Graph graphRegion;
+
+	graphRegion.memsetGraph();
 
 	/**
 	 * Interliga nós até formar um anel
 	 */
 	int source = *it;
 
+	/**
+	 * Continua até se formar um anel
+	 */
 	while(true)
-	{
+	{	
+		int target = source;
 
-		it++;
-		int target = *it;
-
-		if (graph.getDegree(source) == graph.getMaximumDegree() || source == target)
+		do
 		{
-			continue;
+			target = *it;//seleciona nó de destino enquanto a probabilidade de waxman não for satisfeita
 		}
-
-		waxmanProbability(graph,source,target);//aplica probabilidade de woxman
+		while( waxmanProbability(graph,source,target) == false || source != target);
 
 		if (graph.getDegree(source) == MIN)		
 		{
 			*it == -1;
 		}
 
-		if (graph.getDegree(target) == MIN)		
+		/**
+		 * verifica se anel já esta formado
+		 */
+		if (ring(graph) == true)
 		{
-			*it+1 == -1;
+			break;
 		}
 		source = target;//a origem recebe o destino de modo que forme o anel
 	}
-
-	return;
 }
 
 /**

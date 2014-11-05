@@ -56,6 +56,7 @@ public:
 	 * Funções auxiliares do plano
 	 */
 	void print(); 									//imprimir o plano
+	bool ring(Graph); 								//verifica se formou o anel em uma região 
 	void memsetPlane();								//inicializa matriz do plano em -1 para todos as coordenadas
 	void limitArea(int); 							//verifica se o número de nós é : 2N <= R <= N^2
 	int random(int,int); 							//gera um número randomico através de uma função probalistica
@@ -66,19 +67,19 @@ public:
 	double randomDouble(int,int);					//gera um número randomico do tipo double
 	void regionsInterconnection(Graph); 			//conecção dos nós entre as regiões
 	void generateCoordinates(Graph,int);			//gera coordenadas de forma randomica para um nó randomico
-	void waxmanProbability(Graph,int,int);			//calcula a probabilidade de waxman para nós u e v 
+	bool waxmanProbability(Graph,int,int);			//calcula a probabilidade de waxman para nós u e v 
 	void blockedAreaAroundTheNode(Graph,int,int); 	// bloqueio da área conforme a distância passada pelo usuário
 	void connectionNodesRegion(Graph,vector<int>,int);	//conecta nós por região utilizando a probabilidade de Waxman
 
 private:
-	int side; 			//area do plano -- refere-se a quanto irá a raiz quadrada do planos
-	int breadth; 		//comprimento de cada região do plano
-	int length; 		//largura de cada região do plano
-	int regionRow;		//comprimento de cada região do plano
-	int regionColumn;	//largura de cada região do plano
-	int nRegions;		//número de regiões
-	double betha;		//parâmetro de Waxman
-	double alpha;		//parâmetro de Waxman
+	int side; 								//area do plano -- refere-se a quanto irá a raiz quadrada do planos
+	int breadth; 							//comprimento de cada região do plano
+	int length; 							//largura de cada região do plano
+	int regionRow;							//comprimento de cada região do plano
+	int regionColumn;						//largura de cada região do plano
+	int nRegions;							//número de regiões
+	double betha;							//parâmetro de Waxman
+	double alpha;							//parâmetro de Waxman
 	vector < vector<int> > xy; 				//armazena as coordenas randomicas
 	vector <int> nNodesRegions; 			// armazena a quantidade de nós em uma região
 	vector < vector<int> > plane;  			//matriz do plano dinâmica
