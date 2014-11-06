@@ -26,8 +26,8 @@ Graph::~Graph() {}
 
 void Graph::setLink(int u,int v)
 {
-	this->graph[u][v] = 1;
-	this->graph[v][u] = 1;
+	this->nodes[v].setLinkNode(u);
+	this->nodes[u].setLinkNode(v);
 }
 
 void Graph::setNode(int n)
@@ -56,14 +56,15 @@ void Graph::setMinimumDistanceOfNode(int min)
 	this->minDistance = min;
 }
 
-void Graph::setDistancePairofNodes(int u,int v,int distance) {
+void Graph::setDistancePairofNodes(int u,int v,double distance) {
 
-	graph[u][v] = graph[v][u] = distance;
+	this->nodes[u].setDistanceNode(distance);
+	this->nodes[v].setDistanceNode(distance);
 }
 
 int Graph::getLink(int u,int v)
 {
-	if (this->graph[u][v] == 1 && this->graph[v][u] == 1)
+	if (this->nodes[u].getLinkNode(v) == 1)
 	{
 		return 1;
 	}
@@ -72,15 +73,7 @@ int Graph::getLink(int u,int v)
 
 int Graph::getDegree(int node)
 {
-	int degree = 0;
-	/**
-	 * Obtêm o grau do node
-	 */
-	for (int i = 0; i < getNumberOfNodes(); i++)
-	{
-		int tempDegree = this->graph[node][i];
-		degree = tempDegree + degree ; 
-	}
+	int degree = this->nodes[node].getDegreeNode();
 
 	return degree;
 }
@@ -143,7 +136,7 @@ void Graph::memsetGraph() {
 
 	int n = this->nNodes;
 
-	this->graph = vector<vector<int>> (n,vector<int>(n,0));
+	this->nodes = vector<Node> (n);
 }
 
 /**

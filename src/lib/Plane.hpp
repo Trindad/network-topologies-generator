@@ -56,15 +56,15 @@ public:
 	 * Funções auxiliares do plano
 	 */
 	void print(); 									//imprimir o plano
-	bool ring(Graph); 								//verifica se formou o anel em uma região 
+	int ring(Graph); 								//verifica se formou o anel em uma região 
 	void memsetPlane();								//inicializa matriz do plano em -1 para todos as coordenadas
 	void limitArea(int); 							//verifica se o número de nós é : 2N <= R <= N^2
 	int random(int,int); 							//gera um número randomico através de uma função probalistica
 	void initialize(Graph);							//inicializa as configurações 
 	void limitRegion(int,int);						//limites de cada região do plano
-	int nearestNode(int,Graph);						//busca um nó mais próximo pelo raio e retorna 
 	void memsetCoordinates(int);  					//inicializa vetor de coordenads em 0
 	double randomDouble(int,int);					//gera um número randomico do tipo double
+	int nearestNeighbor(int,Graph);					//busca um nó mais próximo pelo raio e retorna 
 	void regionsInterconnection(Graph); 			//conecção dos nós entre as regiões
 	void generateCoordinates(Graph,int);			//gera coordenadas de forma randomica para um nó randomico
 	bool waxmanProbability(Graph,int,int);			//calcula a probabilidade de waxman para nós u e v 

@@ -1,35 +1,34 @@
-// /**
-//  * 
-//  */
-// #include <iostream>
-// #include <deque>
-// #include <iterator>
-// #include <algorithm> 
-// #include <stdexcept> // for std::runtime_error
+/**
+ * 
+ */
+#include <iostream>
+#include <deque>
+#include <iterator>
+#include <algorithm> 
+#include <stdexcept> // for std::runtime_error
 
-// #include "Graph.hpp"
-// #include "GraphUtility.hpp"
 
-// using std::cout;
-// using std::cin;
-// using std::endl;
+#include "GraphUtility.hpp"
 
-// GraphUtility::GraphUtility() {
+using std::cout;
+using std::cin;
+using std::endl;
 
-// }
+GraphUtility::GraphUtility() {
 
-// /**
-//  * Preenche todas as posições de uma matriz com zero(0)
-//  */
-// void GraphUtility::memsetVector(int n,int vetor[]) {
+}
 
-// }
+int GraphUtility::DFS(Graph graph,int v) {
 
-// /**
-//  * Obtêm o  grau do nó passado como parâmetro do método
-//  */
-// int GraphUtility::degree(int node) {
-// 	int degree  = 0;
+    this->visited[v] = 1;
 
-// 	return degree;
-// }
+    for(int i = 0 ;i < graph.getNumberOfNodes(); i++) {
+
+        if(this->visited[graph.getLink(v,i)] == 0 && graph.getLink(v,i) == 1)
+        {
+            DFS(graph,i);
+        }
+    }
+
+    return v;
+}

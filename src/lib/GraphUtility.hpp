@@ -8,20 +8,17 @@
 #include <algorithm> 
 #include <stdexcept> // for std::runtime_error
 
+#include "Graph.hpp"
+
 class GraphUtility
 {
 public:
 
 	GraphUtility();
 	~GraphUtility();
-	
-	void addNode();
-	int distanceMinimum();
-	double radiusGraph();
-	void Dijkstra();
-	void memsetVector(int,int vetor[]);	
-	void insertPath();
- 	void addPath();
- 	int searchPath();
- 	int degree(int);
+
+	int DFS(Graph,int);//verifica ciclo
+
+private:
+	vector<int> visited;
 };

@@ -9,6 +9,8 @@
 #include <vector>
 #include <random>
 
+#include "Node.hpp"
+
 using namespace std;
 
 class Graph
@@ -27,7 +29,7 @@ public:
 	void setMinimumDegree(int);
 	void setMaximumDegree(int);
 	void setMinimumDistanceOfNode(int);
-	void setDistancePairofNodes(int,int,int);
+	void setDistancePairofNodes(int,int,double);
 
 
 
@@ -50,12 +52,12 @@ public:
 
 private:
 
-	int nLinks; 					//número de links
-	int nNodes;						//número de nós
+	int nLinks; 					//número de links da topologia
+	int nNodes;						//número de nós da topologia
 	int maxDegree;					//grau máximo da topologia
 	int minDegree;					//grau minimo da topologia
 	double avgDegree;				//grau médio da topologia
 	int minDistance; 				//distancia minima entre um par de vertices/nós
-	vector < vector<int> > graph;  //matriz de ligações dos nós
+	vector <Node> nodes;			//vetor de informações de um nó do grafo
 };
 

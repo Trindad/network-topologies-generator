@@ -425,7 +425,7 @@ void Plane::print() {
 /**
  * Busca no plano por força bruta pelo nó mais próximo
  */
-int Plane::nearestNode(int node,Graph graph) {
+int Plane::nearestNeighbor(int node,Graph graph) {
 
 	int neighbor = node;
 	int distance = 9999; //número infinito
@@ -455,23 +455,45 @@ int Plane::nearestNode(int node,Graph graph) {
 	return neighbor;		
 }
 
+
+
 /**
  * Verifica se já foi formado um anel dentro de uma região
+ * Retorna o número de nós com grau dois
+ * Caso todos os nós tenham grau 2 então existe ciclo
  */
-bool Plane::ring(Graph graph) {
+int Plane::ring(Graph graph) {
 
+	int count = 0;
 
-	return true;
+	/**
+	 * Para haver um anel todos os vértices precisam ter grau 2
+	 */
+	for (int i = 0; i < graph.getNumberOfNodes(); i++)
+	{
+		if (graph.getDegree(i) == 2)
+		{
+			count++;
+		}
+	}
+
+	return count;
 }
 /**
  * Estabelece a conecção entre nós em sua respectiva região
  */
 void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion) {
 
+	int n = nodes.size();
+	
+	Graph subGraph;//grafo que representa as ligações de uma região
+
+	subGraph.memsetGraph();
+
 	/**
 	 * verifica se existe mais de um nó em uma região
 	 */
-	if (nodes.size() <= 1)
+	if (n <= 1)
 	{
 		return;
 	}
@@ -489,10 +511,6 @@ void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion)
 		return;
 	}
 
-	Graph graphRegion;
-
-	graphRegion.memsetGraph();
-
 	/**
 	 * Interliga nós até formar um anel
 	 */
@@ -509,26 +527,31 @@ void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion)
 		{
 			target = *it;//seleciona nó de destino enquanto a probabilidade de waxman não for satisfeita
 
-			if (source != target || graph.getLink(source,target) == 1)
+			if (source != target || subGraph.getLink(source,target) == 1)
 			{
 				continue;
 			}
 		}
-		while( waxmanProbability(graph,source,target) == false );
+		while( waxmanProbability(subGraph,source,target) == false );
 
-		if (graph.getDegree(source) == MIN)		
+		if (subGraph.getDegree(source) == MIN)		
 		{
-			*it == -1;
+			nodes.erase(nodes.begin(),nodes.begin()+1);//remove nó que possui grau 2
 		}
 
 		/**
 		 * verifica se anel já esta formado
+		 * Se o número de nós em um ciclo for equivalente ao número de nós em uma região 
+		 * Então formou um anel na região e o algoritmo para a execução
+		 * Todos os nós do ciclo devem ser distintos com excessão do inicio e o fim
 		 */
-		if ( ring(graph) == true )
+		if ( ring(subGraph) == n )
 		{
 			break;
 		}
+
 		source = target;//a origem recebe o destino de modo que forme o anel
+		it++;
 	}
 }
 
@@ -540,7 +563,7 @@ void Plane::regionsInterconnection(Graph graph) {
 
 	for (int i = 0; i < graph.getNumberOfNodes(); i++)
 	{
-		int neighbor = nearestNode(i,graph);
+		int neighbor = nearestNeighbor(i,graph);
 
 		graph.setLink(i,neighbor); //faz a ligação dos nós no grafo de matriz adjacente
 
@@ -583,9 +606,7 @@ void Plane::initialize(Graph graph) {
 	 * E se todos os vértices tem grau 2 no mínimo
 	 */
 	for (int i = 0; i < this->nRegions; i++)
-	{
-		// cout<< "Region "<<i<<endl;
-		
+	{	
 		/**
 		 * retorna as coordenas dos nós pertencentes a região
 		 */
