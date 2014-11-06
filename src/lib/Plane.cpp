@@ -116,27 +116,25 @@ void Plane::setEuclidean(Graph graph,int u,int v) {
  */
 vector<int> Plane::getNumberOfNodesRegion(int numberRegion, vector<int> nodes) {
 	
-	int auxRow = floor(numberRegion/ this->regionColumn);	//armazena a linha do plano 
+	int auxRow = floor( numberRegion / this->regionRow );	//armazena a linha do plano 
 	
-	int x = 0,y = 0;
+	cout<<"linha do plano "<<auxRow<< "\t"<<numberRegion<<"\t"<<this->regionColumn<<endl;
 
-	if (auxRow == 0)
-	{
-		x = getRegionX(numberRegion);
-		y = getRegionY(numberRegion);
-	}
-	else
-	{
-		x = getRegionX(numberRegion);
-		y = (auxRow*this->regionRow)*getRegionY(numberRegion);
-	}
+	int row = 0,column = 0;
 
-	int colunas = this->regionColumn+y;
-	int linhas = this->regionRow+x;
+	
+	column = getRegionX(numberRegion);	
+	row = getRegionY(numberRegion);		
+	
+	int columns = ( column * this->regionColumn ) + this->regionColumn;		//limite de colunas da região
+	int rows = (row*this->regionRow) + this->regionRow; 					//limite de linhas da região
 
-	for (int i = y; i < colunas; i++)
+	cout<<"x "<<row<<" y "<<column<<endl;
+	cout<<"colunas "<<columns<<" linhas "<<rows<<"\n"<<endl;
+
+	for (int i = column; i < columns; i++)
 	{
-		for (int j = x; j < linhas; j++)
+		for (int j = row; j < rows; j++)
 		{
 			if (this->plane[i][j] >= 0)
 			{
@@ -245,7 +243,7 @@ void Plane::blockedAreaAroundTheNode(Graph graph,int x,int y) {
  */
 int Plane::getRegionX(int index) {
 
-	return (index*this->regionRow) % this->side; 
+	return ( index % this->regionRow);
 }
 
 /**
@@ -255,7 +253,7 @@ int Plane::getRegionX(int index) {
  */
 int Plane::getRegionY(int index) {
 
-	return this->regionRow*floor(index/this->length);	
+	return ( index / this->regionRow); 	
 }
 
 double Plane::getBetha(){
@@ -479,6 +477,7 @@ int Plane::ring(Graph graph) {
 
 	return count;
 }
+
 /**
  * Estabelece a conecção entre nós em sua respectiva região
  */
@@ -607,9 +606,6 @@ void Plane::initialize(Graph graph) {
 	 */
 	for (int i = 0; i < this->nRegions; i++)
 	{	
-		/**
-		 * retorna as coordenas dos nós pertencentes a região
-		 */
 		vector<int> nodes;
 
 		nodes = getNumberOfNodesRegion(i,nodes);//retorna os nós de uma região
