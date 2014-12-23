@@ -81,7 +81,6 @@ private:
 	double betha;							//parâmetro de Waxman
 	double alpha;							//parâmetro de Waxman
 	vector < vector<int> > xy; 				//armazena as coordenas randomicas
-	vector <int> nNodesRegions; 			// armazena a quantidade de nós em uma região
 	vector < vector<int> > plane;  			//matriz do plano dinâmica
 	vector < vector<int> > coordinates;  	//matriz de coordenadas de cada nó da rede
 };

@@ -62,13 +62,12 @@ void Graph::setDistancePairofNodes(int u,int v,double distance) {
 	this->nodes[v].setDistanceNode(distance);
 }
 
+/**
+ * Verifica a existência de ligações
+ */
 int Graph::getLink(int u,int v)
 {
-	if (this->nodes[u].getLinkNode(v) == 1)
-	{
-		return 1;
-	}
-	return 0;
+	return this->nodes[u].getLinkNode(v);
 }
 
 int Graph::getDegree(int node)

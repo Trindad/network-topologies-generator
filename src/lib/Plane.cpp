@@ -321,7 +321,8 @@ void Plane::memsetCoordinates(int nodes) {
  */
 void Plane::limitArea(int nNodes) {
 
-	if (this->side > (nNodes*nNodes) || this->side < (2*nNodes)) {
+	if (this->side > (nNodes*nNodes) || this->side < (2*nNodes)) 
+	{
 		throw "2N ≤ R ≤ N²";
 	}
 }
