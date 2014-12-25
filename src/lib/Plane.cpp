@@ -116,21 +116,20 @@ void Plane::setEuclidean(Graph graph,int u,int v) {
  */
 vector<int> Plane::getNumberOfNodesRegion(int numberRegion, vector<int> nodes) {
 	
-	int auxRow = floor( numberRegion / this->regionRow );	//armazena a linha do plano 
-	
-	cout<<"linha do plano "<<auxRow<< "\t"<<numberRegion<<"\t"<<this->regionColumn<<endl;
+	int column = (numberRegion % this->regionRow) * this->regionColumn;	//armazena a linha do plano 
+	int row =  floor( numberRegion / this->regionRow )*this->regionRow;	//armazena a coluna do plano 
 
-	int row = 0,column = 0;
-
+	cout<<"Região "<<numberRegion<<" auxRow "<<this->regionColumn<<endl;
 	
-	column = getRegionX(numberRegion);	
-	row = getRegionY(numberRegion);		
+	// int row = getRegionX(numberRegion/planeColumn);	
+	//int column = getRegionY( floor(numberRegion/planeRow) );		
 	
-	int columns = ( column * this->regionColumn ) + this->regionColumn;		//limite de colunas da região
-	int rows = (row*this->regionRow) + this->regionRow; 					//limite de linhas da região
+	int columns = column + this->regionColumn;			//limite de colunas da região
+	int rows = row + this->regionRow; 					//limite de linhas da região
 
-	cout<<"x "<<row<<" y "<<column<<endl;
-	cout<<"colunas "<<columns<<" linhas "<<rows<<"\n"<<endl;
+	cout<<"Coluna init "<<column<<" até "<<columns<<endl;
+	cout<<"Linhas init "<<row<<" até "<<rows<<endl;
+	cout<<"\n\n";
 
 	for (int i = column; i < columns; i++)
 	{
@@ -243,7 +242,7 @@ void Plane::blockedAreaAroundTheNode(Graph graph,int x,int y) {
  */
 int Plane::getRegionX(int index) {
 
-	return ( index % this->regionRow);
+	return ( index * this->breadth );
 }
 
 /**
@@ -253,7 +252,7 @@ int Plane::getRegionX(int index) {
  */
 int Plane::getRegionY(int index) {
 
-	return ( index / this->regionRow); 	
+	return ( index * this->length ); 	
 }
 
 double Plane::getBetha(){
@@ -485,6 +484,12 @@ int Plane::ring(Graph graph) {
 void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion) {
 
 	int n = nodes.size();
+
+	for (int l = 0; l < n; l++)
+	{
+		cout<<" "<<nodes[l]<<endl;
+	}
+	
 	
 	Graph subGraph;//grafo que representa as ligações de uma região
 
@@ -512,9 +517,20 @@ void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion)
 	}
 
 	/**
+	 * Controladores para fechamento do anel
+	 */
+	vector<int> sources = vector<int> (n,0);
+	vector<int> targets = vector<int> (n,0);
+
+
+	/**
 	 * Interliga nós até formar um anel
+	 * end recebe o nó inicial que só
+	 * será destino na ultima ligação
 	 */
 	int source = *it;
+
+	int end = source;
 
 	/**
 	 * Continua até se formar um anel
@@ -525,12 +541,15 @@ void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion)
 
 		do
 		{
-			target = *it;//seleciona nó de destino enquanto a probabilidade de waxman não for satisfeita
+			it++;
 
-			if (source != target || subGraph.getLink(source,target) == 1)
-			{
+			target = *it;//seleciona nó de destino enquanto a probabilidade de waxman não for satisfeita
+			
+			if (source == target || subGraph.getLink(source,target) == 1 || target == end)
+			{cout<<"target "<<target<<endl;
 				continue;
 			}
+			cout<<"aqui"<<endl;
 		}
 		while( waxmanProbability(subGraph,source,target) == false );
 
@@ -610,7 +629,13 @@ void Plane::initialize(Graph graph) {
 		vector<int> nodes;
 
 		nodes = getNumberOfNodesRegion(i,nodes);//retorna os nós de uma região
-		connectionNodesRegion(graph,nodes,i);	
+		// cout<<"Formando anel na região "<<i<<" com "<<nodes.size()<<" nodos"<<endl;
+
+		if (nodes.size() >= 2)
+		{
+			connectionNodesRegion(graph,nodes,i);
+		}
+			
 	}
 	regionsInterconnection(graph);
 }

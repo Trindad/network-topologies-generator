@@ -73,8 +73,8 @@ public:
 
 private:
 	int side; 								//area do plano -- refere-se a quanto irá a raiz quadrada do planos
-	int breadth; 							//comprimento do plano
-	int length; 							//largura do plano
+	int breadth; 							//largura do plano
+	int length; 							//comprimento do plano
 	int regionRow;							//comprimento de cada região do plano
 	int regionColumn;						//largura de cada região do plano
 	int nRegions;							//número de regiões
