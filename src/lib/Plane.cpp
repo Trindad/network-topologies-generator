@@ -14,6 +14,7 @@ using namespace std;
 
 Plane::Plane() {
 
+	setNumberRegions(0);
 	setArea(0);
 	setBreadth(0);
 	setLength(0);
@@ -47,6 +48,10 @@ void Plane::setLength(int length){
 	this->length = length;
 }
 
+void Plane::setNumberRegions(int n) {
+
+	this->nRegions = n;
+}
 /**
  * Atribui coordenadas correspondentes ao nó
  */
@@ -119,10 +124,10 @@ vector<int> Plane::getNumberOfNodesRegion(int numberRegion, vector<int> nodes) {
 	int column = (numberRegion % this->regionRow) * this->regionColumn;	//armazena a linha do plano 
 	int row =  floor( numberRegion / this->regionRow )*this->regionRow;	//armazena a coluna do plano 
 
-	cout<<"Região "<<numberRegion<<" auxRow "<<this->regionColumn<<endl;
+	cout<<"Região "<<numberRegion<<" column "<<column<<" row "<<row<<endl;
 	
 	// int row = getRegionX(numberRegion/planeColumn);	
-	//int column = getRegionY( floor(numberRegion/planeRow) );		
+	// int column = getRegionY( floor(numberRegion/planeRow) );		
 	
 	int columns = column + this->regionColumn;			//limite de colunas da região
 	int rows = row + this->regionRow; 					//limite de linhas da região
@@ -148,7 +153,6 @@ vector<int> Plane::getNumberOfNodesRegion(int numberRegion, vector<int> nodes) {
 
 
 /**
- * Obtêm o número de regiões no plano
  * Obtêm o número de linhas por região
  * Obêm o número de colunas por região
  */
@@ -156,6 +160,110 @@ void Plane::setRegion(int nRegions) {
 
 	this->regionRow = (int)floor(nRegions/this->length);
 	this->regionColumn = (int)floor(nRegions/this->breadth);	
+}
+
+/**
+ * Calcula largura e comprimento 
+ * de cada região do plano
+ */
+void Plane::setRegionsMeasures() {
+
+	int X = this->side;
+	vector<int> primes = {2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71}; // 20 números
+	
+	bool prime = false; 	// verifica se é primo
+	int temp = 0;
+
+	vector<int> factorial; // lista que irá guardar os numeros primos divisiveis pelos números de regiões
+	
+	bool nextPair = true;
+	int R = this->nRegions;
+	int number = 3;
+	int auxF = 0;
+	int A = 1;
+
+	//busca no vetor de primos para verificar se o número de regiões é primo
+	while(prime == false && temp < primes.size()) {
+        
+        if(R == primes[temp])
+        {
+            prime = true;
+        }
+        else
+        {
+        	temp = temp + 1;
+        }
+	}
+
+	/**
+	 * se o R for um número primo
+	 * se não o numero de regiões não for primo é necessário factorizá-lo
+	 */
+	if(prime == true)
+	{
+		this->regionColumn = X;     				//a largura de cada região é a largura do plano
+		this->regionRow = (int)floor( X/R ); 		//a altura é o menor inteiro da divisão entre o tamanho do plano e o número de regiões
+	}
+	else
+	{ 
+		if(R == 1)
+		{
+			factorial.push_back(1);
+		}
+	    else
+	    {
+	    	//decomposição de todos os números pares
+	    	while(nextPair == true) { 
+
+	    		if( R % 2 == 0)
+	    		{
+	    			R = (int)( R/2 ); // se auxR for um numero par, só receberá o numero dois no fact
+					factorial.push_back(2); //inserção no vector fact
+	    		}
+	    	    else
+	    	    {
+	    	    	nextPair = false;
+	    	    }
+	    	}
+
+	    	//factorização dos números impares
+	    	while(R > 1) {  
+
+    			if(R % number == 0)
+    			{
+    				if(R != auxF)
+    				{
+						factorial.push_back(number); //inserção do primo na lista
+						auxF = number;
+					}
+
+					R = (int) ( R/number );
+    			}
+    		    else
+    		    {
+    		    	number = number + 2; //avançar para o primo seguinte
+    		    } 
+	    	} 
+		}
+
+		int n = (int) ceil(factorial.size()/2);
+
+	    for(int i = 0; i < n; i++){
+
+			if(factorial[i]!=0)
+			{
+				A = A * factorial[i];  //para decompor em dois números de igual tamanho multiplicaremos metade da lista fact
+			}
+	   	}
+
+		int K = (int)(nRegions/A);
+
+		cout<<"K ->"<<K<<"\n"<<"A "<<A<<endl;
+		this->regionRow = (int) floor(X/A); //largura de cada regiao
+		this->regionColumn = (int) floor(X/K); //altura de cada regiao
+	}
+
+	cout<<"column "<<this->regionColumn<<" row "<<this->regionRow<<endl;
 }
 
 /**
@@ -483,6 +591,7 @@ int Plane::ring(Graph graph) {
  */
 void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion) {
 
+	cout<<"Conectando nós"<<endl;
 	int n = nodes.size();
 
 	for (int l = 0; l < n; l++)
@@ -541,14 +650,13 @@ void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion)
 
 		do
 		{
-			it++;
-
 			target = *it;//seleciona nó de destino enquanto a probabilidade de waxman não for satisfeita
-			
+			cout<<"target "<<target<<endl;
 			if (source == target || subGraph.getLink(source,target) == 1 || target == end)
 			{cout<<"target "<<target<<endl;
 				continue;
 			}
+			it++;
 			cout<<"aqui"<<endl;
 		}
 		while( waxmanProbability(subGraph,source,target) == false );
@@ -600,42 +708,52 @@ void Plane::initialize(Graph graph) {
 	this->xy = vector<vector<int>> (graph.getNumberOfNodes(),vector<int>(2,0));
 
 	/**
-	 * Obtêm valores referentes a área de cada região do plano
+	 * Verifica com procedera a distribuição dos nodos
+	 * de acordo com a configuração referente ao número
+	 * de regiões do plano
 	 */
-	setRegion(getNumberRegions());
+	if (!this->nRegions)
+	{
 
-	
-	/**
-	 * Gerando coordenadas (X,Y) de forma randomica
-	 * para distribuir os nós nas regiões
-	*/
-	setCoodinatesRandomRegion(graph);
-	setNodesCoordinates(graph);
+		setRegion( getNumberRegions());
+		/**
+		 * Gerando coordenadas (X,Y) de forma randomica
+		 * para distribuir os nós nas regiões
+		*/
+		setCoodinatesRandomRegion(graph);
+		setNodesCoordinates(graph);
 
-	print();
+		print();
 
-	/**
-	 * Obtêm o número de nós em um subplano 'i'
-	 * Interconecta todos nós em uma região i do plano
-	 * Com suas respectivas distâncias euclidianas
-	 * Utilizando Waxman
-	 * Depois interconecta nós mais próximos entre regiões
-	 * Não utiliza Waxman
-	 * Verifica se o limite de links foi atingido 
-	 * E se todos os vértices tem grau 2 no mínimo
-	 */
-	for (int i = 0; i < this->nRegions; i++)
-	{	
-		vector<int> nodes;
+		/**
+		 * Obtêm o número de nós em um subplano 'i'
+		 * Interconecta todos nós em uma região i do plano
+		 * Com suas respectivas distâncias euclidianas
+		 * Utilizando Waxman
+		 * Depois interconecta nós mais próximos entre regiões
+		 * Não utiliza Waxman
+		 * Verifica se o limite de links foi atingido 
+		 * E se todos os vértices tem grau 2 no mínimo
+		 */
+		for (int i = 0; i < this->nRegions; i++)
+		{	
+			vector<int> nodes;
 
-		nodes = getNumberOfNodesRegion(i,nodes);//retorna os nós de uma região
-		// cout<<"Formando anel na região "<<i<<" com "<<nodes.size()<<" nodos"<<endl;
+			nodes = getNumberOfNodesRegion(i,nodes);//retorna os nós de uma região
+			// cout<<"Formando anel na região "<<i<<" com "<<nodes.size()<<" nodos"<<endl;
 
-		if (nodes.size() >= 2)
-		{
-			connectionNodesRegion(graph,nodes,i);
+			if (nodes.size() >= 2)
+			{
+				connectionNodesRegion(graph,nodes,i);
+			}
+				
 		}
-			
+		regionsInterconnection(graph);
 	}
-	regionsInterconnection(graph);
+	else
+	{
+
+	}
+	
+	
 }

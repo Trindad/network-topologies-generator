@@ -57,14 +57,39 @@ main(void)
 	cin >> area;
 	plane.setArea(area);
 
-	cout << "Digite o comprimento de uma região: "<<endl;
-	cin >> length;
-	plane.setLength(length);
+	int config = 1;
 
-	cout << "Digite a largura de uma região: "<<endl;
-	cin >> breadth;
-	plane.setBreadth(breadth);
+	cout<<"Digite 1 para configurar a região por largura X comprimento" <<endl;
+	cout<<"Digite 2 para configurar a região por número de regiões" <<endl;
+	cin>>config;
 
+	/**
+	 * Verifica tipo de configuração para as regiões
+	 * Caso o usuário inserir somente o número de regiões
+	 * Então será calculado a largura e o comprimento.
+	 */
+	if (config == 1)
+	{
+		cout << "Digite o comprimento de uma região: "<<endl;
+		cin >> length;
+		plane.setLength(length);
+
+		cout << "Digite a largura de uma região: "<<endl;
+		cin >> breadth;
+		plane.setBreadth(breadth);
+	}
+	else
+	{
+		int numberRegions = 0;
+
+		cout << "Digite o número de regiões do plano: "<<endl;
+		cin >> numberRegions;
+
+		plane.setNumberRegions(numberRegions);
+
+		plane.setRegionsMeasures();
+	}
+	
 	plane.initialize(graph);
 	cout << "Probabilidade de Waxman: "<<endl;
 	cin >> betha;

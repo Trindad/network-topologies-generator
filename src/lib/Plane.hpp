@@ -28,6 +28,8 @@ public:
 	void setLength(int);
 	void setRegion(int);
 	void setBreadth(int);
+	void setRegionsMeasures();
+	void setNumberRegions(int);
 	void setNodesCoordinates(Graph); 			//set de coordenadas randomicas X e Y do plano
 	void setEuclidean(Graph,int,int);			//calcula a distância euclidiana entre um par de nós
 	void setWaxmanParameters(int,int);			//atribui parâmetros de Waxman que variam de (0,1]
