@@ -25,9 +25,11 @@ public:
 	 * Setters
 	 */
 	void setArea(int);
+	void setRows(int);
 	void setLength(int);
 	void setRegion(int);
 	void setBreadth(int);
+	void setColumns(int);
 	void setRegionsMeasures();
 	void setNumberRegions(int);
 	void setNodesCoordinates(Graph); 			//set de coordenadas randomicas X e Y do plano
