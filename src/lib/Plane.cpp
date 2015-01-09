@@ -124,14 +124,13 @@ vector<int> Plane::getNumberOfNodesRegion(int numberRegion, vector<int> nodes) {
 	int column = 0, row = 0;
 	int columns = 0,rows = 0;
 
+	
 	if (this->nRegions < this->side)
 	{
-		column = (numberRegion / this->breadth);	//armazena a linha do plano 
+		column = floor( numberRegion / getBreadth());	//armazena a linha do plano 
+		cout<<"Coluna init "<<column<<endl;
 		row =  floor( numberRegion / this->regionRow )*this->regionRow;	//armazena a coluna do plano 
-
-		cout<<"Região "<<numberRegion<<" column "<<column<<" row "<<row<<endl;
-			
-		
+		cout<<"Linhas init "<<row<<endl;
 		columns = column + this->regionColumn;			//limite de colunas da região
 		rows = row + this->regionRow;
 	}
@@ -149,10 +148,11 @@ vector<int> Plane::getNumberOfNodesRegion(int numberRegion, vector<int> nodes) {
 		columns = column + this->regionColumn;			//limite de colunas da região
 		rows = row + this->regionRow; 					//limite de linhas da região
 
-		cout<<"Coluna init "<<column<<" até "<<columns<<endl;
-		cout<<"Linhas init "<<row<<" até "<<rows<<endl;
-		cout<<"\n\n";
 	}
+	
+	cout<<"Coluna init "<<column<<" até "<<columns<<endl;
+	cout<<"Linhas init "<<row<<" até "<<rows<<endl;
+	cout<<"\n\n";
 
 	for (int i = column; i < columns; i++)
 	{
@@ -176,7 +176,8 @@ vector<int> Plane::getNumberOfNodesRegion(int numberRegion, vector<int> nodes) {
 void Plane::setColumns(int columns) {
 
 	this->regionColumn = columns;
-	this->length = this->nRegions/columns;//obtêm o comprimento do plano
+	this->length = this->side/columns;//obtêm o comprimento do plano
+	cout<<"length "<<this->length<<endl;
 }
 
 /**
@@ -185,8 +186,11 @@ void Plane::setColumns(int columns) {
  */
 void Plane::setRows(int rows) {
 
+	cout<<"setRows"<<endl;
 	this->regionRow = rows;
-	this->breadth = this->nRegions/rows;//obtêm a largura do plano
+
+	this->breadth = this->side/rows;//obtêm a largura do plano
+	cout<<"breadth "<<this->breadth<<endl;
 }
 
 /**
@@ -195,7 +199,7 @@ void Plane::setRows(int rows) {
  */
 void Plane::setRegion(int nRegions) {
 
-	this->regionRow = (int)floor(nRegions/this->length);
+	this->regionColumn = (int)floor(nRegions/this->length);
 	this->regionColumn = (int)floor(nRegions/this->breadth);	
 }
 
@@ -238,8 +242,8 @@ void Plane::setRegionsMeasures() {
 	 */
 	if(prime == true)
 	{
-		this->regionColumn = X;     				//a largura de cada região é a largura do plano
-		this->regionRow = (int)floor( X/R ); 		//a altura é o menor inteiro da divisão entre o tamanho do plano e o número de regiões
+		setRows( X );     				//a largura de cada região é a largura do plano
+		setColumns( (int)floor( X/R ) ); 		//a altura é o menor inteiro da divisão entre o tamanho do plano e o número de regiões
 	}
 	else
 	{ 
@@ -295,9 +299,8 @@ void Plane::setRegionsMeasures() {
 
 		int K = (int)(nRegions/A);
 
-		cout<<"K ->"<<K<<"\n"<<"A "<<A<<endl;
-		setRows( (int)floor( X/A ) ); //largura de cada regiao
-		setColumns( (int)floor( X/K ) ); //altura de cada regiao
+		setRows( (int)floor( X/A ) ); 		//largura de cada regiao
+		setColumns( (int)floor( X/K ) ); 	//altura de cada regiao
 	}
 
 	cout<<"column "<<this->regionColumn<<" row "<<this->regionRow<<endl;
@@ -752,7 +755,10 @@ void Plane::initialize(Graph graph) {
 	 */
 	
 
-	setRegion( getNumberRegions());
+	if(!this->nRegions)
+	{
+		setRegion( getNumberRegions());
+	}
 	/**
 	 * Gerando coordenadas (X,Y) de forma randomica
 	 * para distribuir os nós nas regiões
