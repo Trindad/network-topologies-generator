@@ -127,9 +127,9 @@ vector<int> Plane::getNumberOfNodesRegion(int numberRegion, vector<int> nodes) {
 	
 	if (this->nRegions < this->side)
 	{
-		column = floor( numberRegion / getBreadth());	//armazena a linha do plano 
+		column = floor( numberRegion / getBreadth()) * this->regionColumn;	//armazena a linha do plano 
 		cout<<"Coluna init "<<column<<endl;
-		row =  floor( numberRegion / this->regionRow )*this->regionRow;	//armazena a coluna do plano 
+		row =  floor( numberRegion / this->regionRow ) * this->regionRow;	//armazena a coluna do plano 
 		cout<<"Linhas init "<<row<<endl;
 		columns = column + this->regionColumn;			//limite de colunas da região
 		rows = row + this->regionRow;
