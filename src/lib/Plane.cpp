@@ -631,7 +631,7 @@ int Plane::ring(Graph graph) {
  */
 void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion) {
 
-	cout<<"Conectando nós"<<endl;
+	cout<<"Conectando nós "<<endl;
 	int n = nodes.size();
 
 	for (int l = 0; l < n; l++)
@@ -691,14 +691,13 @@ void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion)
 		do
 		{
 			target = *it;//seleciona nó de destino enquanto a probabilidade de waxman não for satisfeita
-			// cout<<"target "<<target<<endl;
+			 // cout<<"target "<<target<<endl;
 			if (source == target || subGraph.getLink(source,target) == 1 || target == end)
 			{
-				// cout<<"target "<<target<<endl;
+				cout<<"target "<<target<<endl;
 				continue;
 			}
 			it++;
-			cout<<"aqui"<<endl;
 		}
 		while( waxmanProbability(subGraph,source,target) == false );
 
@@ -787,6 +786,7 @@ void Plane::initialize(Graph graph) {
 
 		if (nodes.size() >= 2)
 		{
+			cout<<"aqui"<<endl;
 			connectionNodesRegion(graph,nodes,i);
 		}
 			

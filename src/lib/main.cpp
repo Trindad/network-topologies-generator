@@ -90,7 +90,6 @@ main(void)
 		plane.setRegionsMeasures();
 	}
 	
-	plane.initialize(graph);
 	cout << "Probabilidade de Waxman: "<<endl;
 	cin >> betha;
 
@@ -106,6 +105,8 @@ main(void)
 	{
 		cout<<error<<endl;
 	}
+	
+	plane.initialize(graph);
 
 
 	return 0;
