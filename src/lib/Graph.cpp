@@ -19,6 +19,7 @@ Graph::Graph() {
 	setAverageDegree(0);		//grau máximo da topologia
 	setMinimumDegree(0);		//grau minimo da topologia
 	setMaximumDegree(0.0);		//grau médio da topologia
+	setMinimumDistanceOfNode(0);//distância mínima entre um par de nodos
 }
 
 Graph::~Graph() {}
@@ -56,7 +57,8 @@ void Graph::setMinimumDistanceOfNode(int min)
 	this->minDistance = min;
 }
 
-void Graph::setDistancePairofNodes(int u,int v,double distance) {
+void Graph::setDistancePairofNodes(int u,int v,double distance)
+{
 
 	this->nodes[u].setDistanceNode(distance);
 	this->nodes[v].setDistanceNode(distance);
@@ -67,6 +69,12 @@ void Graph::setDistancePairofNodes(int u,int v,double distance) {
  */
 int Graph::getLink(int u,int v)
 {
+	//origem igual ao destino
+	if(u == v)
+	{
+		return 1;
+	}
+
 	return this->nodes[u].getLinkNode(v);
 }
 
@@ -88,7 +96,8 @@ int Graph::getNumberOfNodes()
 	return this->nNodes;
 }
 
-int Graph::getMaximumNumberOfLinks() {
+int Graph::getMaximumNumberOfLinks() 
+{
 
 	int maximumDegree = (int)(this->maxDegree*this->nNodes)/2; //máximo de ligações que terá a topologia
 
@@ -103,7 +112,8 @@ int Graph::getMaximumNumberOfLinks() {
 	return maximumDegree;
 }
 
-int Graph::getMinimumNumberOfLinks() {
+int Graph::getMinimumNumberOfLinks()
+{
 
 	return (this->minDegree*this->nNodes)/2;
 }
@@ -125,13 +135,15 @@ int Graph::getMaximumDegree()
 
 int Graph::getMinimumDistanceOfNode()
 {
+	cout<<"minima distancia "<<this->minDistance<<endl;
 	return this->minDistance;
 }
 
 /**
  * Inicializa grafo de ligações com todas as posições em 0
  */
-void Graph::memsetGraph() {
+void Graph::memsetGraph() 
+{
 
 	int n = this->nNodes;
 
@@ -144,7 +156,8 @@ void Graph::memsetGraph() {
  * possuem o mesmo grau ele não ultrapassa o limite
  * Se passar lança uma exception.
  */
-int Graph::limitLinks(int max) {
+int Graph::limitLinks(int max) 
+{
 
 	int temp = (this->nNodes*(this->nNodes-1))/2; //número máximo de nós em um grafo completo
 

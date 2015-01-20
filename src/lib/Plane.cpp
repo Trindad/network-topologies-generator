@@ -26,7 +26,8 @@ Plane::~Plane() {}
  * Atribui o valor do lado de um plano (lado X lado)
  * Atribui 0 a todas as posições da matriz do plano
  */
-void Plane::setArea(int side){
+void Plane::setArea(int side)
+{
 
 	this->side = side;
 	memsetPlane();
@@ -35,7 +36,8 @@ void Plane::setArea(int side){
 /**
  * Atribui o valor a largura do plano
  */
-void Plane::setBreadth(int breadth){
+void Plane::setBreadth(int breadth)
+{
 
 	this->breadth = breadth;
 }
@@ -43,19 +45,22 @@ void Plane::setBreadth(int breadth){
 /**
  * Atribui valor ao comprimento do plano
  */
-void Plane::setLength(int length){
+void Plane::setLength(int length)
+{
 
 	this->length = length;
 }
 
-void Plane::setNumberRegions(int n) {
+void Plane::setNumberRegions(int n) 
+{
 
 	this->nRegions = n;
 }
 /**
  * Atribui coordenadas correspondentes ao nó
  */
-void Plane::setNodeCoordinates(Graph graph, int x, int y,int node) {
+void Plane::setNodeCoordinates(Graph graph, int x, int y,int node)
+{
 
 	this->plane[x][y] = node;
 
@@ -68,7 +73,8 @@ void Plane::setNodeCoordinates(Graph graph, int x, int y,int node) {
  * De modo que o nó seja gerado randomicamente
  * Verifica se o nó já não está inserido no plano e se 
  */
-void Plane::setNodesCoordinates(Graph graph) {
+void Plane::setNodesCoordinates(Graph graph) 
+{
 
 	int nNodes = graph.getNumberOfNodes();
 
@@ -90,7 +96,8 @@ void Plane::setNodesCoordinates(Graph graph) {
 	}
 }
 
-void Plane::setWaxmanParameters(int alpha,int betha) {
+void Plane::setWaxmanParameters(double alpha,double betha) 
+{
 
 	this->alpha = alpha;
 	this->betha = betha;
@@ -101,17 +108,19 @@ void Plane::setWaxmanParameters(int alpha,int betha) {
  * entre um par de nós u e v
  * através das coordenas do plano
  */
-int Plane::getEuclidean(int u, int v) {
+int Plane::getEuclidean(int u, int v) 
+{
 
-	int baseU = this->coordinates[u][0]-this->coordinates[u][1];
-	int baseV = this->coordinates[v][0]-this->coordinates[v][1];
+	int baseU = abs(this->coordinates[u][0]-this->coordinates[u][1]);
+	int baseV = abs(this->coordinates[v][0]-this->coordinates[v][1]);
 	
-	int distance = sqrt( pow(baseU,2) + pow(baseV,2));
+	int distance = sqrt( pow(baseU,2) + pow(baseV,2) );
 	
 	return distance;
 }
 
-void Plane::setEuclidean(Graph graph,int u,int v) {
+void Plane::setEuclidean(Graph graph,int u,int v) 
+{
 
 	graph.setDistancePairofNodes(u,v,getEuclidean(u,v));
 }
@@ -119,7 +128,8 @@ void Plane::setEuclidean(Graph graph,int u,int v) {
 /**
  * Atribui as posições dos nós existentes na região ao vetor de posições (nPOsitions)
  */
-vector<int> Plane::getNumberOfNodesRegion(int numberRegion, vector<int> nodes) {
+vector<int> Plane::getNumberOfNodesRegion(int numberRegion, vector<int> nodes) 
+{
 	
 	int column = 0, row = 0;
 	int columns = 0,rows = 0;
@@ -173,7 +183,8 @@ vector<int> Plane::getNumberOfNodesRegion(int numberRegion, vector<int> nodes) {
  * Atribui o número de colunas de uma região
  * Em seguida obtêm o valor do comprimento
  */
-void Plane::setColumns(int columns) {
+void Plane::setColumns(int columns) 
+{
 
 	this->regionColumn = columns;
 	this->length = this->side/columns;//obtêm o comprimento do plano
@@ -184,7 +195,8 @@ void Plane::setColumns(int columns) {
  * Atribui o número de linhas de uma região
  * Em seguida obtêm o valor da largura
  */
-void Plane::setRows(int rows) {
+void Plane::setRows(int rows) 
+{
 
 	cout<<"setRows"<<endl;
 	this->regionRow = rows;
@@ -197,7 +209,8 @@ void Plane::setRows(int rows) {
  * Obtêm o número de linhas por região
  * Obêm o número de colunas por região
  */
-void Plane::setRegion(int nRegions) {
+void Plane::setRegion(int nRegions) 
+{
 
 	this->regionColumn = (int)floor(nRegions/this->length);
 	this->regionColumn = (int)floor(nRegions/this->breadth);	
@@ -207,7 +220,8 @@ void Plane::setRegion(int nRegions) {
  * Calcula largura e comprimento 
  * de cada região do plano
  */
-void Plane::setRegionsMeasures() {
+void Plane::setRegionsMeasures() 
+{
 
 	int X = this->side;
 	vector<int> primes = {2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71}; // 20 números
@@ -310,7 +324,8 @@ void Plane::setRegionsMeasures() {
  * Retorna o lado de uma area 
  * a area do plano é quadrada
  */
-int Plane::getSqrtArea(){
+int Plane::getSqrtArea()
+{
 
 	return this->side;
 }
@@ -318,7 +333,8 @@ int Plane::getSqrtArea(){
 /**
  * Retorna o largura do plano
  */
-int Plane::getBreadth(){
+int Plane::getBreadth()
+{
 
 	return this->breadth;
 }
@@ -326,7 +342,8 @@ int Plane::getBreadth(){
 /**
  * Retorna a comprimento do plano
  */
-int Plane::getLength(){
+int Plane::getLength()
+{
 
 	return this->length;
 }
@@ -334,7 +351,8 @@ int Plane::getLength(){
 /**
  * Retorna o número de regiões que terá o plano
  */
-int Plane::getNumberRegions() {
+int Plane::getNumberRegions() 
+{
 
 	return (this->nRegions = this->breadth * this->length);
 }
@@ -342,7 +360,8 @@ int Plane::getNumberRegions() {
 /**
  * Retorna eixo X do no passado como referência 
  */
-int Plane::getCoordinateX(int node) {
+int Plane::getCoordinateX(int node) 
+{
 
 	return this->coordinates[node][0];
 }
@@ -350,7 +369,8 @@ int Plane::getCoordinateX(int node) {
 /**
  * Retorna eixo Y do no passado como referência 
  */
-int Plane::getCoordinateY(int node) {
+int Plane::getCoordinateY(int node) 
+{
 
 	return this->coordinates[node][1];
 }  
@@ -359,7 +379,8 @@ int Plane::getCoordinateY(int node) {
  * Bloqueia pelo raio de modo que não se consiga inserir nenhum nó 
  * conforme a restrição da distância
  */
-void Plane::blockedAreaAroundTheNode(Graph graph,int x,int y) {
+void Plane::blockedAreaAroundTheNode(Graph graph,int x,int y) 
+{
 
 	int distance = graph.getMinimumDistanceOfNode(); 
 
@@ -388,7 +409,8 @@ void Plane::blockedAreaAroundTheNode(Graph graph,int x,int y) {
  * Multiplica o indice pelo número de colunas da região (todas terão o mesmo número de colunas)
  * faz o módulo com a área do plano 
  */
-int Plane::getRegionX(int index) {
+int Plane::getRegionX(int index) 
+{
 
 	return ( index * this->breadth );
 }
@@ -398,17 +420,20 @@ int Plane::getRegionX(int index) {
  * Multiplica o número de linhas de uma região (todas as linhas terão o mesmo número)
  * por o indice da região dividido pela largura da mesma
  */
-int Plane::getRegionY(int index) {
+int Plane::getRegionY(int index) 
+{
 
 	return ( index * this->length ); 	
 }
 
-double Plane::getBetha(){
+double Plane::getBetha()
+{
 
 	return this->betha;
 }
 
-double Plane::getAlpha(){
+double Plane::getAlpha()
+{
 
 	return this->alpha;
 }
@@ -417,16 +442,28 @@ double Plane::getAlpha(){
  * Retorna o número máximo de nós 
  * que cabem em uma região
  */
-int Plane::getMaximumNodesRegion() {
+int Plane::getMaximumNodesRegion() 
+{
 
 	return (this->regionRow*this->regionColumn);
 }
 
-bool Plane::waxmanProbability(Graph graph,int u,int v) {
+bool Plane::waxmanProbability(Graph graph,int u,int v) 
+{
 
-	double distance = graph.getMinimumDistanceOfNode();
-	double exponent = exp( getEuclidean(u,v) / (getAlpha()*distance) );
+	if (u == v)
+	{
+		return false;
+	}
 
+	int distance = graph.getMinimumDistanceOfNode();
+
+	cout<<"u "<<u<<"v "<<v<<endl;
+	cout<<distance<<"\t"<<getEuclidean(u,v)<<"\t"<<getAlpha()<<"\t"<<getBetha()<<endl;
+	
+	double exponent = exp( (double)getEuclidean(u,v) / ( getAlpha()* (double)distance ) );
+
+	cout<<"exponent"<<exponent<<endl;
 	double probability = getBetha()*exponent;//calculo da probalidade 
 
 	double temp = randomDouble(0,1)*0.75f;
@@ -436,16 +473,16 @@ bool Plane::waxmanProbability(Graph graph,int u,int v) {
 		graph.getLink(u,v);
 		return true;
 	}
-	else
-	{
-		return false;
-	}
+	
+	return false;
+	
 }
 
 /**
  * Função para atribuir zero a todas as coordenadas do plano
  */
-void Plane::memsetPlane() {
+void Plane::memsetPlane() 
+{
 
 	int n = this->side;
 
@@ -455,7 +492,8 @@ void Plane::memsetPlane() {
 /**
  * Função para atribuir zero a todas as coordenadas do plano
  */
-void Plane::memsetCoordinates(int nodes) {
+void Plane::memsetCoordinates(int nodes) 
+{
 
 	this->coordinates = vector<vector<int>> (nodes,vector<int>(2,-1));
 }
@@ -466,7 +504,8 @@ void Plane::memsetCoordinates(int nodes) {
  * should be in between 2N and N2. i.e., 2N ≤ R ≤ N^2). So there are several options to divide the area into
  * different types of rectangular dimensions.
  */
-void Plane::limitArea(int nNodes) {
+void Plane::limitArea(int nNodes) 
+{
 
 	if (this->side > (nNodes*nNodes) || this->side < (2*nNodes)) 
 	{
@@ -477,7 +516,8 @@ void Plane::limitArea(int nNodes) {
 /**
  * Atribui coordenadas randomicas no plano
  */
-void Plane::generateCoordinates(Graph graph,int position) {
+void Plane::generateCoordinates(Graph graph,int position) 
+{
 
 	/**
 	 * Gera coordenadas x e y randomicas para a  matriz xy
@@ -517,7 +557,8 @@ void Plane::generateCoordinates(Graph graph,int position) {
  * Choose any N regions randomly, out of the total R regions, and some of the
  * regions may be chosen more than once (i.e., have more than one nodes).
  */
-void Plane::setCoodinatesRandomRegion(Graph graph) {
+void Plane::setCoodinatesRandomRegion(Graph graph) 
+{
 
 	int nNodes = graph.getNumberOfNodes();
 	
@@ -533,7 +574,8 @@ void Plane::setCoodinatesRandomRegion(Graph graph) {
 /**
  * Geração de número de nós randomicos  
  */
-int Plane::random(int minimum,int maximum) {
+int Plane::random(int minimum,int maximum) 
+{
 
 	random_device rd;
 	mt19937_64 gen(rd());//utilizando merssene twister 64 bits
@@ -546,7 +588,8 @@ int Plane::random(int minimum,int maximum) {
 /**
  * Geração de número de nós randomicos  
  */
-double Plane::randomDouble(int minimum,int maximum) {
+double Plane::randomDouble(int minimum,int maximum) 
+{
 
 	double f = (double)rand() / RAND_MAX;
 
@@ -556,7 +599,8 @@ double Plane::randomDouble(int minimum,int maximum) {
 /**
  * Imprimir o plano
  */
-void Plane::print() {
+void Plane::print() 
+{
 
 	for (int i = 0; i < this->side; i++)
 	{
@@ -571,7 +615,8 @@ void Plane::print() {
 /**
  * Busca no plano por força bruta pelo nó mais próximo
  */
-int Plane::nearestNeighbor(int node,Graph graph) {
+int Plane::nearestNeighbor(int node,Graph graph) 
+{
 
 	int neighbor = node;
 	int distance = 9999; //número infinito
@@ -608,7 +653,8 @@ int Plane::nearestNeighbor(int node,Graph graph) {
  * Retorna o número de nós com grau dois
  * Caso todos os nós tenham grau 2 então existe ciclo
  */
-int Plane::ring(Graph graph) {
+int Plane::ring(Graph graph) 
+{
 
 	int count = 0;
 
@@ -629,104 +675,124 @@ int Plane::ring(Graph graph) {
 /**
  * Estabelece a conecção entre nós em sua respectiva região
  */
-void Plane::connectionNodesRegion(Graph graph,vector<int> nodes,int indexRegion) {
-
-	cout<<"Conectando nós "<<endl;
-	int n = nodes.size();
-
-	for (int l = 0; l < n; l++)
-	{
-		cout<<" "<<nodes[l]<<endl;
-	}
-	
-	
-	Graph subGraph;//grafo que representa as ligações de uma região
-
-	subGraph.memsetGraph();
-
-	/**
-	 * verifica se existe mais de um nó em uma região
-	 */
-	if (n <= 1)
-	{
-		return;
-	}
-
-	random_shuffle(nodes.begin(),nodes.end());//sorteio
-
-	vector<int>::iterator it = nodes.begin();
-
-	/**
-	 * Região possui somente dois nós
-	 */
-	if (nodes.size() == 2)
-	{
-		graph.setLink(nodes[0],nodes[1]);//liga os dois nós no grafo
-		return;
-	}
+void Plane::connectionNodesRegion(Graph graph) 
+{
 
 	/**
 	 * Controladores para fechamento do anel
+	 * O nodo somente poderá ser uma vez destino e origem
 	 */
-	vector<int> sources = vector<int> (n,0);
-	vector<int> targets = vector<int> (n,0);
+	vector<int> sources = vector<int> (graph.getNumberOfNodes(),0);
+	vector<int> targets = vector<int> (graph.getNumberOfNodes(),0);
 
-
-	/**
-	 * Interliga nós até formar um anel
-	 * end recebe o nó inicial que só
-	 * será destino na ultima ligação
-	 */
-	int source = *it;
-
-	int end = source;
-
-	/**
-	 * Continua até se formar um anel
-	 */
-	while(true)
+	for (int i = 0; i < this->nRegions; i++)
 	{	
-		int target = source;
+		Graph subGraph; //grafo para verificação da existência de anel para regiões com mais de 2 nodos
 
-		do
-		{
-			target = *it;//seleciona nó de destino enquanto a probabilidade de waxman não for satisfeita
-			 // cout<<"target "<<target<<endl;
-			if (source == target || subGraph.getLink(source,target) == 1 || target == end)
-			{
-				cout<<"target "<<target<<endl;
-				continue;
-			}
-			it++;
-		}
-		while( waxmanProbability(subGraph,source,target) == false );
+		cout<<"connection Nodes Region "<<i<<endl;
 
-		if (subGraph.getDegree(source) == MIN)		
+		vector<int> nodes;
+
+		nodes = getNumberOfNodesRegion(i,nodes);//retorna os nós de uma região
+
+		int controller = 0;
+		int n = nodes.size();
+
+		/**
+		 * Região possui somente dois nós
+		 */
+		if (n == 2)
 		{
-			nodes.erase(nodes.begin(),nodes.begin()+1);//remove nó que possui grau 2
+			graph.setLink(nodes[0],nodes[1]);//liga os dois nós no grafo
+
+			continue;
 		}
 
 		/**
-		 * verifica se anel já esta formado
-		 * Se o número de nós em um ciclo for equivalente ao número de nós em uma região 
-		 * Então formou um anel na região e o algoritmo para a execução
-		 * Todos os nós do ciclo devem ser distintos com excessão do inicio e o fim
+		 * Região deverá gerar um anel
 		 */
-		if ( ring(subGraph) == n )
+		if (n >= 3)
 		{
-			break;
-		}
 
-		source = target;//a origem recebe o destino de modo que forme o anel
-		it++;
+			random_shuffle(nodes.begin(),nodes.end());//sorteio
+
+			vector<int>::iterator it = nodes.begin();
+
+
+			/**
+			 * Interliga nós até formar um anel
+			 * end recebe o nó inicial que só
+			 * será destino na ultima ligação
+			 */
+
+			int source = *it;
+			int target = source;
+			
+			int end = source;
+
+			for (int j = 0; j < n; j++)
+			{
+				target = source;
+
+				if (sources[source] == 1)
+				{
+					source = it[j++];
+					continue;
+				}
+				else if (j == 0 || sources[source] == 0)
+				{
+					
+					for (int k = 0; k < n; k++)
+					{
+						target = it[k];
+
+						if (targets[target] == 0 && target != end && waxmanProbability(graph,source,target) == true)
+						{
+							break;
+						}
+					}
+					
+				}
+				
+				/**
+				 * nodos destino e origem não poderão
+				 *  se repetir com tal função e
+				 *  origem passa a ser o destino
+				 */
+				sources[source] = 1;
+				targets[target] = 1;
+
+ 				source = target;
+			}
+
+
+			/**
+			 * verifica se anel já esta formado
+			 * Se o número de nós em um ciclo for equivalente ao número de nós em uma região 
+			 * Então formou um anel na região e o algoritmo para a execução
+			 * Todos os nós do ciclo devem ser distintos com excessão do inicio e o fim
+			 */
+			if ( ring(subGraph) == n )
+			{
+				break;
+			}
+			else
+			{
+				connectionNodesRegion(graph);
+			}
+		}
+			
 	}
+
+	return;
 }
 
 /**
  * Estabelcer a conecção dos nós entre as regiões
  * Busca pelo raio de modo que os nós interligados serão os mais próximos
  */
-void Plane::regionsInterconnection(Graph graph) {
+void Plane::regionsInterconnection(Graph graph) 
+{
 
 	for (int i = 0; i < graph.getNumberOfNodes(); i++)
 	{
@@ -741,7 +807,8 @@ void Plane::regionsInterconnection(Graph graph) {
 /**
  * Faz a inicialização do plano 
  */
-void Plane::initialize(Graph graph) {
+void Plane::initialize(Graph graph) 
+{
 
 	memsetCoordinates(graph.getNumberOfNodes());
 
@@ -777,19 +844,10 @@ void Plane::initialize(Graph graph) {
 	 * Verifica se o limite de links foi atingido 
 	 * E se todos os vértices tem grau 2 no mínimo
 	 */
-	for (int i = 0; i < this->nRegions; i++)
-	{	
-		vector<int> nodes;
+	connectionNodesRegion(graph);
 
-		nodes = getNumberOfNodesRegion(i,nodes);//retorna os nós de uma região
-		// cout<<"Formando anel na região "<<i<<" com "<<nodes.size()<<" nodos"<<endl;
-
-		if (nodes.size() >= 2)
-		{
-			cout<<"aqui"<<endl;
-			connectionNodesRegion(graph,nodes,i);
-		}
-			
+	if (this->nRegions >= 2)
+	{
+		regionsInterconnection(graph);
 	}
-	regionsInterconnection(graph);
 }

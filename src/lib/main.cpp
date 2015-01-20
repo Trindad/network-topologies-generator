@@ -105,9 +105,8 @@ main(void)
 	{
 		cout<<error<<endl;
 	}
-	
-	plane.initialize(graph);
 
+	plane.initialize(graph);
 
 	return 0;
 }

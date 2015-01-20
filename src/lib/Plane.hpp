@@ -34,8 +34,8 @@ public:
 	void setNumberRegions(int);
 	void setNodesCoordinates(Graph); 			//set de coordenadas randomicas X e Y do plano
 	void setEuclidean(Graph,int,int);			//calcula a distância euclidiana entre um par de nós
-	void setWaxmanParameters(int,int);			//atribui parâmetros de Waxman que variam de (0,1]
 	void setCoodinatesRandomRegion(Graph);		//distribui os nós nas regiões de forma randomica
+	void setWaxmanParameters(double,double);	//atribui parâmetros de Waxman que variam de (0,1]
 	void setNodeCoordinates(Graph,int,int,int);	// set nas coordenadas
 	
 	/**
@@ -69,13 +69,14 @@ public:
 	void memsetCoordinates(int);  					//inicializa vetor de coordenads em 0
 	double randomDouble(int,int);					//gera um número randomico do tipo double
 	int nearestNeighbor(int,Graph);					//busca um nó mais próximo pelo raio e retorna 
+	void connectionNodesRegion(Graph);				//conecta nós por região utilizando a probabilidade de Waxman
 	void regionsInterconnection(Graph); 			//conecção dos nós entre as regiões
 	void generateCoordinates(Graph,int);			//gera coordenadas de forma randomica para um nó randomico
 	bool waxmanProbability(Graph,int,int);			//calcula a probabilidade de waxman para nós u e v 
 	void blockedAreaAroundTheNode(Graph,int,int); 	// bloqueio da área conforme a distância passada pelo usuário
-	void connectionNodesRegion(Graph,vector<int>,int);	//conecta nós por região utilizando a probabilidade de Waxman
 
 private:
+	
 	int side; 								//area do plano -- refere-se a quanto irá a raiz quadrada do planos
 	int breadth; 							//largura do plano
 	int length; 							//comprimento do plano
