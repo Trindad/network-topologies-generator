@@ -37,7 +37,7 @@ public:
 	 * Getters
 	 */
 	int getDegree(int); 	//retorna o grau do nó passado como parâmetro do método
-	int getLink(int,int); 	//verifica a existência de uma ligação entre dois vértices passados como parâmetros
+	bool getLink(int,int); 	//verifica a existência de uma ligação entre dois vértices passados como parâmetros
 	int getNumberOfLinks();	
 	int getMinimumDegree();
 	int getMaximumDegree();

@@ -457,20 +457,15 @@ bool Plane::waxmanProbability(Graph graph,int u,int v)
 	}
 
 	int distance = graph.getMinimumDistanceOfNode();
-
-	cout<<"u "<<u<<"v "<<v<<endl;
-	cout<<distance<<"\t"<<getEuclidean(u,v)<<"\t"<<getAlpha()<<"\t"<<getBetha()<<endl;
 	
 	double exponent = exp( (double)getEuclidean(u,v) / ( getAlpha()* (double)distance ) );
 
-	cout<<"exponent"<<exponent<<endl;
 	double probability = getBetha()*exponent;//calculo da probalidade 
 
 	double temp = randomDouble(0,1)*0.75f;
 
-	if (probability > temp)
-	{
-		graph.getLink(u,v);
+	if (probability > temp && graph.getLink(u,v) == true)
+	{	
 		return true;
 	}
 	
@@ -741,17 +736,21 @@ void Plane::connectionNodesRegion(Graph graph)
 				}
 				else if (j == 0 || sources[source] == 0)
 				{
-					
 					for (int k = 0; k < n; k++)
 					{
 						target = it[k];
 
-						if (targets[target] == 0 && target != end && waxmanProbability(graph,source,target) == true)
+						if (targets[target] == 0 && target != end && controller < n && waxmanProbability(graph,source,target) == true)
 						{
+							controller++;
+							break;
+						}
+						else if(targets[target] == 0  && controller == n-1 && waxmanProbability(graph,source,target) == true) 
+						{
+							controller++;
 							break;
 						}
 					}
-					
 				}
 				
 				/**
@@ -762,23 +761,21 @@ void Plane::connectionNodesRegion(Graph graph)
 				sources[source] = 1;
 				targets[target] = 1;
 
+				cout<<" source "<<source<<" target "<<target<<endl;
  				source = target;
 			}
 
 
 			/**
-			 * verifica se anel já esta formado
-			 * Se o número de nós em um ciclo for equivalente ao número de nós em uma região 
-			 * Então formou um anel na região e o algoritmo para a execução
-			 * Todos os nós do ciclo devem ser distintos com excessão do inicio e o fim
+			 * Verifica se formou um anel na região
 			 */
-			if ( ring(subGraph) == n )
+			if (controller == n )
 			{
 				break;
 			}
 			else
 			{
-				connectionNodesRegion(graph);
+				i--;
 			}
 		}
 			

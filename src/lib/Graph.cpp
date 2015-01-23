@@ -67,9 +67,8 @@ void Graph::setDistancePairofNodes(int u,int v,double distance)
 /**
  * Verifica a existência de ligações
  */
-int Graph::getLink(int u,int v)
+bool Graph::getLink(int u,int v)
 {
-	//origem igual ao destino
 	if(u == v)
 	{
 		return 1;
