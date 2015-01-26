@@ -74,6 +74,7 @@ public:
 	void generateCoordinates(Graph,int);			//gera coordenadas de forma randomica para um nó randomico
 	bool waxmanProbability(Graph,int,int);			//calcula a probabilidade de waxman para nós u e v 
 	void blockedAreaAroundTheNode(Graph,int,int); 	// bloqueio da área conforme a distância passada pelo usuário
+	int targetSearch(int source);
 
 private:
 	

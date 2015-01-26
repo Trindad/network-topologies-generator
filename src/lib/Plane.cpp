@@ -56,6 +56,7 @@ void Plane::setNumberRegions(int n)
 
 	this->nRegions = n;
 }
+
 /**
  * Atribui coordenadas correspondentes ao nó
  */
@@ -608,6 +609,62 @@ void Plane::print()
 }
 
 /**
+ * Busca nodo destino mais próximo
+ */
+int Plane::targetSearch(int source)
+{
+
+	/*
+	 * Obtem o valor das coordenadas dos nodos
+	 */
+	int xOrigem = this->coordinates[0][source];
+	int yOrigem = this->coordinates[1][source];	
+	
+	int target = source;
+	int targetNow = source;
+	int count = minimo;
+
+	while(count <= maximo) {
+		
+		targetNow = random(minimo,maximo);
+		
+		int radiusNow = 0, radiusEarlier = 1; 
+		
+		int xTarget = this->coordinates[0][targetNow];
+		int yTarget = this->coordinates[1][targetNow];
+		
+		for(int k = 1; k <= this.X; k++) 
+		{
+			for(int x =  xSource-k; x <= xSource+k; x++) 
+			{
+				for(int y = ySource-k; y <= ySource+k; y++) 
+				{
+					
+					/*
+					 * Testa se as coordenadas encontradas são iguais ao nó candidato a target 
+					*/
+					if(xTarget == x && y == yTarget)
+					{
+						if(radiusNow < radiusEarlier)
+						{
+							target = targetNow;
+							radiusEarlier = radiusNow;
+							
+							break;
+						}
+						radiusNow++;
+					}
+					
+				}
+			}
+		}
+		count++;
+	}
+
+	return target;
+}
+
+/**
  * Busca no plano por força bruta pelo nó mais próximo
  */
 int Plane::nearestNeighbor(int node,Graph graph) 
@@ -619,7 +676,7 @@ int Plane::nearestNeighbor(int node,Graph graph)
 	for (int i = 0; i < graph.getNumberOfNodes(); i++)
 	{
 		if (i != node)
-		 {
+		{
 			int X = abs(getCoordinateX(i)-getCoordinateX(node));
 			int Y = abs(getCoordinateY(i)-getCoordinateY(node));
 
@@ -627,15 +684,15 @@ int Plane::nearestNeighbor(int node,Graph graph)
 
 			/**
 			 * Distância deve ser menor que a anterior
-			 * Não haver ligações já entre o node e i e
+			 * Não haver ligações já entre node e i, e
 			 * O grau deve ser inferior ao grau máximo
+			 * O nodo i deve ser de uma outra região
 			 */
 			if (distance > distanceNow && graph.getLink(node,i) == 0 && graph.getDegree(i) < graph.getMaximumDegree())
 			{
 				neighbor = i;
 				distance = distanceNow;
 			}
-
 		} 
 	}
 	return neighbor;		
@@ -791,12 +848,25 @@ void Plane::connectionNodesRegion(Graph graph)
 void Plane::regionsInterconnection(Graph graph) 
 {
 
-	for (int i = 0; i < graph.getNumberOfNodes(); i++)
+	for (int i = 0; i < this->nRegions; i++)
 	{
-		int neighbor = nearestNeighbor(i,graph);
 
-		graph.setLink(i,neighbor); //faz a ligação dos nós no grafo de matriz adjacente
+		/**
+		 * Se existir somente um nó na região
+		 * então haverá ligação entre dois nós 
+		 * mais próximos.
+		 */
+		if ()
+		{
+			
+		}
+		else
+		{
+			int neighbor = nearestNeighbor(i,graph);
 
+			graph.setLink(i,neighbor); //faz a ligação dos nós no grafo de matriz adjacente
+
+		}
 		cout<<" origem = "<<i<<" destino = "<<neighbor<<endl;
 	}
 }
@@ -843,8 +913,23 @@ void Plane::initialize(Graph graph)
 	 */
 	connectionNodesRegion(graph);
 
+	/**
+	 * Interconecta regiões do plano
+	 * Seleciona pares de nós de regiões distintas
+	 * Os nós selecionados não devem ter o grau máximo
+	 * As ligações novas devem acontecer sempre entre os 
+	 * nós mais próximos, ou seja entre regiões vizinhas
+	 * Obs: descrição na pg. 124 (Tese Pavan)
+	 */
 	if (this->nRegions >= 2)
 	{
 		regionsInterconnection(graph);
 	}
+
+	/**
+	 * Verifica se o número de ligações foi atingido
+	 * Se sim verifica se a topologia gerada é sobrevivente
+	 * Do contrário realiza sorteio randômico de nós até atingir 
+	 * o limit e máximo, verificando-se a sobrevivência
+	 */
 }
