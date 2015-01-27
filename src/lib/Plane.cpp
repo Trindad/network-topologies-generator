@@ -727,7 +727,7 @@ int Plane::ring(Graph graph)
 /**
  * Estabelece a conecção entre nós em sua respectiva região
  */
-void Plane::connectionNodesRegion(Graph graph) 
+vector<vector<int>> Plane::connectionNodesRegion(Graph graph,vector<vector<int>> nodes) 
 {
 
 	/**
@@ -738,14 +738,11 @@ void Plane::connectionNodesRegion(Graph graph)
 	vector<int> targets = vector<int> (graph.getNumberOfNodes(),0);
 
 	for (int i = 0; i < this->nRegions; i++)
-	{	
-		Graph subGraph; //grafo para verificação da existência de anel para regiões com mais de 2 nodos
+	{
 
 		cout<<"connection Nodes Region "<<i<<endl;
 
-		vector<int> nodes;
-
-		nodes = getNumberOfNodesRegion(i,nodes);//retorna os nós de uma região
+		nodes.push_back(getNumberOfNodesRegion(i,nodes[i]));//retorna os nós de uma região
 
 		int controller = 0;
 		int n = nodes.size();
@@ -755,7 +752,7 @@ void Plane::connectionNodesRegion(Graph graph)
 		 */
 		if (n == 2)
 		{
-			graph.setLink(nodes[0],nodes[1]);//liga os dois nós no grafo
+			graph.setLink(nodes[i][0],nodes[i][1]);//liga os dois nós no grafo
 
 			continue;
 		}
@@ -766,9 +763,9 @@ void Plane::connectionNodesRegion(Graph graph)
 		if (n >= 3)
 		{
 
-			random_shuffle(nodes.begin(),nodes.end());//sorteio
+			random_shuffle(nodes[i].begin(),nodes[i].end());//sorteio
 
-			vector<int>::iterator it = nodes.begin();
+			vector<int>::iterator it = nodes[i].begin();
 
 
 			/**
@@ -838,7 +835,7 @@ void Plane::connectionNodesRegion(Graph graph)
 			
 	}
 
-	return;
+	return nodes;
 }
 
 /**
@@ -877,7 +874,7 @@ void Plane::regionsInterconnection(Graph graph)
 void Plane::initialize(Graph graph) 
 {
 
-	memsetCoordinates(graph.getNumberOfNodes());
+	memsetCoordinates( graph.getNumberOfNodes() );
 
 	this->xy = vector<vector<int>> (graph.getNumberOfNodes(),vector<int>(2,0));
 
@@ -890,7 +887,7 @@ void Plane::initialize(Graph graph)
 
 	if(!this->nRegions)
 	{
-		setRegion( getNumberRegions());
+		setRegion( getNumberRegions() );
 	}
 	/**
 	 * Gerando coordenadas (X,Y) de forma randomica
@@ -901,6 +898,7 @@ void Plane::initialize(Graph graph)
 
 	print();
 
+	vector<vector<int>> nodes;
 	/**
 	 * Obtêm o número de nós em um subplano 'i'
 	 * Interconecta todos nós em uma região i do plano
@@ -911,7 +909,7 @@ void Plane::initialize(Graph graph)
 	 * Verifica se o limite de links foi atingido 
 	 * E se todos os vértices tem grau 2 no mínimo
 	 */
-	connectionNodesRegion(graph);
+	nodes = connectionNodesRegion(graph,nodes);
 
 	/**
 	 * Interconecta regiões do plano
