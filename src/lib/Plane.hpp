@@ -68,13 +68,13 @@ public:
 	void limitRegion(int,int);						//limites de cada região do plano
 	void memsetCoordinates(int);  					//inicializa vetor de coordenads em 0
 	double randomDouble(int,int);					//gera um número randomico do tipo double
+	int targetSearch(int,int,int);					//busca nodo destino
 	int nearestNeighbor(int,Graph);					//busca um nó mais próximo pelo raio e retorna 
 	void connectionNodesRegion(Graph);				//conecta nós por região utilizando a probabilidade de Waxman
 	void regionsInterconnection(Graph); 			//conecção dos nós entre as regiões
 	void generateCoordinates(Graph,int);			//gera coordenadas de forma randomica para um nó randomico
 	bool waxmanProbability(Graph,int,int);			//calcula a probabilidade de waxman para nós u e v 
 	void blockedAreaAroundTheNode(Graph,int,int); 	// bloqueio da área conforme a distância passada pelo usuário
-	int targetSearch(int source);
 
 private:
 	

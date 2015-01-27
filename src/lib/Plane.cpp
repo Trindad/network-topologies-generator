@@ -611,39 +611,39 @@ void Plane::print()
 /**
  * Busca nodo destino mais próximo
  */
-int Plane::targetSearch(int source)
+int Plane::targetSearch(int source,int minimum,int maximum)
 {
 
 	/*
 	 * Obtem o valor das coordenadas dos nodos
 	 */
-	int xOrigem = this->coordinates[0][source];
-	int yOrigem = this->coordinates[1][source];	
+	int xSource = this->coordinates[0][source];
+	int ySource = this->coordinates[1][source];	
 	
 	int target = source;
 	int targetNow = source;
-	int count = minimo;
+	int count = minimum;
 
-	while(count <= maximo) {
+	while(count <= maximum) {
 		
-		targetNow = random(minimo,maximo);
+		targetNow = random(minimum,maximum);
 		
 		int radiusNow = 0, radiusEarlier = 1; 
 		
 		int xTarget = this->coordinates[0][targetNow];
 		int yTarget = this->coordinates[1][targetNow];
 		
-		for(int k = 1; k <= this.X; k++) 
+		for(int i = 1; i <= this->side; i++) 
 		{
-			for(int x =  xSource-k; x <= xSource+k; x++) 
+			for(int j =  xSource-i; j <= xSource+i; j++) 
 			{
-				for(int y = ySource-k; y <= ySource+k; y++) 
+				for(int k = ySource-i; k <= ySource+i; k++) 
 				{
 					
 					/*
 					 * Testa se as coordenadas encontradas são iguais ao nó candidato a target 
 					*/
-					if(xTarget == x && y == yTarget)
+					if(xTarget == i && j == yTarget)
 					{
 						if(radiusNow < radiusEarlier)
 						{
@@ -856,7 +856,7 @@ void Plane::regionsInterconnection(Graph graph)
 		 * então haverá ligação entre dois nós 
 		 * mais próximos.
 		 */
-		if ()
+		if (true)
 		{
 			
 		}
@@ -864,10 +864,10 @@ void Plane::regionsInterconnection(Graph graph)
 		{
 			int neighbor = nearestNeighbor(i,graph);
 
+			// cout<<" origem = "<<i<<" destino = "<<neighbor<<endl;
 			graph.setLink(i,neighbor); //faz a ligação dos nós no grafo de matriz adjacente
 
 		}
-		cout<<" origem = "<<i<<" destino = "<<neighbor<<endl;
 	}
 }
 
