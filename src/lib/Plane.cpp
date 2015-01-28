@@ -611,9 +611,12 @@ void Plane::print()
 /**
  * Busca nodo destino mais próximo
  */
-int Plane::targetSearch(int source,int minimum,int maximum)
+int Plane::targetSearch(int source,Graph graph, vector<vector<int>> nodes )
 {
 
+
+	int maximum = 0;
+	int minimum = graph.getNumberOfNodes()-1;
 	/*
 	 * Obtem o valor das coordenadas dos nodos
 	 */
@@ -842,7 +845,7 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph graph,vector<vector<int>>
  * Estabelcer a conecção dos nós entre as regiões
  * Busca pelo raio de modo que os nós interligados serão os mais próximos
  */
-void Plane::regionsInterconnection(Graph graph) 
+void Plane::regionsInterconnection(Graph graph,vector<vector<int>> nodes) 
 {
 
 	for (int i = 0; i < this->nRegions; i++)
@@ -853,9 +856,13 @@ void Plane::regionsInterconnection(Graph graph)
 		 * então haverá ligação entre dois nós 
 		 * mais próximos.
 		 */
-		if (true)
+		if (nodes[i].size() == 1)
 		{
+			int neighbor = nearestNeighbor(i,graph);
+
+			graph.setLink(i,neighbor); //faz a ligação dos nós no grafo de matriz adjacente
 			
+			i--;//retorna a região e faz a segunda ligação
 		}
 		else
 		{
@@ -863,7 +870,6 @@ void Plane::regionsInterconnection(Graph graph)
 
 			// cout<<" origem = "<<i<<" destino = "<<neighbor<<endl;
 			graph.setLink(i,neighbor); //faz a ligação dos nós no grafo de matriz adjacente
-
 		}
 	}
 }
@@ -921,7 +927,7 @@ void Plane::initialize(Graph graph)
 	 */
 	if (this->nRegions >= 2)
 	{
-		regionsInterconnection(graph);
+		regionsInterconnection(graph,nodes);
 	}
 
 	/**
