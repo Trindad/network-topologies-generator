@@ -609,14 +609,31 @@ void Plane::print()
 }
 
 /**
- * Busca nodo destino mais próximo
+ * Verifica se o nó pertence a uma região
  */
-int Plane::targetSearch(int source,Graph graph, vector<vector<int>> nodes )
+bool Plane::regionEqual(vector<int> nodes,int node) 
 {
 
+	for (int i = 0; i < nodes.size(); i++)
+	{
+		if (nodes[i] == node)
+		{
+			return true;
+		}
+	}
 
-	int maximum = 0;
-	int minimum = graph.getNumberOfNodes()-1;
+	return false;
+}
+
+/**
+ * Busca nodo destino mais próximo
+ * Busca utilizando o raio
+ */
+int Plane::targetSearch(int source,Graph graph, vector<vector<int>> nodes,int indexRegion )
+{
+
+	int minimum = 1;
+	int maximum = graph.getNumberOfNodes();
 	/*
 	 * Obtem o valor das coordenadas dos nodos
 	 */
@@ -629,7 +646,7 @@ int Plane::targetSearch(int source,Graph graph, vector<vector<int>> nodes )
 
 	while(count <= maximum) {
 		
-		targetNow = random(minimum,maximum);
+		targetNow = random(0,maximum-1);
 		
 		int radiusNow = 0, radiusEarlier = 1; 
 		
@@ -648,7 +665,7 @@ int Plane::targetSearch(int source,Graph graph, vector<vector<int>> nodes )
 					*/
 					if(xTarget == i && j == yTarget)
 					{
-						if(radiusNow < radiusEarlier)
+						if(radiusNow < radiusEarlier && regionEqual(nodes[indexRegion],targetNow) == false && graph.getLink(source,targetNow))
 						{
 							target = targetNow;
 							radiusEarlier = radiusNow;

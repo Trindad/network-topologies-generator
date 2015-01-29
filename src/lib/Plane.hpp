@@ -69,11 +69,12 @@ public:
 	void memsetCoordinates(int);  											//inicializa vetor de coordenads em 0
 	double randomDouble(int,int);											//gera um número randomico do tipo double
 	int nearestNeighbor(int,Graph);											//busca um nó mais próximo pelo raio e retorna 
+	bool regionEqual(vector<int>,int);										//verifica se o nodo pertence a uma região
 	void generateCoordinates(Graph,int);									//gera coordenadas de forma randomica para um nó randomico
 	bool waxmanProbability(Graph,int,int);									//calcula a probabilidade de waxman para nós u e v 
 	void blockedAreaAroundTheNode(Graph,int,int); 							// bloqueio da área conforme a distância passada pelo usuário
+	int targetSearch(int,Graph, vector<vector<int>>,int);					//busca nodo destino
 	void regionsInterconnection(Graph,vector<vector<int>>); 				//conecção dos nós entre as regiões
-	int targetSearch(int,Graph graph, vector<vector<int>> nodes);			//busca nodo destino
 	vector<vector<int>> connectionNodesRegion(Graph,vector<vector<int>>); 	//conecta nós por região utilizando a probabilidade de Waxman
 
 private:
