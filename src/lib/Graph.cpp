@@ -27,8 +27,12 @@ Graph::~Graph() {}
 
 void Graph::setLink(int u,int v)
 {
-	this->nodes[v].setLinkNode(u);
-	this->nodes[u].setLinkNode(v);
+
+	if (getDegree(u) < this->maxDegree  && getDegree(v) < this->maxDegree )
+	{
+		this->nodes[v].setLinkNode(u);
+		this->nodes[u].setLinkNode(v);
+	}
 }
 
 void Graph::setNode(int n)
