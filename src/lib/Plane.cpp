@@ -865,8 +865,10 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph graph,vector<vector<int>>
 void Plane::regionsInterconnection(Graph graph,vector<vector<int>> nodes) 
 {
 
+
 	for (int i = 0; i < this->nRegions; i++)
 	{
+		int neighbor,count = 0,j = 0;
 
 		/**
 		 * Se existir somente um nó na região
@@ -875,7 +877,7 @@ void Plane::regionsInterconnection(Graph graph,vector<vector<int>> nodes)
 		 */
 		if (nodes[i].size() == 1)
 		{
-			int neighbor = nearestNeighbor(i,graph);
+			neighbor = targetSearch(nodes[i][0],graph,nodes,i);
 
 			graph.setLink(i,neighbor); //faz a ligação dos nós no grafo de matriz adjacente
 			
@@ -883,10 +885,17 @@ void Plane::regionsInterconnection(Graph graph,vector<vector<int>> nodes)
 		}
 		else
 		{
-			int neighbor = nearestNeighbor(i,graph);
+			neighbor = nearestNeighbor(i,graph);
 
-			// cout<<" origem = "<<i<<" destino = "<<neighbor<<endl;
-			graph.setLink(i,neighbor); //faz a ligação dos nós no grafo de matriz adjacente
+			while( count < nodes[i].size() )
+			{
+
+				neighbor = targetSearch(nodes[i][j],graph,nodes,i);
+
+				graph.setLink(i,neighbor); //faz a ligação dos nós no grafo de matriz adjacente
+				
+				count++;
+			}
 		}
 	}
 }
