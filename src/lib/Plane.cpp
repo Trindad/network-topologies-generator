@@ -172,6 +172,7 @@ vector<int> Plane::getNumberOfNodesRegion(int numberRegion, vector<int> nodes)
 			if (this->plane[i][j] >= 0)
 			{
 				int node = this->plane[i][j];
+
 				nodes.push_back(node);
 			}
 		}
@@ -968,18 +969,54 @@ void Plane::initialize(Graph graph)
 void Plane::randomLink(Graph graph) 
 {
 
+	vector<int> nodes;
+	int maximum = graph.getMaximumDegree();
+
+	/**
+	 * Insere os nodos que possuem grau inferior ao limite
+	 */
+	for (int i = 0; i < graph.getNumberOfNodes(); i++)
+	{
+	
+		if (graph.getDegree(i) < maximum)
+		{
+			nodes.push_back(i);
+		}	
+	}
+
+	random_shuffle(nodes.begin(),nodes.end());//sorteio
+
+
+	vector<int> sources,targets;
+	int controller = 0;
+
 	/**
 	 * Sorteia um par de nodos origem e destino
 	 */
 	while(true) 
 	{
+		int source = nodes[ random(0,nodes.size()-1) ];
 
-		int source = random(0,graph.getNumberOfNodes()-1);
+		int target = nodes[ random(0,nodes.size()-1) ];
 
-		int target = random(0,graph.getNumberOfNodes()-1);
 
-		if (target == source)
+		if (target == source || graph.getDegree(source)  == maximum || graph.getDegree(target) == maximum )
 		{
+
+			if (targets[target] == 0 || sources[source] == 0)
+			{
+
+				targets[target] == 0 ? targets[target] = 1 :  targets[target] = 0 ;
+				sources[source] == 0 ? sources[source] = 1 :  sources[source] = 0 ;
+
+				if(controller == graph.getNumberOfNodes())
+				{
+					return;
+				} 
+				
+				controller++;
+			}
+
 			continue;
 		}
 
