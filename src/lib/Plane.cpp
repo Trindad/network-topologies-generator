@@ -921,6 +921,7 @@ void Plane::initialize(Graph graph)
 	{
 		setRegion( getNumberRegions() );
 	}
+
 	/**
 	 * Gerando coordenadas (X,Y) de forma randomica
 	 * para distribuir os nós nas regiões
@@ -955,11 +956,42 @@ void Plane::initialize(Graph graph)
 	{
 		regionsInterconnection(graph,nodes);
 	}
+}
+
+
+/**
+ * faz uma ligação randômica entre um par de nodos
+ * Ambos os nodos não devem ter grau máximo e 
+ * Não deve haver ligação entre estes
+ * O nodo destino deve ser diferente da sua origem
+ */
+void Plane::randomLink(Graph graph) 
+{
 
 	/**
-	 * Verifica se o número de ligações foi atingido
-	 * Se sim verifica se a topologia gerada é sobrevivente
-	 * Do contrário realiza sorteio randômico de nós até atingir 
-	 * o limit e máximo, verificando-se a sobrevivência
+	 * Sorteia um par de nodos origem e destino
 	 */
+	while(true) 
+	{
+
+		int source = random(0,graph.getNumberOfNodes()-1);
+
+		int target = random(0,graph.getNumberOfNodes()-1);
+
+		if (target == source)
+		{
+			continue;
+		}
+
+		/**
+		 * Verifica se já existe ligação entre o par de nodos
+		 * Conecta os nodos verificanda a probabilidade de Waxman
+		 */
+		if ( !graph.getLink(source,target) ==  true && waxmanProbability(graph,source,target) == true )
+		{
+			graph.setLink(source,target);	
+
+			return;
+		}
+	}
 }

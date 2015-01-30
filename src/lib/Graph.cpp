@@ -32,6 +32,8 @@ void Graph::setLink(int u,int v)
 	{
 		this->nodes[v].setLinkNode(u);
 		this->nodes[u].setLinkNode(v);
+
+		this->nLinks++;
 	}
 }
 
@@ -75,7 +77,7 @@ bool Graph::getLink(int u,int v)
 {
 	if(u == v)
 	{
-		return 1;
+		return true;
 	}
 
 	return this->nodes[u].getLinkNode(v);

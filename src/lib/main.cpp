@@ -108,5 +108,24 @@ main(void)
 
 	plane.initialize(graph);
 
+	/**
+	 * Verifica se o número de ligações foi atingido
+	 * Se sim verifica se a topologia gerada é sobrevivente
+	 * Do contrário realiza sorteio randômico de nós até atingir 
+	 * o limit e máximo, verificando-se a sobrevivência
+	 */
+	
+	while( graph.getNumberOfLinks() < graph.getMinimumNumberOfLinks() )
+	{
+		plane.randomLink(graph);
+	}
+
+
+	while( graph.getNumberOfLinks() < graph.getMaximumNumberOfLinks() )
+	{
+		plane.randomLink(graph);
+	}
+
+
 	return 0;
 }

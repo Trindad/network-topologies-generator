@@ -55,8 +55,9 @@ bool Node::getLinkNode(int target){
 	{
 		if (adjacents[i] == target)
 		{
-			return false;
+			return true;
 		}
 	}
-	return true;
+	
+	return false;
 } 		
