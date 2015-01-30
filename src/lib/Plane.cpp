@@ -587,9 +587,9 @@ int Plane::random(int minimum,int maximum)
 double Plane::randomDouble(int minimum,int maximum) 
 {
 
-	double f = (double)rand() / RAND_MAX;
+	double number = (double)( rand() / RAND_MAX );
 
-    return minimum + f * (maximum - minimum);
+    return minimum + number * ( maximum - minimum );
 }
 
 /**
