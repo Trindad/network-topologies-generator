@@ -792,32 +792,33 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph graph,vector<vector<int>>
 		 */
 		if (n >= 3)
 		{
-
-			cout<<"N Nodes "<<n<<endl;
 			random_shuffle(nodes[i].begin(),nodes[i].end());//sorteio
 
-			vector<int>::iterator it = nodes[i].begin();
-
 			/**
-			 * Interliga nós até formar um anel
+			 * Interliga nodos até formar um anel
 			 * end recebe o nó inicial que só
 			 * será destino na ultima ligação
 			 */
 
+			vector<int>::iterator it = nodes[i].begin();
+
 			int source = *it;
-			int target = source;
+			int target;
 			
 			int end = source;
 
 			while(controller < n)
 			{
-				cout<<"Controladores"<<endl;
+				cout<<"Controladores"<<controller<<endl;
 
+				/**
+				 * Verica se o nodo já foi origem
+				 */
 				if (sources[source] == 1)
 				{
-					for (int j = 0; j < n; j++)
+					for (vector<int>::iterator j = nodes[i].begin(); j != nodes[i].end(); j++)
 					{
-						source = it[j];
+						source = *j;
 
 						if (sources[source] == 0)
 						{
@@ -827,15 +828,20 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph graph,vector<vector<int>>
 
 				}	
 					
-				source = target;
+				target = source;
 				
-				for (int k = 0; k < n; k++)
+				for (vector<int>::iterator k = nodes[i].begin(); k != nodes[i].end(); k++)
 				{
+					target = *k;
 
-					target = it[k];
-
-					if (target != source && targets[target] == 0 && target != end && controller < n && waxmanProbability(graph,source,target) == true)
+					if (target == source)
 					{
+						cout<<"continue "<< source <<"\t"<<target <<endl;
+						continue;
+					}
+					else if(targets[target] == 0 && target != end && controller < n && waxmanProbability(graph,source,target) == true)
+					{
+						cout<<"ligação entre "<<source<<" e "<<target<<endl;
 						graph.setLink(source,target);//liga os dois nós no grafo
 
 						targets[target] = 1;
@@ -845,7 +851,7 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph graph,vector<vector<int>>
 
 						break;
 					}
-					else if(target != source &&  targets[target] == 0  && controller == n-1 && waxmanProbability(graph,source,target) == true) 
+					else if( targets[target] == 0  && controller == n-1 && waxmanProbability(graph,source,target) == true) 
 					{
 						graph.setLink(source,target);//liga os dois nós no grafo
 						
@@ -857,17 +863,7 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph graph,vector<vector<int>>
 						break;
 					}
 				}
-			
-					
-				/**
-				 * nodos destino e origem não poderão
-				 *  se repetir com tal função e
-				 *  origem passa a ser o destino
-				 */
-				sources[source] = 1;
-				targets[target] = 1;
 
-				cout<<" source "<<source<<" target "<<target<<endl;
  				source = target;
 			}
 
@@ -875,7 +871,7 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph graph,vector<vector<int>>
 			/**
 			 * Verifica se formou um anel na região
 			 */
-			if (controller == n )
+			if ( controller == n )
 			{
 				break;
 			}

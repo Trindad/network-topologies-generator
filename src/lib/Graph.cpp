@@ -141,7 +141,7 @@ int Graph::getMaximumDegree()
 
 int Graph::getMinimumDistanceOfNode()
 {
-	cout<<"minima distancia "<<this->minDistance<<endl;
+	// cout<<"minima distancia "<<this->minDistance<<endl;
 	return this->minDistance;
 }
 
