@@ -763,11 +763,20 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph graph,vector<vector<int>>
 
 		cout<<"connection Nodes Region "<<i<<endl;
 
-		nodes.push_back(getNumberOfNodesRegion(i,nodes[i]));//retorna os nós de uma região
+		vector<int> temp;
+
+		nodes.push_back(getNumberOfNodesRegion(i,temp));//retorna os nós de uma região
+
+		for (int p = 0; p < nodes[i].size(); p++)
+		{
+			cout<<"v = "<<nodes[i][p]<<endl;
+		}
+
 
 		int controller = 0;
-		int n = nodes.size();
+		int n = nodes[i].size();
 
+		cout<<"N Nodes "<<n<<endl;
 		/**
 		 * Região possui somente dois nós
 		 */
@@ -784,10 +793,10 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph graph,vector<vector<int>>
 		if (n >= 3)
 		{
 
+			cout<<"N Nodes "<<n<<endl;
 			random_shuffle(nodes[i].begin(),nodes[i].end());//sorteio
 
 			vector<int>::iterator it = nodes[i].begin();
-
 
 			/**
 			 * Interliga nós até formar um anel
@@ -800,34 +809,56 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph graph,vector<vector<int>>
 			
 			int end = source;
 
-			for (int j = 0; j < n; j++)
+			while(controller < n)
 			{
-				target = source;
+				cout<<"Controladores"<<endl;
 
 				if (sources[source] == 1)
 				{
-					source = it[j++];
-					continue;
-				}
-				else if (j == 0 || sources[source] == 0)
-				{
-					for (int k = 0; k < n; k++)
+					for (int j = 0; j < n; j++)
 					{
-						target = it[k];
+						source = it[j];
 
-						if (targets[target] == 0 && target != end && controller < n && waxmanProbability(graph,source,target) == true)
+						if (sources[source] == 0)
 						{
-							controller++;
-							break;
-						}
-						else if(targets[target] == 0  && controller == n-1 && waxmanProbability(graph,source,target) == true) 
-						{
-							controller++;
 							break;
 						}
 					}
-				}
+
+				}	
+					
+				source = target;
 				
+				for (int k = 0; k < n; k++)
+				{
+
+					target = it[k];
+
+					if (target != source && targets[target] == 0 && target != end && controller < n && waxmanProbability(graph,source,target) == true)
+					{
+						graph.setLink(source,target);//liga os dois nós no grafo
+
+						targets[target] = 1;
+						sources[source] = 1;
+
+						controller++;
+
+						break;
+					}
+					else if(target != source &&  targets[target] == 0  && controller == n-1 && waxmanProbability(graph,source,target) == true) 
+					{
+						graph.setLink(source,target);//liga os dois nós no grafo
+						
+						targets[target] = 1;
+						sources[source] = 1;
+
+						controller++;
+
+						break;
+					}
+				}
+			
+					
 				/**
 				 * nodos destino e origem não poderão
 				 *  se repetir com tal função e
@@ -957,6 +988,8 @@ void Plane::initialize(Graph graph)
 	{
 		regionsInterconnection(graph,nodes);
 	}
+	cout<<graph.getNumberOfLinks();
+
 }
 
 

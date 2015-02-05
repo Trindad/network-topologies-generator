@@ -27,9 +27,9 @@ Graph::~Graph() {}
 
 void Graph::setLink(int u,int v)
 {
-
-	if (getDegree(u) < this->maxDegree  && getDegree(v) < this->maxDegree )
+	if (getDegree(u) < this->maxDegree  && getDegree(v) < this->maxDegree && u != v)
 	{
+		cout<<"ENTRA NO IF"<<endl;
 		this->nodes[v].setLinkNode(u);
 		this->nodes[u].setLinkNode(v);
 
@@ -46,6 +46,7 @@ void Graph::setNode(int n)
 void Graph::setAverageDegree(double avg) 
 {
 	this->avgDegree = avg;
+	this->nLinks = 0;
 }
 
 void Graph::setMinimumDegree(int min)

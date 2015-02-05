@@ -114,7 +114,9 @@ main(void)
 	 * Do contrário realiza sorteio randômico de nós até atingir 
 	 * o limit e máximo, verificando-se a sobrevivência
 	 */
-	
+	cout <<" LIMITES "<< graph.getNumberOfLinks()<<endl;
+	cout <<" LIMITES "<< graph.getMinimumNumberOfLinks()<<endl;
+
 	while( graph.getNumberOfLinks() < graph.getMinimumNumberOfLinks() )
 	{
 		plane.randomLink(graph);
