@@ -64,8 +64,8 @@ public:
 	void memsetPlane();														//inicializa matriz do plano em -1 para todos as coordenadas
 	void limitArea(int); 													//verifica se o número de nós é : 2N <= R <= N^2
 	int random(int,int); 													//gera um número randomico através de uma função probalistica
-	void randomLink(Graph);													//sorteio randomizado de um par de nodos qualquer
-	void initialize(Graph);													//inicializa as configurações 
+	void randomLink(Graph &);													//sorteio randomizado de um par de nodos qualquer
+	void initialize(Graph &);													//inicializa as configurações 
 	void limitRegion(int,int);												//limites de cada região do plano
 	void memsetCoordinates(int);  											//inicializa vetor de coordenads em 0
 	double randomDouble(int,int);											//gera um número randomico do tipo double
@@ -75,8 +75,8 @@ public:
 	bool waxmanProbability(Graph,int,int);									//calcula a probabilidade de waxman para nós u e v 
 	void blockedAreaAroundTheNode(Graph,int,int); 							// bloqueio da área conforme a distância passada pelo usuário
 	int targetSearch(int,Graph, vector<vector<int>>,int);					//busca nodo destino
-	void regionsInterconnection(Graph,vector<vector<int>>); 				//conecção dos nós entre as regiões
-	vector<vector<int>> connectionNodesRegion(Graph,vector<vector<int>>); 	//conecta nós por região utilizando a probabilidade de Waxman
+	void regionsInterconnection(Graph &,vector<vector<int>>); 				//conecção dos nós entre as regiões
+	vector<vector<int>> connectionNodesRegion(Graph &,vector<vector<int>>); //conecta nós por região utilizando a probabilidade de Waxman
 
 private:
 	

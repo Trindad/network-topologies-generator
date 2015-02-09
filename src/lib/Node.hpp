@@ -22,7 +22,7 @@ public:
 	 * Setters
 	 */
 	void setLinkNode(int);			//faz um ligação
-	void setDegreeNode();			//aumenta o grau do nó
+	void setDegree();			//aumenta o grau do nó
 	void setDistanceNode(double);	//atribui distância entre dois nós
 
 	/**

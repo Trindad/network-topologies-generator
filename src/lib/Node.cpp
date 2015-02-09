@@ -24,12 +24,13 @@ void Node::setLinkNode(int target){
 
 	this->adjacents.push_back(target);
 
-	setDegreeNode();
+	setDegree();
 }
 
-void Node::setDegreeNode(){
+void Node::setDegree(){
 
-	this->degree++;
+	cout<<"degree "<<endl;
+	this->degree += 1;
 }
 
 void Node::setDistanceNode(double distance){

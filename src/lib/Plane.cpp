@@ -466,8 +466,8 @@ bool Plane::waxmanProbability(Graph graph,int u,int v)
 
 	double temp = randomDouble(0,1)*0.75f;
 
-	cout<<"temp "<<temp<<"\t probability "<<probability<<endl;
-	cout<<"ok ? "<<graph.getLink(u,v)<<endl;
+	// cout<<"temp "<<temp<<"\t probability "<<probability<<endl;
+	// cout<<"ok ? "<<graph.getLink(u,v)<<endl;
 	if (probability > temp && !graph.getLink(u,v) == true)
 	{	
 		return true;
@@ -751,7 +751,7 @@ int Plane::ring(Graph graph)
 /**
  * Estabelece a conecção entre nós em sua respectiva região
  */
-vector<vector<int>> Plane::connectionNodesRegion(Graph graph,vector<vector<int>> nodes) 
+vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>> nodes) 
 {
 
 	/**
@@ -894,7 +894,7 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph graph,vector<vector<int>>
  * Estabelcer a conecção dos nós entre as regiões
  * Busca pelo raio de modo que os nós interligados serão os mais próximos
  */
-void Plane::regionsInterconnection(Graph graph,vector<vector<int>> nodes) 
+void Plane::regionsInterconnection(Graph &graph,vector<vector<int>> nodes) 
 {
 
 
@@ -935,7 +935,7 @@ void Plane::regionsInterconnection(Graph graph,vector<vector<int>> nodes)
 /**
  * Faz a inicialização do plano 
  */
-void Plane::initialize(Graph graph) 
+void Plane::initialize(Graph &graph) 
 {
 
 	memsetCoordinates( graph.getNumberOfNodes() );
@@ -999,7 +999,7 @@ void Plane::initialize(Graph graph)
  * Não deve haver ligação entre estes
  * O nodo destino deve ser diferente da sua origem
  */
-void Plane::randomLink(Graph graph) 
+void Plane::randomLink(Graph &graph) 
 {
 
 	vector<int> nodes;
@@ -1010,17 +1010,23 @@ void Plane::randomLink(Graph graph)
 	 */
 	for (int i = 0; i < graph.getNumberOfNodes(); i++)
 	{
-	
+		cout<<"v "<<i<<" degree "<<graph.getDegree(i)<<endl;	
 		if (graph.getDegree(i) < maximum)
 		{
 			nodes.push_back(i);
 		}	
 	}
 
+	if (nodes.size() == 0)
+	{
+		return;
+	}
+
 	random_shuffle(nodes.begin(),nodes.end());//sorteio
 
 
-	vector<int> sources,targets;
+	vector<int> sources = vector<int> (graph.getNumberOfNodes(),0);
+	vector<int> targets = vector<int> (graph.getNumberOfNodes(),0);
 	int controller = 0;
 
 	/**
@@ -1028,9 +1034,13 @@ void Plane::randomLink(Graph graph)
 	 */
 	while(true) 
 	{
-		int source = nodes[ random(0,nodes.size()-1) ];
 
-		int target = nodes[ random(0,nodes.size()-1) ];
+		int indexNode = random(0,nodes.size()-1); 
+		// cout<<"indexNode "<<indexNode<<endl;
+		int source = nodes[ indexNode ];
+
+		indexNode = random(0,nodes.size()-1);
+		int target = nodes[ indexNode ];
 
 
 		if (target == source || graph.getDegree(source)  == maximum || graph.getDegree(target) == maximum )

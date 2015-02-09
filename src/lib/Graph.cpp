@@ -29,7 +29,7 @@ void Graph::setLink(int u,int v)
 {
 	if (getDegree(u) < this->maxDegree  && getDegree(v) < this->maxDegree && u != v)
 	{
-		cout<<"ENTRA NO IF"<<endl;
+		// cout<<"ENTRA NO IF"<<endl;
 		this->nodes[v].setLinkNode(u);
 		this->nodes[u].setLinkNode(v);
 
