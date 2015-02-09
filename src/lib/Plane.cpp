@@ -466,11 +466,14 @@ bool Plane::waxmanProbability(Graph graph,int u,int v)
 
 	double temp = randomDouble(0,1)*0.75f;
 
-	if (probability > temp && graph.getLink(u,v) == true)
+	cout<<"temp "<<temp<<"\t probability "<<probability<<endl;
+	cout<<"ok ? "<<graph.getLink(u,v)<<endl;
+	if (probability > temp && !graph.getLink(u,v) == true)
 	{	
 		return true;
 	}
 	
+	// cout<<"Problema no waxman"<<endl;
 	return false;
 	
 }
@@ -834,9 +837,10 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph graph,vector<vector<int>>
 				{
 					target = *k;
 
+					cout<<"target "<<target<<endl;
 					if (target == source)
 					{
-						cout<<"continue "<< source <<"\t"<<target <<endl;
+						cout<<"src "<< source <<"\t trt"<<target <<endl;
 						continue;
 					}
 					else if(targets[target] == 0 && target != end && controller < n && waxmanProbability(graph,source,target) == true)
