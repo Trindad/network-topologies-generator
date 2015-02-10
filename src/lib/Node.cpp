@@ -29,7 +29,7 @@ void Node::setLinkNode(int target){
 
 void Node::setDegree(){
 
-	cout<<"degree "<<endl;
+	// cout<<"degree "<<endl;
 	this->degree += 1;
 }
 

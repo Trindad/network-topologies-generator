@@ -104,9 +104,9 @@ int Graph::getNumberOfNodes()
 
 int Graph::getMaximumNumberOfLinks() 
 {
+	int maximumDegree = ( ( this->maxDegree * this->nNodes )/ 2 ); //máximo de ligações que terá a topologia
 
-	int maximumDegree = (int)(this->maxDegree*this->nNodes)/2; //máximo de ligações que terá a topologia
-
+	cout<<"maximo de ligações "<<maximumDegree<<endl;
 	try 
 	{
 		limitLinks( maximumDegree );
@@ -115,6 +115,7 @@ int Graph::getMaximumNumberOfLinks()
 	{
 		cout<<error<<endl;
 	}
+
 	return maximumDegree;
 }
 

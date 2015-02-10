@@ -15,7 +15,10 @@
  class Brandes
  {
  public:
+ 	
  	Brandes();
  	~Brandes();
+
+ 	brandesAlgorithm(vector<vector<int>>, int,vector<Nodes>);
  	
  };
