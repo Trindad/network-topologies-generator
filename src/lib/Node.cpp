@@ -38,6 +38,12 @@ void Node::setDistanceNode(double distance){
 	this->distances.push_back(distance);
 }
 
+
+void Node::setNumberOfPaths(int n)
+{
+	this->numberOfPaths  = this->numberOfPaths + n;
+}
+
 int Node::getDegreeNode(){
 
 	return this->degree;
@@ -61,4 +67,15 @@ bool Node::getLinkNode(int target){
 	}
 	
 	return false;
+}
+
+
+int Node::getNumberOfPaths() 
+{
+	return this->numberOfPaths;
+}
+
+void Node::addNodePath(int newNode) 
+{
+
 } 		
