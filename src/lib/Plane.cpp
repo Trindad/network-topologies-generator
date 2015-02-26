@@ -648,7 +648,8 @@ int Plane::targetSearch(int source,Graph graph, vector<vector<int>> nodes,int in
 	int targetNow = source;
 	int count = minimum;
 
-	while(count <= maximum) {
+	while(count <= maximum) 
+	{
 		
 		targetNow = random(0,maximum-1);
 		
