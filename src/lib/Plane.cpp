@@ -1014,6 +1014,7 @@ void Plane::randomLink(Graph &graph)
 		// cout<<"v "<<i<<" degree "<<graph.getDegree(i)<<endl;	
 		if (graph.getDegree(i) < maximum)
 		{
+			cout<<"nodo "<<i<<endl;
 			nodes.push_back(i);
 		}	
 	}
@@ -1021,6 +1022,16 @@ void Plane::randomLink(Graph &graph)
 	if (nodes.size() == 0)
 	{
 		return;
+	}
+	else if (nodes.size() == 2)
+	{
+		if ( !graph.getLink(nodes[0],nodes[1]) ==  true && waxmanProbability(graph,nodes[0],nodes[1]) == true )
+		{
+			cout<<"Ligação entre "<<nodes[0]<<" e "<<nodes[1]<<endl;
+			graph.setLink(nodes[0],nodes[1]);	
+
+			return;
+		}
 	}
 
 	random_shuffle(nodes.begin(),nodes.end());//sorteio

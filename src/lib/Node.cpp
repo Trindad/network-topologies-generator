@@ -38,7 +38,6 @@ void Node::setDistanceNode(double distance){
 	this->distances.push_back(distance);
 }
 
-
 void Node::setNumberOfPaths(int n)
 {
 	this->numberOfPaths  = this->numberOfPaths + n;
@@ -75,7 +74,17 @@ int Node::getNumberOfPaths()
 	return this->numberOfPaths;
 }
 
+int Node::getNumberOfNodesPath(int index) 	
+{
+	return this->paths[index].size();
+}	
+
 void Node::addNodePath(int newNode) 
 {
+	paths[this->numberOfPaths].push_back(newNode);
+}
 
-} 		
+int Node::returnNode(int nPath, int index)
+{
+	return this->paths[nPath][index];
+}

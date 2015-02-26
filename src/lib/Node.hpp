@@ -51,7 +51,8 @@ private:
 	int numberOfPaths;				//número de caminhos mínimos
 	double degreeCentrality;		//centralidade do grau
 	double betweenCentrality;		//centralidade de intermediação do nó
+	double closenessCentrality;		//centralidade de proximidade
+	double efficientCentrality;		//centralidade de eficiência
 	vector<vector<int>> paths;		//matriz contendo todos caminhos minimos 
-	double closenessCentrality;		//centralidade de proximidade 
 };
 
