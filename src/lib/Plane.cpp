@@ -638,54 +638,71 @@ int Plane::targetSearch(int source,Graph graph, vector<vector<int>> nodes,int in
 
 	int minimum = 1;
 	int maximum = graph.getNumberOfNodes();
+
 	/*
 	 * Obtem o valor das coordenadas dos nodos
 	 */
-	int xSource = this->coordinates[0][source];
-	int ySource = this->coordinates[1][source];	
+	int xSource = this->coordinates[source][0];
+	int ySource = this->coordinates[source][1];	
 	
 	int target = source;
-	int targetNow = source;
 	int count = minimum;
 
-	while(count <= maximum) 
+	vector<int> targets = vector<int> (graph.getNumberOfNodes(),0);
+
+	targets[source] = 1;
+
+	while(count < maximum) 
 	{
-		
-		targetNow = random(0,maximum-1);
-		
+		cout<<"Maximum "<<maximum<<" count "<<count<<endl;
+		int targetNow = random(0,maximum-1);
+
 		int radiusNow = 0, radiusEarlier = 1; 
 		
-		int xTarget = this->coordinates[0][targetNow];
-		int yTarget = this->coordinates[1][targetNow];
+		// cout<<"tm coordinates x "<< this->coordinates[0].size()<<" tm coordinates y "<< this->coordinates[1].size()<<endl;
+		// for (int p = 0; p < graph.getNumberOfNodes(); p++)
+		// {
+		// 	cout<<" x "<<this->coordinates[p][0]<<" y "<<this->coordinates[p][1]<<endl;
+		// }
+
+		int xTarget = this->coordinates[targetNow][0];
+		int yTarget = this->coordinates[targetNow][1];
 		
 		for(int i = 1; i <= this->side; i++) 
 		{
 			for(int j =  xSource-i; j <= xSource+i; j++) 
 			{
 				for(int k = ySource-i; k <= ySource+i; k++) 
-				{
-					
+				{	
 					/*
 					 * Testa se as coordenadas encontradas são iguais ao nó candidato a target 
 					*/
-					if(xTarget == i && j == yTarget)
+					if(xTarget == j && k == yTarget && targetNow != source)
 					{
-						if(radiusNow < radiusEarlier && regionEqual(nodes[indexRegion],targetNow) == false && graph.getLink(source,targetNow))
+						if(radiusNow < radiusEarlier && regionEqual(nodes[indexRegion],targetNow) == false && graph.getLink(source,targetNow) == false)
 						{
+							cout<<" target "<<targetNow<<" source "<<source<<"\n\n\n"<<endl;
 							target = targetNow;
 							radiusEarlier = radiusNow;
 							
 							break;
 						}
+
 						radiusNow++;
 					}
 					
 				}
 			}
 		}
-		count++;
+
+		if ( targets[targetNow] == 0)
+		{
+			targets[targetNow] = 1;
+			count++;
+		}
 	}
 
+	cout<<"source "<<source<<" target "<<target<<endl;
 	return target;
 }
 
@@ -696,14 +713,14 @@ int Plane::nearestNeighbor(int node,Graph graph)
 {
 
 	int neighbor = node;
-	int distance = 9999; //número infinito
+	int distance = INT_MAX; //número infinito
 
 	for (int i = 0; i < graph.getNumberOfNodes(); i++)
 	{
 		if (i != node)
 		{
-			int X = abs(getCoordinateX(i)-getCoordinateX(node));
-			int Y = abs(getCoordinateY(i)-getCoordinateY(node));
+			int X = abs( getCoordinateX(i) - getCoordinateX(node) );
+			int Y = abs( getCoordinateY(i) - getCoordinateY(node) );
 
 			int distanceNow = X+Y;
 
@@ -720,6 +737,7 @@ int Plane::nearestNeighbor(int node,Graph graph)
 			}
 		} 
 	}
+
 	return neighbor;		
 }
 
@@ -894,13 +912,15 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>
 	return nodes;
 }
 
+
 /**
- * Estabelcer a conecção dos nós entre as regiões
+ * Estabelecer a conecção dos nós entre as regiões
  * Busca pelo raio de modo que os nós interligados serão os mais próximos
  */
 void Plane::regionsInterconnection(Graph &graph,vector<vector<int>> nodes) 
 {
 
+	int controller = 0;
 
 	for (int i = 0; i < this->nRegions; i++)
 	{
@@ -917,12 +937,20 @@ void Plane::regionsInterconnection(Graph &graph,vector<vector<int>> nodes)
 
 			graph.setLink(i,neighbor); //faz a ligação dos nós no grafo de matriz adjacente
 			
-			i--;//retorna a região e faz a segunda ligação
+			controller++;
+
+			if (controller < 2)
+			{
+				i--;//retorna a região e faz a segunda ligação
+			}
+			else
+			{
+				controller = 0;
+			}
+
 		}
 		else
 		{
-			neighbor = nearestNeighbor(i,graph);
-
 			while( count < nodes[i].size() )
 			{
 
@@ -931,6 +959,8 @@ void Plane::regionsInterconnection(Graph &graph,vector<vector<int>> nodes)
 				graph.setLink(i,neighbor); //faz a ligação dos nós no grafo de matriz adjacente
 				
 				count++;
+
+				j++;
 			}
 		}
 	}

@@ -6,6 +6,7 @@
 #include <deque>
 #include <iterator>
 #include <algorithm> 
+#include <climits>
 #include <stdexcept> // for std::runtime_error
 #include <vector>
 #include <random>
