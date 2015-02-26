@@ -129,7 +129,7 @@ void Plane::setEuclidean(Graph graph,int u,int v)
 /**
  * Atribui as posições dos nós existentes na região ao vetor de posições (nPOsitions)
  */
-vector<int> Plane::getNumberOfNodesRegion(int numberRegion, vector<int> nodes) 
+void Plane::getNumberOfNodesRegion(int numberRegion, vector<int> &nodes) 
 {
 	
 	int column = 0, row = 0;
@@ -138,7 +138,7 @@ vector<int> Plane::getNumberOfNodesRegion(int numberRegion, vector<int> nodes)
 	
 	if (this->nRegions < this->side)
 	{
-		column = floor( numberRegion / getBreadth()) * this->regionColumn;	//armazena a linha do plano 
+		column = floor( numberRegion / getBreadth() ) * this->regionColumn;	//armazena a linha do plano 
 		cout<<"Coluna init "<<column<<endl;
 		row =  floor( numberRegion / this->regionRow ) * this->regionRow;	//armazena a coluna do plano 
 		cout<<"Linhas init "<<row<<endl;
@@ -159,6 +159,8 @@ vector<int> Plane::getNumberOfNodesRegion(int numberRegion, vector<int> nodes)
 		columns = column + this->regionColumn;			//limite de colunas da região
 		rows = row + this->regionRow; 					//limite de linhas da região
 
+		cout<<"row "<<row<<"rows "<<rows<<"regionRow "<<this->regionRow <<endl;
+
 	}
 	
 	cout<<"Coluna init "<<column<<" até "<<columns<<endl;
@@ -177,8 +179,6 @@ vector<int> Plane::getNumberOfNodesRegion(int numberRegion, vector<int> nodes)
 			}
 		}
 	}
-
-	return nodes;
 }
 
 /**
@@ -214,7 +214,7 @@ void Plane::setRows(int rows)
 void Plane::setRegion(int nRegions) 
 {
 
-	this->regionColumn = (int)floor(nRegions/this->length);
+	this->regionRow = (int)floor(nRegions/this->length);
 	this->regionColumn = (int)floor(nRegions/this->breadth);	
 }
 
@@ -751,7 +751,7 @@ int Plane::ring(Graph graph)
 /**
  * Estabelece a conecção entre nós em sua respectiva região
  */
-vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>> nodes) 
+vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>> &nodes) 
 {
 
 	/**
@@ -768,12 +768,14 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>
 
 		vector<int> temp;
 
-		nodes.push_back(getNumberOfNodesRegion(i,temp));//retorna os nós de uma região
+		getNumberOfNodesRegion(i,temp);
 
-		// for (int p = 0; p < nodes[i].size(); p++)
-		// {
-		// 	cout<<"v = "<<nodes[i][p]<<endl;
-		// }
+		nodes.push_back( temp );//retorna os nós de uma região
+
+		for (int p = 0; p < nodes[i].size(); p++)
+		{
+			cout<<"v = "<<nodes[i][p]<<endl;
+		}
 
 
 		int controller = 0;
@@ -975,6 +977,8 @@ void Plane::initialize(Graph &graph)
 	 * Verifica se o limite de links foi atingido 
 	 * E se todos os vértices tem grau 2 no mínimo
 	 */
+	
+	cout<<"NNNNNN regiões "<<this->regionRow<<endl;
 	nodes = connectionNodesRegion(graph,nodes);
 
 	/**

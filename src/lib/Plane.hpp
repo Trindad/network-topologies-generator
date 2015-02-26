@@ -53,30 +53,30 @@ public:
 	int getCoordinateY(int); 								//coordenada Y
 	int getEuclidean(int,int);								//calcula distância euclidiana entre um par de nós
 	int getMaximumNodesRegion();							//máximo de nós que cabem em uma região
-	vector<int> getNumberOfNodesRegion(int,vector<int>);	//retorna o número de nós na região passada como parâmetro
+	void getNumberOfNodesRegion(int,vector<int>&);	//retorna o número de nós na região passada como parâmetro
 
 
 	/**
 	 * Funções auxiliares do plano
 	 */
-	void print(); 															//imprimir o plano
-	int ring(Graph); 														//verifica se formou o anel em uma região 
-	void memsetPlane();														//inicializa matriz do plano em -1 para todos as coordenadas
-	void limitArea(int); 													//verifica se o número de nós é : 2N <= R <= N^2
-	int random(int,int); 													//gera um número randomico através de uma função probalistica
+	void print(); 																//imprimir o plano
+	int ring(Graph); 															//verifica se formou o anel em uma região 
+	void memsetPlane();															//inicializa matriz do plano em -1 para todos as coordenadas
+	void limitArea(int); 														//verifica se o número de nós é : 2N <= R <= N^2
+	int random(int,int); 														//gera um número randomico através de uma função probalistica
 	void randomLink(Graph &);													//sorteio randomizado de um par de nodos qualquer
 	void initialize(Graph &);													//inicializa as configurações 
-	void limitRegion(int,int);												//limites de cada região do plano
-	void memsetCoordinates(int);  											//inicializa vetor de coordenads em 0
-	double randomDouble(int,int);											//gera um número randomico do tipo double
-	int nearestNeighbor(int,Graph);											//busca um nó mais próximo pelo raio e retorna 
-	bool regionEqual(vector<int>,int);										//verifica se o nodo pertence a uma região
-	void generateCoordinates(Graph,int);									//gera coordenadas de forma randomica para um nó randomico
-	bool waxmanProbability(Graph,int,int);									//calcula a probabilidade de waxman para nós u e v 
-	void blockedAreaAroundTheNode(Graph,int,int); 							// bloqueio da área conforme a distância passada pelo usuário
-	int targetSearch(int,Graph, vector<vector<int>>,int);					//busca nodo destino
-	void regionsInterconnection(Graph &,vector<vector<int>>); 				//conecção dos nós entre as regiões
-	vector<vector<int>> connectionNodesRegion(Graph &,vector<vector<int>>); //conecta nós por região utilizando a probabilidade de Waxman
+	void limitRegion(int,int);													//limites de cada região do plano
+	void memsetCoordinates(int);  												//inicializa vetor de coordenads em 0
+	double randomDouble(int,int);												//gera um número randomico do tipo double
+	int nearestNeighbor(int,Graph);												//busca um nó mais próximo pelo raio e retorna 
+	bool regionEqual(vector<int>,int);											//verifica se o nodo pertence a uma região
+	void generateCoordinates(Graph,int);										//gera coordenadas de forma randomica para um nó randomico
+	bool waxmanProbability(Graph,int,int);										//calcula a probabilidade de waxman para nós u e v 
+	void blockedAreaAroundTheNode(Graph,int,int); 								// bloqueio da área conforme a distância passada pelo usuário
+	int targetSearch(int,Graph, vector<vector<int>>,int);						//busca nodo destino
+	void regionsInterconnection(Graph &,vector<vector<int>>); 				    //conecção dos nós entre as regiões
+	vector<vector<int>> connectionNodesRegion(Graph &,vector<vector<int>>&); 	//conecta nós por região utilizando a probabilidade de Waxman
 
 private:
 	
