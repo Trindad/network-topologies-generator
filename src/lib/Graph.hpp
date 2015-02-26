@@ -47,7 +47,7 @@ public:
 	int getMinimumNumberOfLinks();
 	int getMaximumNumberOfLinks();
 
-	int limitLinks(int); 
+	void limitLinks(int); 
 	void memsetGraph();
 
 private:

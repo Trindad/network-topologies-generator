@@ -163,7 +163,7 @@ void Graph::memsetGraph()
  * possuem o mesmo grau ele não ultrapassa o limite
  * Se passar lança uma exception.
  */
-int Graph::limitLinks(int max) 
+void Graph::limitLinks(int max) 
 {
 
 	int temp = (this->nNodes*(this->nNodes-1))/2; //número máximo de nós em um grafo completo

@@ -229,7 +229,7 @@ void Plane::setRegionsMeasures()
 	vector<int> primes = {2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71}; // 20 números
 	
 	bool prime = false; 	// verifica se é primo
-	int temp = 0;
+	unsigned int temp = 0;
 
 	vector<int> factorial; // lista que irá guardar os numeros primos divisiveis pelos números de regiões
 	
@@ -617,8 +617,7 @@ void Plane::print()
  */
 bool Plane::regionEqual(vector<int> nodes,int node) 
 {
-
-	for (int i = 0; i < nodes.size(); i++)
+	for (unsigned int i = 0; i < nodes.size(); i++)
 	{
 		if (nodes[i] == node)
 		{
@@ -791,7 +790,7 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>
 
 		nodes.push_back( temp );//retorna os nós de uma região
 
-		for (int p = 0; p < nodes[i].size(); p++)
+		for (unsigned int p = 0; p < nodes[i].size(); p++)
 		{
 			cout<<"v = "<<nodes[i][p]<<endl;
 		}
@@ -924,7 +923,8 @@ void Plane::regionsInterconnection(Graph &graph,vector<vector<int>> nodes)
 
 	for (int i = 0; i < this->nRegions; i++)
 	{
-		int neighbor,count = 0,j = 0;
+		int neighbor,j = 0;
+		unsigned int count = 0;
 
 		/**
 		 * Se existir somente um nó na região

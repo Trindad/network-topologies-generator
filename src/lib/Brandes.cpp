@@ -126,14 +126,12 @@ int Brandes::addPaths(vector<Node> nodes,vector<vector<int>> path,int adjacent,i
 void Brandes::insertPaths(vector<Node> nodes,int source,int target,int adjacent) 
 {
 
-  int i = 0,j = 0;
-
   vector<vector<int>> path = vector<vector<int>> (this->nNodes,vector<int>(this->nNodes,-1));
 
   if (pathMinimum[source][target] > 2)
   {
 
-    int nPaths = addPaths(nodes,path,adjacent,source,target);
+    addPaths(nodes,path,adjacent,source,target);
 
     addNode(nodes,path,source);
   }
