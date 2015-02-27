@@ -29,7 +29,6 @@ void Graph::setLink(int u,int v)
 {
 	if (getDegree(u) < this->maxDegree  && getDegree(v) < this->maxDegree && u != v)
 	{
-		// cout<<"ENTRA NO IF"<<endl;
 		this->nodes[v].setLinkNode(u);
 		this->nodes[u].setLinkNode(v);
 
@@ -86,9 +85,7 @@ bool Graph::getLink(int u,int v)
 
 int Graph::getDegree(int node)
 {
-	int degree = this->nodes[node].getDegreeNode();
-
-	return degree;
+	return this->nodes[node].getDegreeNode();
 }
 
 
@@ -151,10 +148,7 @@ int Graph::getMinimumDistanceOfNode()
  */
 void Graph::memsetGraph() 
 {
-
-	int n = this->nNodes;
-
-	this->nodes = vector<Node> (n);
+	this->nodes = vector<Node> (this->nNodes);
 }
 
 /**

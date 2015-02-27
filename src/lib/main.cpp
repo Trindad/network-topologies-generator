@@ -47,6 +47,8 @@ main(void)
 	cin >> minDistanceNode;
 	graph.setMinimumDistanceOfNode(minDistanceNode);
 
+	graph.memsetGraph();
+
 	/**
 	 * Configurações do plano
 	 */

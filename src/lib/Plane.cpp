@@ -790,10 +790,10 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>
 
 		nodes.push_back( temp );//retorna os nós de uma região
 
-		for (unsigned int p = 0; p < nodes[i].size(); p++)
-		{
-			cout<<"v = "<<nodes[i][p]<<endl;
-		}
+		// for (unsigned int p = 0; p < nodes[i].size(); p++)
+		// {
+		// 	cout<<"v = "<<nodes[i][p]<<endl;
+		// }
 
 
 		int controller = 0;
@@ -931,11 +931,12 @@ void Plane::regionsInterconnection(Graph &graph,vector<vector<int>> nodes)
 		 * então haverá ligação entre dois nós 
 		 * mais próximos.
 		 */
-		if (nodes[i].size() == 1)
+		if ( nodes[i].size() == 1)
 		{
+			
 			neighbor = targetSearch(nodes[i][0],graph,nodes,i);
 
-			graph.setLink(i,neighbor); //faz a ligação dos nós no grafo de matriz adjacente
+			graph.setLink(nodes[i][0],neighbor); //faz a ligação dos nós no grafo de matriz adjacente
 			
 			controller++;
 
@@ -953,10 +954,10 @@ void Plane::regionsInterconnection(Graph &graph,vector<vector<int>> nodes)
 		{
 			while( count < nodes[i].size() )
 			{
-
+				
 				neighbor = targetSearch(nodes[i][j],graph,nodes,i);
 
-				graph.setLink(i,neighbor); //faz a ligação dos nós no grafo de matriz adjacente
+				graph.setLink(nodes[i][j],neighbor); //faz a ligação dos nós no grafo de matriz adjacente
 				
 				count++;
 
@@ -997,7 +998,7 @@ void Plane::initialize(Graph &graph)
 
 	print();
 
-	vector<vector<int>> nodes;
+	vector<vector<int>> nodesFromRegion;
 	/**
 	 * Obtêm o número de nós em um subplano 'i'
 	 * Interconecta todos nós em uma região i do plano
@@ -1008,9 +1009,7 @@ void Plane::initialize(Graph &graph)
 	 * Verifica se o limite de links foi atingido 
 	 * E se todos os vértices tem grau 2 no mínimo
 	 */
-	
-	cout<<"NNNNNN regiões "<<this->regionRow<<endl;
-	nodes = connectionNodesRegion(graph,nodes);
+	nodesFromRegion = connectionNodesRegion(graph,nodesFromRegion);
 
 	/**
 	 * Interconecta regiões do plano
@@ -1022,10 +1021,10 @@ void Plane::initialize(Graph &graph)
 	 */
 	if (this->nRegions >= 2)
 	{
-		regionsInterconnection(graph,nodes);
+		regionsInterconnection(graph,nodesFromRegion);
 	}
-	cout<<graph.getNumberOfLinks();
 
+	cout<<graph.getNumberOfLinks();
 }
 
 

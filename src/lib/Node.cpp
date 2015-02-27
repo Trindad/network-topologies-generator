@@ -22,14 +22,13 @@ Node::~Node(){}
 
 void Node::setLinkNode(int target){
 
-	this->adjacents.push_back(target);
+	adjacents.push_back(target);
 
 	setDegree();
 }
 
 void Node::setDegree(){
 
-	// cout<<"degree "<<endl;
 	this->degree += 1;
 }
 
@@ -54,10 +53,8 @@ int Node::getDegreeNode(){
  * Do contrário falso
  */
 bool Node::getLinkNode(int target){
-	
-	int n = adjacents.size();
 
-	for (int i = 0; i < n; i++)
+	for (unsigned int i = 0; i < adjacents.size(); i++)
 	{
 		if (adjacents[i] == target)
 		{
