@@ -1,14 +1,7 @@
 /**
  * Definições de função-membro que aparecem em Measure.cpp
  */
-#include <iostream>
-#include <deque>
-#include <iterator>
-#include <algorithm> 
-#include <stdexcept> // for std::runtime_error
-#include <vector>
-#include <random>
-
+#include "Brandes.hpp"
 
  using namespace std;
 
@@ -19,22 +12,26 @@
  	Measure();
  	~Measure();
 
- 	initialize();
 
- 	getDegreeCentrality();
-	getBetweenCentrality();
-	getClosenessCentrality();
-	getEfficientCentrality();
-
-
-	setDegreeCentrality();
-	setBetweenCentrality();
-	setClosenessCentrality();
-	setEfficientCentrality();
+ 	double getDegreeCentrality(int);
+	double getBetweenCentrality(int);
+	double getClosenessCentrality(int);
+	double getEfficientCentrality(int);
 
 
-	degreeCentrality();
-	betweenCentrality();
-	closenessCentrality();
-	efficientCentrality();	
+	void setDegreeCentrality(int,double);
+	void setBetweenCentrality(int,double);
+	void setClosenessCentrality(int,double);
+	void setEfficientCentrality(int, double);
+
+ 	void initialize(vector<Node> &);
+
+	void degreeCentrality();
+	void betweenCentrality();
+	void closenessCentrality();
+	void efficientCentrality();	
+
+private:
+
+	vector<Node> nodes;
  };

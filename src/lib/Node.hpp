@@ -21,10 +21,15 @@ public:
 	/**
 	 * Setters
 	 */
-	void setLinkNode(int);				//faz um ligação
-	void setDegree();					//aumenta o grau do nó
-	void setNumberOfPaths(int);			//incrementa o número de caminhos minimos
-	void setDistanceNode(double);		//atribui distância entre dois nós
+	void setLinkNode(int);						//faz uma ligação
+	void setDegree();							//aumenta o grau do nó
+	void setNumberOfPaths(int);					//incrementa o número de caminhos minimos
+	void setDistanceNode(double);				//atribui distância entre dois nós
+	void setDegreeCentrality(double);			//atribui o valor da centralidade de grau
+	void setBetweenCentrality(double);			//atribui o valor da centralidade de intermediação	
+	void setClosenessCentrality(double);		//atribui o valor da centralidade de proximidade
+	void setEfficientCentrality(double);		//atribui o valor da centralidade de eficiência
+
 
 	/**
 	 * Getters
@@ -34,7 +39,13 @@ public:
 	int getNumberOfPaths();				//número de caminhos mínimos
 	int getNumberOfNodes();				//retorna o número de caminhos mínimos
 	int getNumberOfNodesPath(int);		//número de nodos em um caminho minimo
-	
+	double getDegreeCentrality();		//centralidade do grau	
+	double getBetweenCentrality();		//centralidade de intermediação
+	double getClosenessCentrality();	//centralidade de proximidade
+	double getEfficientCentrality();	//centralidade de eficiência
+
+
+
 	void addNodePath(int);				//adiciona nodo ao caminho
 	int returnNode(int,int);			//retorna nodo das posições indicadas localizada na matriz de caminhos mínimos
 

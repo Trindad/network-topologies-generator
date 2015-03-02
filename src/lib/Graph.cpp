@@ -70,6 +70,11 @@ void Graph::setDistancePairofNodes(int u,int v,double distance)
 	this->nodes[v].setDistanceNode(distance);
 }
 
+vector<Node> Graph::getNodes() 
+{
+	return this->nodes;
+}
+
 /**
  * Verifica a existência de ligações
  */

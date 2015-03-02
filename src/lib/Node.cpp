@@ -42,6 +42,30 @@ void Node::setNumberOfPaths(int n)
 	this->numberOfPaths  = this->numberOfPaths + n;
 }
 
+
+double Node::getDegreeCentrality()
+{
+	return this->degreeCentrality;
+}
+
+
+double Node::getBetweenCentrality()
+{
+	return this->betweenCentrality;
+}
+
+
+double Node::getClosenessCentrality()
+{
+	return this->closenessCentrality;
+}
+
+
+double Node::getEfficientCentrality()
+{
+	return this->efficientCentrality;
+}
+
 int Node::getDegreeNode(){
 
 	return this->degree;

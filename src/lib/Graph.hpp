@@ -42,6 +42,7 @@ public:
 	int getMinimumDegree();
 	int getMaximumDegree();
 	int getNumberOfNodes();
+	vector<Node> getNodes();
 	double getAverageDegree();
 	int getMinimumDistanceOfNode();
 	int getMinimumNumberOfLinks();

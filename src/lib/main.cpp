@@ -21,6 +21,7 @@
 using namespace std;
 
 #include "Plane.hpp"
+#include "Measure.hpp"
 
 int
 main(void)
@@ -141,9 +142,9 @@ main(void)
 	// 	cout<<"v "<<i<<" degree "<<graph.getDegree(i)<<endl;
 	// }
 
+	Measure measures;
 
-	measures.initialize(graph); //obtêm as medidas de centralidade para cada nó da rede
-
+	measures.initialize( graph.getNodes() ); //obtêm as medidas de centralidade para cada nó da rede
 
 	return 0;
 }
