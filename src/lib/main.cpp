@@ -144,7 +144,8 @@ main(void)
 
 	Measure measures;
 
-	measures.initialize( graph.getNodes() ); //obtêm as medidas de centralidade para cada nó da rede
+	vector<Node> _nodes = graph.getNodes();
+	measures.initialize( _nodes ); //obtêm as medidas de centralidade para cada nó da rede
 
 	return 0;
 }

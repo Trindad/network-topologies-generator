@@ -1,3 +1,5 @@
+#ifndef NODE_H
+#define NODE_H
 /**
  * Definições de função-membro que aparecem em Nodes.cpp
  */
@@ -67,3 +69,4 @@ private:
 	vector<vector<int>> paths;		//matriz contendo todos caminhos minimos 
 };
 
+#endif

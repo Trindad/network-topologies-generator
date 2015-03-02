@@ -43,6 +43,28 @@ void Node::setNumberOfPaths(int n)
 }
 
 
+void Node::setDegreeCentrality(double value)
+{
+	this->degreeCentrality = value;
+}		
+
+void Node::setBetweenCentrality(double value)
+{
+	this->betweenCentrality = value;
+}
+
+void Node::setClosenessCentrality(double value)
+{
+	this->closenessCentrality = value;
+}
+
+
+void Node::setEfficientCentrality(double value)
+{
+	this->efficientCentrality = value;
+}
+
+
 double Node::getDegreeCentrality()
 {
 	return this->degreeCentrality;
