@@ -141,5 +141,9 @@ main(void)
 	// 	cout<<"v "<<i<<" degree "<<graph.getDegree(i)<<endl;
 	// }
 
+
+	measures.initialize(graph); //obtêm as medidas de centralidade para cada nó da rede
+
+
 	return 0;
 }

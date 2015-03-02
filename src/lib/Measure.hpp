@@ -15,7 +15,26 @@
  class Measure
  {
  public:
+
  	Measure();
  	~Measure();
- 	
+
+ 	initialize();
+
+ 	getDegreeCentrality();
+	getBetweenCentrality();
+	getClosenessCentrality();
+	getEfficientCentrality();
+
+
+	setDegreeCentrality();
+	setBetweenCentrality();
+	setClosenessCentrality();
+	setEfficientCentrality();
+
+
+	degreeCentrality();
+	betweenCentrality();
+	closenessCentrality();
+	efficientCentrality();	
  };
