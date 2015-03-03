@@ -5,8 +5,26 @@ Measure::Measure(){}
 
 Measure::~Measure(){}
 
-void Measure::initialize(vector<Node> & nodes)
+void Measure::initialize(vector<Node> & nodes,int n)
 {
+
+	this->numberOfNodes = n;
+
+	vector< vector<int> > graph = vector< vector<int> > ( n, vector<int> ( n,0 ) );
+
+	/**
+	 * Gera matriz de adjacência do grafo a partir do vetor de nós
+	 */
+	for ( unsigned int i = 0; i < this->numberOfNodes; i++)
+	{
+		vector <int> adjacents = nodes[i].getAdjacentsNodes();
+
+		for (unsigned int j = 0; j < adjacents.size(); j++)
+		{
+			graph[i][ adjacents[j] ] = 1;
+		}
+	}
+
 
 }
 

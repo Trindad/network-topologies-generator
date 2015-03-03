@@ -64,7 +64,6 @@ void Node::setEfficientCentrality(double value)
 	this->efficientCentrality = value;
 }
 
-
 double Node::getDegreeCentrality()
 {
 	return this->degreeCentrality;
@@ -91,6 +90,12 @@ double Node::getEfficientCentrality()
 int Node::getDegreeNode(){
 
 	return this->degree;
+}
+
+
+vector<int> Node::getAdjacentsNodes() 
+{
+	return this->adjacents;
 }	
 
 /**

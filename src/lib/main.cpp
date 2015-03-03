@@ -26,15 +26,14 @@ using namespace std;
 int
 main(void)
 {
-
-	int nNos = 2,min = 2,max = 2,area = 4,nSimulations = 1,breadth = 1,length = 4,minDistanceNode = 1;
+	int nNodes = 2,min = 2,max = 2,area = 4,nSimulations = 1,breadth = 1,length = 4,minDistanceNode = 1;
 	double betha,alpha;
 	Graph graph; // cria objeto grafo
 	
 
 	cout << "Digite o número de nós: "<<endl;
-	cin >> nNos;
-	graph.setNode(nNos);
+	cin >> nNodes;
+	graph.setNode(nNodes);
 
 	cout << "Digite o número do grau médio mínimo: "<<endl;
 	cin >> min;
@@ -145,7 +144,7 @@ main(void)
 	Measure measures;
 
 	vector<Node> _nodes = graph.getNodes();
-	measures.initialize( _nodes ); //obtêm as medidas de centralidade para cada nó da rede
+	measures.initialize( _nodes,nNodes); //obtêm as medidas de centralidade para cada nó da rede
 
 	return 0;
 }

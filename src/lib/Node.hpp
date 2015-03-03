@@ -45,6 +45,7 @@ public:
 	double getBetweenCentrality();		//centralidade de intermediação
 	double getClosenessCentrality();	//centralidade de proximidade
 	double getEfficientCentrality();	//centralidade de eficiência
+	vector<int> getAdjacentsNodes();	//retorna vetor de nós adjacentes
 
 
 

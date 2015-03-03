@@ -24,7 +24,7 @@
 	void setClosenessCentrality(int,double);
 	void setEfficientCentrality(int, double);
 
- 	void initialize(vector<Node> &);
+ 	void initialize(vector<Node> &,int);
 
 	void degreeCentrality();
 	void betweenCentrality();
@@ -34,4 +34,5 @@
 private:
 
 	vector<Node> nodes;
+	int numberOfNodes;
  };
