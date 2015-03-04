@@ -1,6 +1,17 @@
 #include "Brandes.hpp"
 
-int Brandes::minimumDistance(vector<int> distance, vector<int> sptSet, vector<int> array,int source)
+Brandes::Brandes(int n)
+{
+  this->nNodes = n;
+
+  this->pathMinimum = vector<vector<int>> (this->nNodes,vector<int>(this->nNodes,0));
+  this->nodeAuxiliar = vector<int> (this->nNodes,0);
+}
+
+Brandes::~Brandes(){}
+
+
+int Brandes::minimumDistance(vector<int> distance, vector<int> sptSet, vector<int> &array,int source)
 {
 
   int min = INT_MAX, min_index,count = 0;
@@ -17,8 +28,7 @@ int Brandes::minimumDistance(vector<int> distance, vector<int> sptSet, vector<in
       else
       {
         min = distance[v]; 
-        min_index = v; 
-        
+        min_index = v;    
       }
     } 
   }
@@ -35,7 +45,7 @@ int Brandes::minimumDistance(vector<int> distance, vector<int> sptSet, vector<in
 
   for (int v = 0; v < count; v++)
   {
-    array[v] = min_index;
+    array.push_back( min_index );
   }
 
   return count;
@@ -45,7 +55,7 @@ int Brandes::minimumDistance(vector<int> distance, vector<int> sptSet, vector<in
 /**
  * Adiona os nodes do caminho na estrutura node  
  */
-void Brandes::addNode(vector<Node> nodes, vector<vector<int>> path,int source) 
+void Brandes::addNode(vector<Node> &nodes, vector<vector<int>> path,int source) 
 {
   int n = nodes[source].getNumberOfPaths();
 
@@ -123,7 +133,7 @@ int Brandes::addPaths(vector<Node> nodes,vector<vector<int>> path,int adjacent,i
 /**
  * Insere caminhos mínimos encontrados
  */
-void Brandes::insertPaths(vector<Node> nodes,int source,int target,int adjacent) 
+void Brandes::insertPaths(vector<Node> &nodes,int source,int target,int adjacent) 
 {
 
   vector<vector<int>> path = vector<vector<int>> (this->nNodes,vector<int>(this->nNodes,-1));
@@ -159,11 +169,10 @@ void Brandes::insertPaths(vector<Node> nodes,int source,int target,int adjacent)
  * Calcula o menor caminho, de um node até outro  
  * @param graph com uma matriz adjacente, e o source
  */
-void Brandes::modifiedDijkstra(vector<vector<int>> graph, int source,vector<Node> nodes)
+void Brandes::modifiedDijkstra(vector<vector<int>> graph, int source,vector<Node> &nodes)
 {
 
   vector<int> distance = vector<int> (this->nNodes,INT_MAX);
-
 
   vector<int> sptSet = vector<int> (this->nNodes,0);
 
@@ -186,7 +195,7 @@ void Brandes::modifiedDijkstra(vector<vector<int>> graph, int source,vector<Node
     
     for (int k = 0; k < nMin; k++)
     {
-      sptSet[u[k]] = 1;
+      sptSet[ u[k] ] = 1;
     }
      
     int increment = 0;
@@ -264,5 +273,4 @@ void Brandes::modifiedDijkstra(vector<vector<int>> graph, int source,vector<Node
       nodeAdjacent[v] = -1;
     }
   }
-
 }

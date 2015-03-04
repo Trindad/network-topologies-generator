@@ -123,7 +123,7 @@ int Plane::getEuclidean(int u, int v)
 void Plane::setEuclidean(Graph graph,int u,int v) 
 {
 
-	graph.setDistancePairofNodes(u,v,getEuclidean(u,v));
+	graph.setDistancePairOfNodes(u,v,getEuclidean(u,v));
 }
 
 /**

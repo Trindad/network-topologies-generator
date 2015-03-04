@@ -29,7 +29,7 @@ public:
 	void setMinimumDegree(int);
 	void setMaximumDegree(int);
 	void setMinimumDistanceOfNode(int);
-	void setDistancePairofNodes(int,int,double);
+	void setDistancePairOfNodes(int,int,double);
 
 
 

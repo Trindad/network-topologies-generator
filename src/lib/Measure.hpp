@@ -24,15 +24,19 @@
 	void setClosenessCentrality(int,double);
 	void setEfficientCentrality(int, double);
 
- 	void initialize(vector<Node> &,int);
 
 	void degreeCentrality();
-	void betweenCentrality();
 	void closenessCentrality();
 	void efficientCentrality();	
+	void betweenCentrality(vector<Node> nodes);
+
+ 	double geodesic(vector<Node>,int);
+ 	void initialize(vector<Node> &,int);
+ 	int nodeSearch(vector< vector<int> >, int);
 
 private:
 
 	vector<Node> nodes;
 	int numberOfNodes;
+	int centralNode;	//nó central em relação a centralidade de intermediação
  };

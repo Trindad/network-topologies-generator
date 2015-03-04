@@ -16,6 +16,9 @@ using namespace std;
 Node::Node(){
 
 	this->degree = 0;
+
+	this->numberOfPaths = 0;
+	
 }
 
 Node::~Node(){}
@@ -34,7 +37,7 @@ void Node::setDegree(){
 
 void Node::setDistanceNode(double distance){
 
-	this->distances.push_back(distance);
+	this->weight.push_back(distance);
 }
 
 void Node::setNumberOfPaths(int n)
@@ -135,4 +138,10 @@ void Node::addNodePath(int newNode)
 int Node::returnNode(int nPath, int index)
 {
 	return this->paths[nPath][index];
+}
+
+
+vector<vector<int>> Node::returnPaths() 
+{
+	return this->paths;
 }

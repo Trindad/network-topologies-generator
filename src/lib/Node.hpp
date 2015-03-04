@@ -51,12 +51,13 @@ public:
 
 	void addNodePath(int);				//adiciona nodo ao caminho
 	int returnNode(int,int);			//retorna nodo das posições indicadas localizada na matriz de caminhos mínimos
+	vector< vector<int> > returnPaths();	//retorna caminhos mínimos 
 
 private:
 
 	int degree; 					//número de links da topologia
 	vector<int> adjacents;  		//vetor de adjacências de um nó
-	vector<double> distances;		//vetor de distâncias de u até v
+	vector<double> weight;			//vetor de peso de ligações entre nós adjacentes
 	
 	/**
 	 * Variáveis utilizadas para medidas de centralidade

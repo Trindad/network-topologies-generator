@@ -63,7 +63,10 @@ void Graph::setMinimumDistanceOfNode(int min)
 	this->minDistance = min;
 }
 
-void Graph::setDistancePairofNodes(int u,int v,double distance)
+/**
+ * Atribui a distancia eucliana 
+ */
+void Graph::setDistancePairOfNodes(int u,int v,double distance)
 {
 
 	this->nodes[u].setDistanceNode(distance);
