@@ -32,7 +32,8 @@
 
  	double geodesic(vector<Node>,int);
  	void initialize(vector<Node> &,int);
- 	int nodeSearch(vector< Node >, int);
+ 	int nodeSearch(vector< vector<int> > &, int, int);
+ 	int pathsSearch(vector<Node>, int, int,vector< vector<int>> &paths);
 
 private:
 

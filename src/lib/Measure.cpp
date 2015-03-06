@@ -169,11 +169,15 @@ double Measure::geodesic(vector<Node> nodes,int node)
     {
       if (j != node && i != j && i != node)
       {
-        int nNodes = nodeSearch(nodes,node);
+      	vector< vector<int> > paths;
+      	
+        int nPaths = pathsSearch(nodes,i,j,paths);
+
+        int nNodes = nodeSearch(paths,node,nPaths);
 
         cout<<"\n\n\n getNumberOfPaths geodesic "<<nodes[node].getNumberOfPaths()<<endl<<"\n\n";
 
-        bc = bc + ( (double)nNodes / (double)nodes[node].getNumberOfPaths() );
+        bc = bc + ( (double)nNodes / (double)nPaths );
       }
     }
   }
@@ -182,19 +186,45 @@ double Measure::geodesic(vector<Node> nodes,int node)
 }
 
 /**
+ * Encontra o número de caminhos que contêm o vértice de destino
+ */
+int Measure::pathsSearch(vector<Node> nodes, int source, int target, vector< vector<int> > &paths)
+{
+
+	int k = 0,nPaths = 0;
+
+	paths = vector< vector<int> > ( this->numberOfNodes, vector<int>(this->numberOfNodes,-1) );
+	
+	for (unsigned int i = 0; i < nodes[source].getNumberOfPaths(); i++)
+	{
+		int auxiliar = nodes[source].getNumberOfNodesFromPath(i)-1;
+
+		if (nodes[source].returnNode(i,auxiliar) == target)
+		{
+		  for (unsigned int k = 0; k < nodes[source].getNumberOfNodesFromPath(i); k++)
+		  {
+		    paths[nPaths][k] = nodes[source].returnNode(i,k);
+		  }
+
+		  nPaths++;
+		}
+	}
+
+	return nPaths;
+
+}
+
+/**
  *Busca vertice em um ou mais caminhos 
  *parametros de entrada: caminhos e o vertice a ser buscado e o numero de caminhos minimos a ser buscado
  *retorna o numero de vezes que o vertice foi encontrado
  */
-int Measure::nodeSearch(vector< Node > nodes, int node)
+int Measure::nodeSearch(vector< vector<int> > &paths, int node, int nPaths)
 {
-	int count = 0, nPaths = nodes[node].getNumberOfPaths();
+	int count = 0;
 
 	cout<<"\n\n\n nPaths "<<nPaths<<endl;
 
-	vector< vector<int> > paths = nodes[node].returnPaths();
-
-	cout<<"nPaths "<<paths.size()<<endl;
 	for (unsigned int i = 0; i < nPaths; i++)
 	{
 		for (unsigned int j = 0; j < this->numberOfNodes-1; j++)

@@ -124,7 +124,7 @@ int Node::getNumberOfPaths()
 	return this->numberOfPaths;
 }
 
-int Node::getNumberOfNodesPath(int index) 	
+int Node::getNumberOfNodesFromPath(int index) 	
 {
 	return this->paths[index].size();
 }	

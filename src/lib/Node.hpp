@@ -40,7 +40,7 @@ public:
 	int getNumberOfPaths();				//número de caminhos mínimos
 	int getNumberOfNodes();				//retorna o número de caminhos mínimos
 	void incrementPaths(int);			//incrementa o número de caminhos minimos
-	int getNumberOfNodesPath(int);		//número de nodos em um caminho minimo
+	int getNumberOfNodesFromPath(int);		//número de nodos em um caminho minimo
 	double getDegreeCentrality();		//centralidade do grau	
 	double getBetweenCentrality();		//centralidade de intermediação
 	double getClosenessCentrality();	//centralidade de proximidade
@@ -49,8 +49,8 @@ public:
 
 
 
-	void addNodePath(int);				//adiciona nodo ao caminho
-	int returnNode(int,int);			//retorna nodo das posições indicadas localizada na matriz de caminhos mínimos
+	void addNodePath(int);					//adiciona nodo ao caminho
+	int returnNode(int,int);				//retorna nodo das posições indicadas localizada na matriz de caminhos mínimos
 	vector< vector<int> > returnPaths();	//retorna caminhos mínimos 
 
 private:
