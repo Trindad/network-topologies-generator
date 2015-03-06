@@ -4,14 +4,14 @@ Brandes::Brandes(int n)
 {
   this->nNodes = n;
 
-  this->pathMinimum = vector<vector<int>> (this->nNodes,vector<int>(this->nNodes,0));
+  this->shortestPath = vector<vector<int>> (this->nNodes,vector<int>(this->nNodes,0));
   this->nodeAuxiliar = vector<int> (this->nNodes,0);
 }
 
 Brandes::~Brandes(){}
 
 
-int Brandes::minimumDistance(vector<int> distance, vector<int> sptSet, vector<int> &array,int source)
+int Brandes::minimumDistance(vector<int> &distance, vector<int> &sptSet, vector<int> &array,int source)
 {
 
   int min = INT_MAX, min_index,count = 0;
@@ -55,24 +55,22 @@ int Brandes::minimumDistance(vector<int> distance, vector<int> sptSet, vector<in
 /**
  * Adiona os nodes do caminho na estrutura node  
  */
-void Brandes::addNode(vector<Node> &nodes, vector<vector<int>> path,int source) 
+void Brandes::addNode(vector<Node> &nodes, vector<vector<int>> & path,int numNodes, int nPaths,int source) 
 {
-  int n = nodes[source].getNumberOfPaths();
 
-  for (int i = 0; i < n; i++)
-  {
-   
-    if (path[i][this->nNodes-1] > -1)
+  for (int i = 0; i < nPaths; i++)
+  {   
+    if (path[i][numNodes-1] > -1)
     {
-      nodes[source].setNumberOfPaths(1);
+      nodes[source].incrementPaths(1);//incrementa o número de caminhos mínimos
     }
 
-    for (int j = 0; j <= n; j++)
+    for (int j = 0; j <= numNodes; j++)
     {
-      if (path[i][n-j] > -1)
+      if (path[i][numNodes-j] > -1)
       {
         
-        int temp = path[ i ][ n-j ]+0;
+        int temp = path[ i ][ numNodes-j ]+0;
 
         nodes[source].addNodePath( temp );//adiciona nodo ao caminho 
       } 
@@ -84,9 +82,11 @@ void Brandes::addNode(vector<Node> &nodes, vector<vector<int>> path,int source)
  * Adiciona todos os caminhos minimos distintos na matriz caminho 
  * @param graph com uma matriz adjacente, e o source
  */
-int Brandes::addPaths(vector<Node> nodes,vector<vector<int>> path,int adjacent,int source,int target) {
+int Brandes::addPaths(vector<Node> & nodes,vector<vector<int>> &path,int adjacent,int source,int target) 
+{
 
-  int i = 0, j = 0, k = nodes[source].getNumberOfPaths(),nodesPath = 0,minimum = 0 ;
+  int i = 0, j = 0,nodesPath = 0,minimum = 0 ;
+  int k = nodes[source].getNumberOfPaths();
 
   for(int temp = 1; temp  < nodes[source].getNumberOfPaths(); temp++)
   { 
@@ -100,7 +100,7 @@ int Brandes::addPaths(vector<Node> nodes,vector<vector<int>> path,int adjacent,i
       {
         
         nodesPath =  nodes[source].getNumberOfNodesPath(k-temp);
-        minimum = pathMinimum[source][target];
+        minimum = shortestPath[source][target];
 
         if (nodesPath < minimum-1)
         {
@@ -136,29 +136,32 @@ int Brandes::addPaths(vector<Node> nodes,vector<vector<int>> path,int adjacent,i
 void Brandes::insertPaths(vector<Node> &nodes,int source,int target,int adjacent) 
 {
 
-  vector<vector<int>> path = vector<vector<int>> (this->nNodes,vector<int>(this->nNodes,-1));
+  vector< vector<int> > path = vector< vector<int> > ( this->nNodes, vector<int>(this->nNodes,-1) );
 
-  if (pathMinimum[source][target] > 2)
+
+  if (shortestPath[source][target] > 2)
   {
+    cout<<"Mais que 2"<<endl;
+    int nPaths = addPaths(nodes,path,adjacent,source,target);
 
-    addPaths(nodes,path,adjacent,source,target);
-
-    addNode(nodes,path,source);
+    addNode(nodes,path,shortestPath[source][target],nPaths,source);
   }
   else
   {
-    if (pathMinimum[source][target] == 2)
-    {
-      
+    if (shortestPath[source][target] == 2)
+    { 
+      cout<<"exatamente 2"<<endl;
       path[0][0] = target+0;
       path[0][1] = adjacent+0;
 
-      addNode(nodes,path,source);
+      addNode(nodes,path,2,shortestPath[source][target],source);
     }
     else
     {
+      cout<<"somente 1"<<endl;
       path[0][0] = target+0;
-      addNode(nodes,path,source);   
+
+      addNode(nodes,path,1,shortestPath[source][target],source);   
     } 
   }
 }
@@ -172,21 +175,19 @@ void Brandes::insertPaths(vector<Node> &nodes,int source,int target,int adjacent
 void Brandes::modifiedDijkstra(vector<vector<int>> graph, int source,vector<Node> &nodes)
 {
 
+  cout<<"ENtrou"<<endl;
+
   vector<int> distance = vector<int> (this->nNodes,INT_MAX);
 
   vector<int> sptSet = vector<int> (this->nNodes,0);
 
-  int i = 0,v = 0;
+  vector<vector<int>> link = vector< vector<int> > ( this->nNodes, vector<int>(2,-1) );
 
-  vector<vector<int>> link = vector<vector<int>> (this->nNodes,vector<int>(2,-1));
 
   distance[source] = 0;
 
   for (int count = 0; count < this->nNodes; count++)
   {
-    
-    //nodes[source].source = source;
-
     nodeAdjacent = vector<int> (this->nNodes,-1);
    
     vector<int> u;
@@ -206,26 +207,29 @@ void Brandes::modifiedDijkstra(vector<vector<int>> graph, int source,vector<Node
       
       int aux = -1;
 
-      for (v = 0; v < this->nNodes; v++) {
+      for (int v = 0; v < this->nNodes; v++) {
 
         if (v == source)
         {
           continue;
         }
         
-        if (!sptSet[v] && graph[nodeAdjacent[k]][v] && distance[nodeAdjacent[k]] != INT_MAX && distance[nodeAdjacent[k]]+graph[nodeAdjacent[k]][v] <= distance[v] && currentTarget != v)
+        if (!sptSet[v] && graph[ nodeAdjacent[k] ][ v ] && distance[ nodeAdjacent[k] ] != INT_MAX && distance[ nodeAdjacent[k] ] + graph[ nodeAdjacent[k] ][v] <= distance[ v ] && currentTarget != v )
         {
+          cout<<"CONDICAO"<<endl;
           currentTarget = v;
 
           aux = distance[v];
 
-          int temporario = distance[ nodeAdjacent[k] ];
+          int temp = distance[ nodeAdjacent[k] ];
 
-          distance[v] =  temporario + graph[ nodeAdjacent[k] ][v];
-          pathMinimum[source][v] = pathMinimum[v][source] = distance[v];
+          distance[v] =  temp + graph[ nodeAdjacent[k] ][v];
+          shortestPath[source][v] = shortestPath[v][source] = distance[v];
           
-          if (pathMinimum[source][v] > 0)
+          if ( shortestPath[source][v] > 0)
           {
+            cout<<"AQUI em shortestPath"<<endl;
+
             int check = 0;
 
             for (int t = 0; t < this->nNodes; t++)
@@ -239,7 +243,7 @@ void Brandes::modifiedDijkstra(vector<vector<int>> graph, int source,vector<Node
 
             if (check == 0)
             {
-              
+              cout<<"Inserir caminhos"<<endl;
               insertPaths(nodes,source,v,nodeAdjacent[k]);
 
               link[increment][0] = v;
@@ -259,18 +263,23 @@ void Brandes::modifiedDijkstra(vector<vector<int>> graph, int source,vector<Node
       }
     }
 
-    for (i = 0; i < this->nNodes; i++)
+    for (int i = 0; i < this->nNodes; i++)
     {
       if (nodeAuxiliar[i] > -1)
       {
-        distance[nodeAuxiliar[i]] = pathMinimum[source][nodeAuxiliar[i]];
+        distance[ nodeAuxiliar[i] ] = shortestPath[source][ nodeAuxiliar[i] ];
       }
     }
     
-    for (v = 0; v < this->nNodes; v++)
+    for (int v = 0; v < this->nNodes; v++)
     {
       nodeAuxiliar[v] = nodeAdjacent[v];
       nodeAdjacent[v] = -1;
     }
   }
+
+  // for (int i = 0; i < this->nNodes; i++)
+  // {
+  //   cout<<"Numero de caminhos minimos "<<nodes[i].getNumberOfPaths()<<endl;
+  // }
 }

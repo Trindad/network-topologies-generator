@@ -28,11 +28,11 @@
 	void degreeCentrality();
 	void closenessCentrality();
 	void efficientCentrality();	
-	void betweenCentrality(vector<Node> nodes);
+	void betweenCentrality(vector<Node> &nodes);
 
  	double geodesic(vector<Node>,int);
  	void initialize(vector<Node> &,int);
- 	int nodeSearch(vector< vector<int> >, int);
+ 	int nodeSearch(vector< Node >, int);
 
 private:
 

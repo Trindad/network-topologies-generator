@@ -57,8 +57,6 @@ void Measure::initialize(vector<Node> & nodes,int n)
 
 	this->numberOfNodes = n;
 
-	this->nodes = nodes;
-
 	vector< vector<int> > graph = vector< vector<int> > ( n, vector<int> ( n,0 ) );
 
 	/**
@@ -66,7 +64,7 @@ void Measure::initialize(vector<Node> & nodes,int n)
 	 */
 	for ( unsigned int i = 0; i < this->numberOfNodes; i++)
 	{
-		vector <int> adjacents = this->nodes[i].getAdjacentsNodes();
+		vector <int> adjacents = nodes[i].getAdjacentsNodes();
 
 		for (unsigned int j = 0; j < adjacents.size(); j++)
 		{
@@ -81,9 +79,18 @@ void Measure::initialize(vector<Node> & nodes,int n)
 	 */
 	for (int i = 0; i < this->numberOfNodes; i++)
 	{
-		brandes.modifiedDijkstra(graph,i,this->nodes);
+		brandes.modifiedDijkstra(graph,i,nodes);
+		cout<<"getNumberOfPaths "<<nodes[i].returnPaths().size()<<endl;
 	}
 
+	for (int i = 0; i < this->numberOfNodes; i++)
+	{
+		for (int j = 0; j < this->numberOfNodes; j++)
+		{
+			cout<<graph[i][j]<<"\t";
+		}
+		cout<<"\n";
+	}
 	/**
 	 * Obtendo medidas de centralidade
 	 */
@@ -97,13 +104,11 @@ void Measure::initialize(vector<Node> & nodes,int n)
 	degreeCentrality();			//centralidade de grau
 
 
-	for (int i = 0; i < this->numberOfNodes; i++)
+
+
+	for (unsigned int i = 0; i < this->numberOfNodes; i++)
 	{
-		for (int j = 0; j < this->numberOfNodes; j++)
-		{
-			cout<<graph[i][j]<<"\t";
-		}
-		cout<<"\n";
+		cout<<"bc["<<i<<"] = "<< nodes[i].getBetweenCentrality();
 	}
 }
 
@@ -125,7 +130,7 @@ void Measure::efficientCentrality()
 
 }
 
-void Measure::betweenCentrality(vector<Node> nodes)
+void Measure::betweenCentrality(vector<Node> & nodes)
 {
 
 	int node = 0;
@@ -136,6 +141,7 @@ void Measure::betweenCentrality(vector<Node> nodes)
 	{
 		double value =  geodesic(nodes,v);
 
+		cout<<"bc "<<value<<endl;
 		this->nodes[v].setBetweenCentrality(value);
 
 		if (bc < value)
@@ -163,7 +169,9 @@ double Measure::geodesic(vector<Node> nodes,int node)
     {
       if (j != node && i != j && i != node)
       {
-        int nNodes = nodeSearch(nodes[node].returnPaths(), node);
+        int nNodes = nodeSearch(nodes,node);
+
+        cout<<"\n\n\n getNumberOfPaths geodesic "<<nodes[node].getNumberOfPaths()<<endl<<"\n\n";
 
         bc = bc + ( (double)nNodes / (double)nodes[node].getNumberOfPaths() );
       }
@@ -178,16 +186,20 @@ double Measure::geodesic(vector<Node> nodes,int node)
  *parametros de entrada: caminhos e o vertice a ser buscado e o numero de caminhos minimos a ser buscado
  *retorna o numero de vezes que o vertice foi encontrado
  */
-int Measure::nodeSearch(vector< vector<int> > path, int node)
+int Measure::nodeSearch(vector< Node > nodes, int node)
 {
+	int count = 0, nPaths = nodes[node].getNumberOfPaths();
 
-	int count = 0;
+	cout<<"\n\n\n nPaths "<<nPaths<<endl;
 
-	for (int i = 0; i < nodes[node].getNumberOfPaths(); i++)
+	vector< vector<int> > paths = nodes[node].returnPaths();
+
+	cout<<"nPaths "<<paths.size()<<endl;
+	for (unsigned int i = 0; i < nPaths; i++)
 	{
-		for (int j = 0; j < this->numberOfNodes-1; j++)
+		for (unsigned int j = 0; j < this->numberOfNodes-1; j++)
 	    {
-	      if (node == path[i][j] && path[i][j] > -1)
+	      if (node == paths[i][j] && paths[i][j] > -1)
 	      {
 	        count++;
 	      }

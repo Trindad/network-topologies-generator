@@ -25,7 +25,6 @@ public:
 	 */
 	void setLinkNode(int);						//faz uma ligação
 	void setDegree();							//aumenta o grau do nó
-	void setNumberOfPaths(int);					//incrementa o número de caminhos minimos
 	void setDistanceNode(double);				//atribui distância entre dois nós
 	void setDegreeCentrality(double);			//atribui o valor da centralidade de grau
 	void setBetweenCentrality(double);			//atribui o valor da centralidade de intermediação	
@@ -40,6 +39,7 @@ public:
 	bool getLinkNode(int); 				//verifica a existência de uma ligação entre dois vértices passados como parâmetros
 	int getNumberOfPaths();				//número de caminhos mínimos
 	int getNumberOfNodes();				//retorna o número de caminhos mínimos
+	void incrementPaths(int);			//incrementa o número de caminhos minimos
 	int getNumberOfNodesPath(int);		//número de nodos em um caminho minimo
 	double getDegreeCentrality();		//centralidade do grau	
 	double getBetweenCentrality();		//centralidade de intermediação
@@ -68,7 +68,7 @@ private:
 	double betweenCentrality;		//centralidade de intermediação do nó
 	double closenessCentrality;		//centralidade de proximidade
 	double efficientCentrality;		//centralidade de eficiência
-	vector<vector<int>> paths;		//matriz contendo todos caminhos minimos 
+	vector< vector<int> > paths;	//matriz contendo todos caminhos minimos 
 };
 
 #endif

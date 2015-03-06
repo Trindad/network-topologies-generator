@@ -26,9 +26,9 @@ using namespace std;
 
 
  	void insertPaths(vector<Node> &,int,int,int); 
- 	void addNode(vector<Node> &, vector< vector<int> >, int);
- 	int addPaths(vector<Node>,vector< vector<int> >,int,int,int);
- 	int minimumDistance(vector<int>, vector<int>, vector<int> &,int);
+ 	void addNode(vector<Node> &, vector< vector<int> > &, int, int, int);
+ 	int addPaths(vector<Node> &,vector< vector<int> > &,int,int,int);
+ 	int minimumDistance(vector<int> &, vector<int> &, vector<int> &,int);
  	void modifiedDijkstra(vector< vector<int> >, int ,vector<Node> &);
 
 private:
@@ -36,6 +36,6 @@ private:
 	int nNodes;							//número de vértices no grafo
 	vector<int> nodeAdjacent;			//vetor de nó adjacente
 	vector<int> nodeAuxiliar;			//auxiliar  
-	vector< vector<int> > pathMinimum;	//armazena caminhos minimos de uma origem i à um destino j	
+	vector< vector<int> > shortestPath;	//armazena caminhos minimos de uma origem i à um destino j	
 
 };

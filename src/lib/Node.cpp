@@ -13,12 +13,11 @@
 
 using namespace std;
 
-Node::Node(){
-
+Node::Node()
+{
 	this->degree = 0;
 
 	this->numberOfPaths = 0;
-	
 }
 
 Node::~Node(){}
@@ -40,7 +39,7 @@ void Node::setDistanceNode(double distance){
 	this->weight.push_back(distance);
 }
 
-void Node::setNumberOfPaths(int n)
+void Node::incrementPaths(int n)
 {
 	this->numberOfPaths  = this->numberOfPaths + n;
 }
@@ -132,7 +131,17 @@ int Node::getNumberOfNodesPath(int index)
 
 void Node::addNodePath(int newNode) 
 {
-	paths[this->numberOfPaths].push_back(newNode);
+	//cout<<"ENTROU AQUI AGORA "<<this->numberOfPaths<<endl;
+	int position = this->numberOfPaths;
+
+	if (paths.size() < position)
+	{
+		vector<int> i;
+		paths.push_back(i);
+	}
+
+	cout<<"POSITION "<<position<<endl<<"Node "<<newNode<<endl;
+	paths[position-1].push_back(newNode);
 }
 
 int Node::returnNode(int nPath, int index)
