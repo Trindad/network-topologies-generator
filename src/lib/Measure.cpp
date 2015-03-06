@@ -132,7 +132,6 @@ void Measure::efficientCentrality()
 
 void Measure::betweenCentrality(vector<Node> & nodes)
 {
-
 	int node = 0;
   	double bc = -1.0;
 	double value = 0;
@@ -142,7 +141,7 @@ void Measure::betweenCentrality(vector<Node> & nodes)
 		double value =  geodesic(nodes,v);
 
 		cout<<"bc "<<value<<endl;
-		this->nodes[v].setBetweenCentrality(value);
+		nodes[v].setBetweenCentrality(value);
 
 		if (bc < value)
 		{
@@ -161,7 +160,7 @@ void Measure::betweenCentrality(vector<Node> & nodes)
 double Measure::geodesic(vector<Node> nodes,int node)
 {
 
-  double bc = 0.0;
+  double bc = 0.0f;
 
   for ( int i = 0; i < this->numberOfNodes-1; i++)
   {
@@ -170,7 +169,7 @@ double Measure::geodesic(vector<Node> nodes,int node)
       if (j != node && i != j && i != node)
       {
       	vector< vector<int> > paths;
-      	
+
         int nPaths = pathsSearch(nodes,i,j,paths);
 
         int nNodes = nodeSearch(paths,node,nPaths);
