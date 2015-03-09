@@ -23,7 +23,7 @@ public:
 	/**
 	 * Setters
 	 */
-	void setLink(int,int);
+	void setEdge(int,int);
 	void setNode(int);
 	void setAverageDegree(double);
 	void setMinimumDegree(int);

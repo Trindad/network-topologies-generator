@@ -805,7 +805,7 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>
 		 */
 		if (n == 2)
 		{
-			graph.setLink(nodes[i][0],nodes[i][1]);//liga os dois nós no grafo
+			graph.setEdge(nodes[i][0],nodes[i][1]);//liga os dois nós no grafo
 
 			continue;
 		}
@@ -866,7 +866,7 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>
 					else if(targets[target] == 0 && target != end && controller < n && waxmanProbability(graph,source,target) == true)
 					{
 						cout<<"ligação entre "<<source<<" e "<<target<<endl;
-						graph.setLink(source,target);//liga os dois nós no grafo
+						graph.setEdge(source,target);//liga os dois nós no grafo
 
 						targets[target] = 1;
 						sources[source] = 1;
@@ -878,7 +878,7 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>
 					else if( targets[target] == 0  && controller == n-1 && waxmanProbability(graph,source,target) == true) 
 					{
 						cout<<"ligação entre "<<source<<" e "<<target<<endl;
-						graph.setLink(source,target);//liga os dois nós no grafo
+						graph.setEdge(source,target);//liga os dois nós no grafo
 						
 						targets[target] = 1;
 						sources[source] = 1;
@@ -936,7 +936,7 @@ void Plane::regionsInterconnection(Graph &graph,vector<vector<int>> nodes)
 			
 			neighbor = targetSearch(nodes[i][0],graph,nodes,i);
 
-			graph.setLink(nodes[i][0],neighbor); //faz a ligação dos nós no grafo de matriz adjacente
+			graph.setEdge(nodes[i][0],neighbor); //faz a ligação dos nós no grafo de matriz adjacente
 			
 			controller++;
 
@@ -957,7 +957,7 @@ void Plane::regionsInterconnection(Graph &graph,vector<vector<int>> nodes)
 				
 				neighbor = targetSearch(nodes[i][j],graph,nodes,i);
 
-				graph.setLink(nodes[i][j],neighbor); //faz a ligação dos nós no grafo de matriz adjacente
+				graph.setEdge(nodes[i][j],neighbor); //faz a ligação dos nós no grafo de matriz adjacente
 				
 				count++;
 
@@ -1062,7 +1062,7 @@ void Plane::randomLink(Graph &graph)
 		if ( !graph.getLink(nodes[0],nodes[1]) ==  true && waxmanProbability(graph,nodes[0],nodes[1]) == true )
 		{
 			cout<<"Ligação entre "<<nodes[0]<<" e "<<nodes[1]<<endl;
-			graph.setLink(nodes[0],nodes[1]);	
+			graph.setEdge(nodes[0],nodes[1]);	
 
 			return;
 		}
@@ -1116,7 +1116,7 @@ void Plane::randomLink(Graph &graph)
 		if ( !graph.getLink(source,target) ==  true && waxmanProbability(graph,source,target) == true )
 		{
 			cout<<"ligação entre "<<source<<" e "<<target<<endl;
-			graph.setLink(source,target);	
+			graph.setEdge(source,target);	
 
 			return;
 		}

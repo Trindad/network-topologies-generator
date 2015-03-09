@@ -24,6 +24,8 @@ using namespace std;
  	Brandes(int);
  	~Brandes();
 
+ 	vector< vector<int> > getShortestPath();
+
 
  	void insertPaths(vector<Node> &,int,int,int); 
  	void addNode(vector<Node> &, vector< vector<int> > &, int, int, int);

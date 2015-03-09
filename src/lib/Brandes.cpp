@@ -11,6 +11,11 @@ Brandes::Brandes(int n)
 Brandes::~Brandes(){}
 
 
+vector< vector<int> > Brandes::getShortestPath()
+{
+  return this->shortestPath;
+}
+
 int Brandes::minimumDistance(vector<int> &distance, vector<int> &sptSet, vector<int> &array,int source)
 {
 

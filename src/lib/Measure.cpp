@@ -95,16 +95,15 @@ void Measure::initialize(vector<Node> & nodes,int n)
 	 * Obtendo medidas de centralidade
 	 */
 	
-	betweenCentrality(nodes);	//centralidade de intermediação
+	vector< vector <int> > shortestPath = brandes.getShortestPath();
 
-	closenessCentrality();		//centralidade de proximidade
+	betweenCentrality(nodes);						//centralidade de intermediação
 
-	efficientCentrality();		//centralidade de eficiência
+	closenessCentrality(nodes,shortestPath);		//centralidade de proximidade
 
-	degreeCentrality();			//centralidade de grau
+	efficientCentrality(nodes,shortestPath);		//centralidade de eficiência
 
-
-
+	degreeCentrality(nodes);						//centralidade de grau
 
 	for (unsigned int i = 0; i < this->numberOfNodes; i++)
 	{
@@ -113,21 +112,76 @@ void Measure::initialize(vector<Node> & nodes,int n)
 }
 
 
-void Measure::degreeCentrality()
+void Measure::degreeCentrality(vector<Node> &nodes)
 {
 
+	int maximumDegree = -1;
+
+	for (int i = 0; i < this->numberOfNodes; i++)
+	{
+		int degree = nodes[i].getDegreeNode();
+
+		nodes[i].setDegreeCentrality(degree);
+
+		double relative = ( (double)degree / (double)(this->numberOfNodes-1) );
+
+		nodes[i].setRelativeDegreeCentrality(relative);
+
+		if (maximumDegree < degree)
+		{
+			maximumDegree = degree;
+		}
+	}
 }
 
 
-void Measure::closenessCentrality()
+void Measure::closenessCentrality(vector<Node> &nodes, vector<vector <int> > shortestPath)
 {
+	for (int i = 0; i < this->numberOfNodes;i++)
+	{	
+		double sum = 0;
+		/**
+		 * Guarda a soma das distância de i para 
+		 * os demais nós do grafo.
+		 */
+		for (int j = 0; j < this->numberOfNodes; j++)
+		{
+			sum += shortestPath[i][j];
+		}
 
+		double cc = (double)( 1.0f / sum );
+
+		nodes[i].setClosenessCentrality(cc);
+	}
 }
 
 
-void Measure::efficientCentrality()
+void Measure::efficientCentrality(vector<Node> &nodes, vector<vector <int> > shortestPath)
 {
 
+	for (int i = 0; i < this->numberOfNodes;i++)
+	{	
+		int longestPath = 0; 
+
+		/**
+		 * Guarda a soma das distância de i para 
+		 * os demais nós do grafo.
+		 */
+		for (int j = 0; j < this->numberOfNodes; j++)
+		{
+			if (shortestPath[i][j] >  longestPath)
+			{
+				longestPath = shortestPath[i][j];
+				
+				double auxiliar = (double)shortestPath[i][j];
+
+				double ef = (double) ( 1 / auxiliar ) ;
+
+				nodes[i].setEfficientCentrality(ef);
+			}
+		}
+
+	}
 }
 
 void Measure::betweenCentrality(vector<Node> & nodes)

@@ -23,14 +23,14 @@ public:
 	/**
 	 * Setters
 	 */
-	void setLinkNode(int);						//faz uma ligação
+	void setEdgeNode(int);						//faz uma ligação
 	void setDegree();							//aumenta o grau do nó
 	void setDistanceNode(double);				//atribui distância entre dois nós
-	void setDegreeCentrality(double);			//atribui o valor da centralidade de grau
+	void setDegreeCentrality(int);				//atribui o valor da centralidade de grau
 	void setBetweenCentrality(double);			//atribui o valor da centralidade de intermediação	
 	void setClosenessCentrality(double);		//atribui o valor da centralidade de proximidade
 	void setEfficientCentrality(double);		//atribui o valor da centralidade de eficiência
-
+	void setRelativeDegreeCentrality(double);	//atribui o valor da centralidade relativa de grau
 
 	/**
 	 * Getters
@@ -40,12 +40,12 @@ public:
 	int getNumberOfPaths();				//número de caminhos mínimos
 	int getNumberOfNodes();				//retorna o número de caminhos mínimos
 	void incrementPaths(int);			//incrementa o número de caminhos minimos
-	int getNumberOfNodesFromPath(int);		//número de nodos em um caminho minimo
 	double getDegreeCentrality();		//centralidade do grau	
 	double getBetweenCentrality();		//centralidade de intermediação
 	double getClosenessCentrality();	//centralidade de proximidade
 	double getEfficientCentrality();	//centralidade de eficiência
 	vector<int> getAdjacentsNodes();	//retorna vetor de nós adjacentes
+	int getNumberOfNodesFromPath(int);	//número de nodos em um caminho minimo
 
 
 
@@ -64,7 +64,8 @@ private:
 	 */
 	int index;						//nodo origem
 	int numberOfPaths;				//número de caminhos mínimos
-	double degreeCentrality;		//centralidade do grau
+	int degreeCentrality;		//centralidade do grau
+	double relativeDegreeCentrality;//centralidade relativa de grau
 	double betweenCentrality;		//centralidade de intermediação do nó
 	double closenessCentrality;		//centralidade de proximidade
 	double efficientCentrality;		//centralidade de eficiência

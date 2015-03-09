@@ -25,12 +25,12 @@ Graph::Graph() {
 Graph::~Graph() {}
 
 
-void Graph::setLink(int u,int v)
+void Graph::setEdge(int u,int v)
 {
 	if (getDegree(u) < this->maxDegree  && getDegree(v) < this->maxDegree && u != v)
 	{
-		this->nodes[v].setLinkNode(u);
-		this->nodes[u].setLinkNode(v);
+		this->nodes[v].setEdgeNode(u);
+		this->nodes[u].setEdgeNode(v);
 
 		this->nLinks++;
 	}

@@ -22,7 +22,7 @@ Node::Node()
 
 Node::~Node(){}
 
-void Node::setLinkNode(int target){
+void Node::setEdgeNode(int target){
 
 	adjacents.push_back(target);
 
@@ -45,7 +45,7 @@ void Node::incrementPaths(int n)
 }
 
 
-void Node::setDegreeCentrality(double value)
+void Node::setDegreeCentrality(int value)
 {
 	this->degreeCentrality = value;
 }		
@@ -64,6 +64,12 @@ void Node::setClosenessCentrality(double value)
 void Node::setEfficientCentrality(double value)
 {
 	this->efficientCentrality = value;
+}
+
+
+void Node::setRelativeDegreeCentrality(double value)
+{
+	this->relativeDegreeCentrality = value;
 }
 
 double Node::getDegreeCentrality()

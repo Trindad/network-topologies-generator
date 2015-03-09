@@ -25,10 +25,10 @@
 	void setEfficientCentrality(int, double);
 
 
-	void degreeCentrality();
-	void closenessCentrality();
-	void efficientCentrality();	
-	void betweenCentrality(vector<Node> &nodes);
+	void degreeCentrality(vector<Node> &);
+	void betweenCentrality(vector<Node> &);
+	void closenessCentrality(vector<Node> &, vector<vector <int> >);
+	void efficientCentrality(vector<Node> &, vector<vector <int> >);	
 
  	double geodesic(vector<Node>,int);
  	void initialize(vector<Node> &,int);
