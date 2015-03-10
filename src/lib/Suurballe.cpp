@@ -1,18 +1,9 @@
 /**
- * 
+ * Algoritmo de roteamento 
  */
-#include <iostream>
-#include <deque>
-#include <iterator>
-#include <algorithm> 
-#include <stdexcept> // for std::runtime_error
 
-using std::cout;
-using std::cin;
-using std::endl;
+#include "Suurballe.hpp"
 
-class Suurballe
-{
-public:
-	Suurballe();
-};
+Suurballe::Suurballe(){}
+
+Suurballe::~Suurballe(){}
