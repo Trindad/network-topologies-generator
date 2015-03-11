@@ -111,7 +111,7 @@ vector<int> Node::getAdjacentsNodes()
  * Se sim retorna verdadeiro
  * Do contrário falso
  */
-bool Node::getLinkNode(int target){
+bool Node::getEdgeNode(int target){
 
 	for (unsigned int i = 0; i < adjacents.size(); i++)
 	{

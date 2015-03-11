@@ -36,7 +36,7 @@ public:
 	 * Getters
 	 */
 	int getDegreeNode(); 				//retorna o grau do nó passado como parâmetro do método
-	bool getLinkNode(int); 				//verifica a existência de uma ligação entre dois vértices passados como parâmetros
+	bool getEdgeNode(int); 				//verifica a existência de uma ligação entre dois vértices passados como parâmetros
 	int getNumberOfPaths();				//número de caminhos mínimos
 	int getNumberOfNodes();				//retorna o número de caminhos mínimos
 	void incrementPaths(int);			//incrementa o número de caminhos minimos
@@ -64,7 +64,7 @@ private:
 	 */
 	int index;						//nodo origem
 	int numberOfPaths;				//número de caminhos mínimos
-	int degreeCentrality;		//centralidade do grau
+	int degreeCentrality;			//centralidade do grau
 	double relativeDegreeCentrality;//centralidade relativa de grau
 	double betweenCentrality;		//centralidade de intermediação do nó
 	double closenessCentrality;		//centralidade de proximidade

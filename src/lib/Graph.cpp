@@ -32,7 +32,7 @@ void Graph::setEdge(int u,int v)
 		this->nodes[v].setEdgeNode(u);
 		this->nodes[u].setEdgeNode(v);
 
-		this->nLinks++;
+		this->nedges++;
 	}
 }
 
@@ -45,7 +45,7 @@ void Graph::setNode(int n)
 void Graph::setAverageDegree(double avg) 
 {
 	this->avgDegree = avg;
-	this->nLinks = 0;
+	this->nedges = 0;
 }
 
 void Graph::setMinimumDegree(int min)
@@ -81,14 +81,14 @@ vector<Node> Graph::getNodes()
 /**
  * Verifica a existência de ligações
  */
-bool Graph::getLink(int u,int v)
+bool Graph::getEdge(int u,int v)
 {
 	if(u == v)
 	{
 		return true;
 	}
 
-	return this->nodes[u].getLinkNode(v);
+	return this->nodes[u].getEdgeNode(v);
 }
 
 int Graph::getDegree(int node)
@@ -97,9 +97,9 @@ int Graph::getDegree(int node)
 }
 
 
-int Graph::getNumberOfLinks()
+int Graph::getNumberOfEdges()
 {
-	return this->nLinks;
+	return this->nedges;
 }
 
 int Graph::getNumberOfNodes()
@@ -107,14 +107,14 @@ int Graph::getNumberOfNodes()
 	return this->nNodes;
 }
 
-int Graph::getMaximumNumberOfLinks() 
+int Graph::getMaximumNumberOfEdges() 
 {
 	int maximumDegree = ( ( this->maxDegree * this->nNodes )/ 2 ); //máximo de ligações que terá a topologia
 
 	cout<<"maximo de ligações "<<maximumDegree<<endl;
 	try 
 	{
-		limitLinks( maximumDegree );
+		limitEdges( maximumDegree );
 	}
 	catch(const char *error) 
 	{
@@ -124,7 +124,7 @@ int Graph::getMaximumNumberOfLinks()
 	return maximumDegree;
 }
 
-int Graph::getMinimumNumberOfLinks()
+int Graph::getMinimumNumberOfEdges()
 {
 
 	return (this->minDegree*this->nNodes)/2;
@@ -165,7 +165,7 @@ void Graph::memsetGraph()
  * possuem o mesmo grau ele não ultrapassa o limite
  * Se passar lança uma exception.
  */
-void Graph::limitLinks(int max) 
+void Graph::limitEdges(int max) 
 {
 
 	int temp = (this->nNodes*(this->nNodes-1))/2; //número máximo de nós em um grafo completo

@@ -37,23 +37,23 @@ public:
 	 * Getters
 	 */
 	int getDegree(int); 	//retorna o grau do nó passado como parâmetro do método
-	bool getLink(int,int); 	//verifica a existência de uma ligação entre dois vértices passados como parâmetros
-	int getNumberOfLinks();	
+	bool getEdge(int,int); 	//verifica a existência de uma ligação entre dois vértices passados como parâmetros
+	int getNumberOfEdges();	
 	int getMinimumDegree();
 	int getMaximumDegree();
 	int getNumberOfNodes();
 	vector<Node> getNodes();
 	double getAverageDegree();
 	int getMinimumDistanceOfNode();
-	int getMinimumNumberOfLinks();
-	int getMaximumNumberOfLinks();
+	int getMinimumNumberOfEdges();
+	int getMaximumNumberOfEdges();
 
-	void limitLinks(int); 
+	void limitEdges(int); 
 	void memsetGraph();
 
 private:
 
-	int nLinks; 					//número de links da topologia
+	int nedges; 					//número de edges da topologia
 	int nNodes;						//número de nós da topologia
 	int maxDegree;					//grau máximo da topologia
 	int minDegree;					//grau minimo da topologia

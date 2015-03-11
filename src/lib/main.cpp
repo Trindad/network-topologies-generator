@@ -124,18 +124,18 @@ main(void)
 	// 	cout<<"v "<<i<<" degree "<< graph.getDegree(i) <<endl;
 	// }
 
-	cout<<"Número de ligações até o momento "<<graph.getNumberOfLinks()<<endl;
-	while( graph.getNumberOfLinks() < graph.getMinimumNumberOfLinks() )
+	cout<<"Número de ligações até o momento "<<graph.getNumberOfEdges()<<endl;
+	while( graph.getNumberOfEdges() < graph.getMinimumNumberOfEdges() )
 	{
 		plane.randomLink(graph);
 	}
 
 
-	while( graph.getNumberOfLinks() < graph.getMaximumNumberOfLinks() )
+	while( graph.getNumberOfEdges() < graph.getMaximumNumberOfEdges() )
 	{
 		plane.randomLink(graph);
 	}
-	cout<<"ligações "<<graph.getNumberOfLinks()<<"limite de ligações "<<graph.getMaximumNumberOfLinks()<<endl;
+	//cout<<"ligações "<<graph.getNumberOfEdges()<<"limite de ligações "<<graph.getMaximumNumberOfLinks()<<endl;
 	// for (int i = 0; i < graph.getNumberOfNodes(); i++)
 	// {
 	// 	cout<<"v "<<i<<" degree "<<graph.getDegree(i)<<endl;
