@@ -1,14 +1,6 @@
 /**
  * Definições de função-membro que aparecem em Graph.cpp
  */
-#include <iostream>
-#include <deque>
-#include <iterator>
-#include <algorithm> 
-#include <stdexcept> // for std::runtime_error
-#include <vector>
-#include <random>
-
 #include "Node.hpp"
 
 using namespace std;
@@ -43,6 +35,7 @@ public:
 	int getMaximumDegree();
 	int getNumberOfNodes();
 	vector<Node> getNodes();
+	Node getNodeAtPosition(int);
 	double getAverageDegree();
 	int getMinimumDistanceOfNode();
 	int getMinimumNumberOfEdges();
@@ -53,7 +46,7 @@ public:
 
 private:
 
-	int nedges; 					//número de edges da topologia
+	int nEdges; 					//número de edges da topologia
 	int nNodes;						//número de nós da topologia
 	int maxDegree;					//grau máximo da topologia
 	int minDegree;					//grau minimo da topologia

@@ -133,11 +133,20 @@ int Node::getNumberOfPaths()
 int Node::getNumberOfNodesFromPath(int index) 	
 {
 	return this->paths[index].size();
+}
+
+double Node::getWeightEdge(int position)
+{
+	return this->weight[position];
 }	
+
+int Node::getAdjacentNode(int position)
+{
+	this->adjacents[position];
+}
 
 void Node::addNodePath(int newNode) 
 {
-	//cout<<"ENTROU AQUI AGORA "<<this->numberOfPaths<<endl;
 	int position = this->numberOfPaths;
 
 	if (paths.size() < position)
@@ -146,7 +155,6 @@ void Node::addNodePath(int newNode)
 		paths.push_back(i);
 	}
 
-	cout<<"POSITION "<<position<<endl<<"Node "<<newNode<<endl;
 	paths[position-1].push_back(newNode);
 }
 

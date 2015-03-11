@@ -1,13 +1,6 @@
 /**
  * Definição de estruturas básicas de um Grafo para redes de telecomunicações
  */
-#include <iostream>
-#include <deque>
-#include <iterator>
-#include <algorithm> 
-#include <stdexcept> // for std::runtime_error
-#include <vector>
-#include <random>
 
 #include "Graph.hpp" /*Inclui  a definição da classe Graph*/
 
@@ -32,7 +25,7 @@ void Graph::setEdge(int u,int v)
 		this->nodes[v].setEdgeNode(u);
 		this->nodes[u].setEdgeNode(v);
 
-		this->nedges++;
+		this->nEdges++;
 	}
 }
 
@@ -45,7 +38,7 @@ void Graph::setNode(int n)
 void Graph::setAverageDegree(double avg) 
 {
 	this->avgDegree = avg;
-	this->nedges = 0;
+	this->nEdges = 0;
 }
 
 void Graph::setMinimumDegree(int min)
@@ -99,7 +92,7 @@ int Graph::getDegree(int node)
 
 int Graph::getNumberOfEdges()
 {
-	return this->nedges;
+	return this->nEdges;
 }
 
 int Graph::getNumberOfNodes()
@@ -151,6 +144,11 @@ int Graph::getMinimumDistanceOfNode()
 	return this->minDistance;
 }
 
+Node Graph::getNodeAtPosition(int index)
+{
+	return this->nodes[index];
+}
+
 /**
  * Inicializa grafo de ligações com todas as posições em 0
  */
@@ -168,7 +166,7 @@ void Graph::memsetGraph()
 void Graph::limitEdges(int max) 
 {
 
-	int temp = (this->nNodes*(this->nNodes-1))/2; //número máximo de nós em um grafo completo
+	int temp = ( this->nNodes * ( this->nNodes-1 ) ) / 2; //número máximo de nós em um grafo completo
 
 	if ( max > temp )	
 	{

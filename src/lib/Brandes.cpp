@@ -19,7 +19,7 @@ vector< vector<int> > Brandes::getShortestPath()
 int Brandes::minimumDistance(vector<int> &distance, vector<int> &sptSet, vector<int> &array,int source)
 {
 
-  int min = INT_MAX, min_index,count = 0;
+  int min = std::numeric_limits<int>::max(), min_index,count = 0;
  
   for (int v = 0; v < this->nNodes; v++) {
 
@@ -27,7 +27,7 @@ int Brandes::minimumDistance(vector<int> &distance, vector<int> &sptSet, vector<
     {
       if (distance[v] == 0 && v != source)
       {
-        distance[v] = INT_MAX;
+        distance[v] = std::numeric_limits<int>::max();
         continue;
       }
       else
@@ -176,7 +176,7 @@ void Brandes::insertPaths(vector<Node> &nodes,int source,int target,int adjacent
  */
 void Brandes::shortestPaths(vector<vector<int>> graph, int source,vector<Node> &nodes)
 {
-  vector<int> distance = vector<int> (this->nNodes,INT_MAX);
+  vector<int> distance = vector<int> (this->nNodes,std::numeric_limits<int>::max());
 
   vector<int> sptSet = vector<int> (this->nNodes,0);
 
@@ -213,7 +213,7 @@ void Brandes::shortestPaths(vector<vector<int>> graph, int source,vector<Node> &
           continue;
         }
         
-        if (!sptSet[v] && graph[ nodeAdjacent[k] ][ v ] && distance[ nodeAdjacent[k] ] != INT_MAX && distance[ nodeAdjacent[k] ] + graph[ nodeAdjacent[k] ][v] <= distance[ v ] && currentTarget != v )
+        if (!sptSet[v] && graph[ nodeAdjacent[k] ][ v ] && distance[ nodeAdjacent[k] ] != std::numeric_limits<int>::max() && distance[ nodeAdjacent[k] ] + graph[ nodeAdjacent[k] ][v] <= distance[ v ] && currentTarget != v )
         {
           currentTarget = v;
 

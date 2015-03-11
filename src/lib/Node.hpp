@@ -7,6 +7,7 @@
 #include <deque>
 #include <iterator>
 #include <algorithm> 
+#include <limits> //limites numéricos
 #include <stdexcept> // for std::runtime_error
 #include <vector>
 #include <random>
@@ -39,6 +40,8 @@ public:
 	bool getEdgeNode(int); 				//verifica a existência de uma ligação entre dois vértices passados como parâmetros
 	int getNumberOfPaths();				//número de caminhos mínimos
 	int getNumberOfNodes();				//retorna o número de caminhos mínimos
+	int getAdjacentNode(int);			//retorna nó adjacente na posição passada como parâmetro
+	double getWeightEdge(int);			//retorna o peso da ligação
 	void incrementPaths(int);			//incrementa o número de caminhos minimos
 	double getDegreeCentrality();		//centralidade do grau	
 	double getBetweenCentrality();		//centralidade de intermediação
@@ -46,8 +49,6 @@ public:
 	double getEfficientCentrality();	//centralidade de eficiência
 	vector<int> getAdjacentsNodes();	//retorna vetor de nós adjacentes
 	int getNumberOfNodesFromPath(int);	//número de nodos em um caminho minimo
-
-
 
 	void addNodePath(int);					//adiciona nodo ao caminho
 	int returnNode(int,int);				//retorna nodo das posições indicadas localizada na matriz de caminhos mínimos

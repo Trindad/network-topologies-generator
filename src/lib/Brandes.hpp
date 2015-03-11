@@ -1,15 +1,6 @@
 /**
  * Definições de função-membro que aparecem em Brandes.cpp
  */
-#include <iostream>
-#include <deque>
-#include <iterator>
-#include <climits>
-#include <algorithm> 
-#include <stdexcept> // for std::runtime_error
-#include <vector>
-#include <random>
-
 #include "Node.hpp"
 
 using namespace std;

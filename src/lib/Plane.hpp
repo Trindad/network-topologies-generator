@@ -2,15 +2,6 @@
  * Definições de função-membro que aparecem em Regions.cpp
  */
 
-#include <iostream>
-#include <deque>
-#include <iterator>
-#include <algorithm> 
-#include <climits>
-#include <stdexcept> // for std::runtime_error
-#include <vector>
-#include <random>
-
 #include "Graph.hpp"
 
 using namespace std;

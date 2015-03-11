@@ -1,11 +1,3 @@
-#include <iostream>
-#include <deque>
-#include <iterator>
-#include <algorithm> 
-#include <cmath>
-#include <random>
-#include <stdexcept> // for std::runtime_error
-
 #include "Plane.hpp"
 
 using namespace std;
@@ -712,7 +704,7 @@ int Plane::nearestNeighbor(int node,Graph graph)
 {
 
 	int neighbor = node;
-	int distance = INT_MAX; //número infinito
+	int distance = std::numeric_limits<int>::min(); //número infinito
 
 	for (int i = 0; i < graph.getNumberOfNodes(); i++)
 	{
