@@ -1,13 +1,6 @@
 /**
  * Definição de características de um nó
  */
-#include <iostream>
-#include <deque>
-#include <iterator>
-#include <algorithm> 
-#include <stdexcept> // for std::runtime_error
-#include <vector>
-#include <random>
 
 #include "Node.hpp" /*Inclui  a definição da classe Graph*/
 

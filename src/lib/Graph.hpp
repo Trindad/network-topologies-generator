@@ -30,13 +30,13 @@ public:
 	 */
 	int getDegree(int); 	//retorna o grau do nó passado como parâmetro do método
 	bool getEdge(int,int); 	//verifica a existência de uma ligação entre dois vértices passados como parâmetros
-	int getNumberOfEdges();	
-	int getMinimumDegree();
-	int getMaximumDegree();
-	int getNumberOfNodes();
-	vector<Node> getNodes();
-	Node getNodeAtPosition(int);
+	int getNumberOfEdges();	//número máximo de arestas do grafo
+	int getMinimumDegree();	//número mínimo do grau
+	int getMaximumDegree();	//número máximo do grau
+	int getNumberOfNodes();	//número de nós do grafo
+	vector<Node> getNodes();//retorna um vetor de nós do grafo
 	double getAverageDegree();
+	Node getNodeAtPosition(int);
 	int getMinimumDistanceOfNode();
 	int getMinimumNumberOfEdges();
 	int getMaximumNumberOfEdges();
