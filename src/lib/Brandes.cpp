@@ -174,7 +174,7 @@ void Brandes::insertPaths(vector<Node> &nodes,int source,int target,int adjacent
  * Calcula o menor caminho, de um node até outro  
  * @param graph com uma matriz adjacente, e o source
  */
-void Brandes::shortestPaths(vector<vector<int>> graph, int source,vector<Node> &nodes)
+void Brandes::execute(vector<vector<int>> graph, int source,vector<Node> &nodes)
 {
   vector<int> distance = vector<int> (this->nNodes,std::numeric_limits<int>::max());
 

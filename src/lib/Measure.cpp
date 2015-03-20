@@ -79,7 +79,7 @@ void Measure::initialize(vector<Node> & nodes,int n)
 	 */
 	for (int i = 0; i < this->numberOfNodes; i++)
 	{
-		brandes.shortestPaths(graph,i,nodes);
+		brandes.execute(graph,i,nodes);
 		cout<<"getNumberOfPaths "<<nodes[i].returnPaths().size()<<endl;
 	}
 

@@ -19,7 +19,7 @@ using namespace std;
  	void addNode(vector<Node> &, vector< vector<int> > &, int, int, int);
  	int addPaths(vector<Node> &,vector< vector<int> > &,int,int,int);
  	int minimumDistance(vector<int> &, vector<int> &, vector<int> &,int);
- 	void shortestPaths(vector< vector<int> >, int ,vector<Node> &);
+ 	void execute(vector< vector<int> >, int ,vector<Node> &);
 
 private:
 

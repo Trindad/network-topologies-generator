@@ -8,10 +8,6 @@ Suurballe::Suurballe(){}
 
 Suurballe::~Suurballe(){}
 
-void changeEdgesWeights(Graph & graph, tree<int> tr)
-{
-
-}
 
 tree<int> Suurballe::makeTree(Graph graph, vector<int> nodes, int source)
 {
@@ -59,19 +55,66 @@ tree<int> Suurballe::makeTree(Graph graph, vector<int> nodes, int source)
    	return tr;
 }
 
+void Suurballe::updateEdgesWeight(const tree<int>& t, typename tree<int>::iterator iRoot, vector<int> nodes, Graph & graph, int source) 
+{
+
+	if( t.empty() )
+	{
+		return;
+	} 
+	
+	// child1, ..., childn
+	int siblingCount = t.number_of_siblings(t.begin(iRoot));
+	int siblingNum;
+
+	typename tree<int>::sibling_iterator iChildren;
+	
+	for (iChildren = t.begin(iRoot), siblingNum = 0; iChildren != t.end(iRoot); ++iChildren, ++siblingNum) {
+		
+
+		/**
+		 * Remove arestas do caminho mínimo de ida
+		 * Deixando somente as arestas de volta
+		 */
+		if ( nodes[*iRoot] == *iRoot && nodes[*iChildren] == *iChildren)
+		{
+			graph.setWeight(*iRoot,*iChildren,0.0f);
+			graph.removeNode(*iRoot,*iChildren);
+		}
+		else
+		{
+
+			double weight = 0 ;//w'(u,v) = w (w,u) - d(s,v) + d(s,u)
+		}
+
+		updateEdgesWeight(t,iChildren,nodes,graph,source);
+	}
+}
+
 /**
  * Todas as arestas da árvore receberão peso 0
  * Os demais nós será aplicado a fórmula proposta:
  * 		w'(u,v) = w (w,u) - d(s,v) + d(s,u)
  */
-void Suurballe::changeEdgesWeights(Graph & graph, tree<int> tr)
+void Suurballe::changeEdgesWeights(Graph & graph, tree<int> tr, vector<int> nodes)
 {
+	int source = *tr.begin();
 
+	/**
+	 * Percore árvore atualizando o peso das ligações u --> v
+	 * Se o nodo esta no caminho o peso passa a ser 0 (zero)
+	 * Do contrário aplica a equação proposta por Suurballe
+	 * Sendo s o source e u e v nós pertencentes a árvore
+	 * 		w'(u,v) = w (u,v) - d(s,v) + d(s,u)
+	 */
+	
+	int headCount = tr.number_of_siblings(tr.begin());//número de cabeças da árvore
 
-
+	typename tree<int>::sibling_iterator iRoot = tr.begin();
+	updateEdgesWeight(tr,iRoot,nodes,graph,source);
 }
 
-bool Suurballe::algorithmSuurballe(Graph & graph)
+bool Suurballe::execute(Graph & graph)
 {
 	bool survivor = false;
 	Dijkstra dijkstra; 
@@ -79,28 +122,32 @@ bool Suurballe::algorithmSuurballe(Graph & graph)
 	/**
 	 * Para cada par de nós encontrar caminhos disjuntos
 	 */
-	for (unsigned int i = 0; i < graph.getNumberOfNodes(); i++)
+	for (unsigned int i = 0; i < graph.getNumberOfNodes()-1; i++)
 	{
 
-		Graph auxiliar = graph;
-
-		int count = 0;
-
-		while (count < 2)
+		for(unsigned int j = i+1; j < graph.getNumberOfNodes(); j++)
 		{
+			Graph auxiliar = graph;
 
-			vector<int> nodes = dijkstra.shortestPath(auxiliar,i);
-			
+			int count = 0;
+
 			/**
-			 * mudança de peso nas arestas
-			 * Monta árvore a partir do nó i
+			 * Encontrar dois caminhos mínimos
 			 */
-			tree<int> tr = makeTree(auxiliar, nodes, i);
-			changeEdgesWeights(auxiliar, tr);
+			while (count < 2)
+			{	
+				vector<int> nodes = dijkstra.execute(auxiliar,i,j);
+				
+				/**
+				 * mudança de peso nas arestas
+				 * Monta árvore a partir do nó i
+				 */
+				tree<int> tr = makeTree(auxiliar, nodes, i);
+				changeEdgesWeights(auxiliar, tr, nodes);
 
-			count++;
+				count++;
+			}
 		}
-
 	}
 
 	return survivor;

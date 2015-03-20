@@ -66,6 +66,12 @@ void Graph::setDistancePairOfNodes(int u,int v,double distance)
 	this->nodes[v].setDistanceNode(distance);
 }
 
+void Graph::setWeight(int u,int v, double value)
+{
+	nodes[u].setWeight(v, value);
+}
+
+
 vector<Node> Graph::getNodes() 
 {
 	return this->nodes;
@@ -172,4 +178,9 @@ void Graph::limitEdges(int max)
 	{
 		throw "2 ≤ Maximum Degree ≤ [N*(N-1)]/2";
 	}
+}
+
+void Graph::removeNode(int u,int v)
+{
+	this->nodes[u].removeNode(v);
 }

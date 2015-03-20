@@ -32,6 +32,21 @@ void Node::setDistanceNode(double distance){
 	this->weight.push_back(distance);
 }
 
+void Node::setWeight(int node, double value)
+{
+	unsigned int n = getDegreeNode();
+
+	for (unsigned int i = 0; i < n; i++)
+	{
+		if (adjacents[i] == node)
+		{
+			weight[i] = value;
+
+			break;
+		}
+	}
+}
+
 void Node::incrementPaths(int n)
 {
 	this->numberOfPaths  = this->numberOfPaths + n;
@@ -148,7 +163,7 @@ void Node::addNodePath(int newNode)
 		paths.push_back(i);
 	}
 
-	paths[position-1].push_back(newNode);
+	this->paths[position-1].push_back(newNode);
 }
 
 int Node::returnNode(int nPath, int index)
@@ -160,4 +175,21 @@ int Node::returnNode(int nPath, int index)
 vector<vector<int>> Node::returnPaths() 
 {
 	return this->paths;
+}
+
+void Node::removeNode(int index)
+{
+	int n = this->degree;
+
+	for (int i = 0; i < degree; i++)
+	{
+	
+		if (this->adjacents[i] == index)
+		{
+			this->adjacents.erase(this->adjacents.begin()+i);;
+			this->degree--;
+
+			break;	
+		}	
+	}
 }

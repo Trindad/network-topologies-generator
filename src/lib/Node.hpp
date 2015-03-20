@@ -6,7 +6,7 @@
 #include <iostream>
 #include <deque>
 #include <iterator>
-#include <algorithm> 
+#include <algorithm> //reverse vector
 #include <limits> //limites numéricos
 #include <stdexcept> // for std::runtime_error
 #include <vector>
@@ -26,6 +26,7 @@ public:
 	 */
 	void setEdgeNode(int);						//faz uma ligação
 	void setDegree();							//aumenta o grau do nó
+	void setWeight(int, double);				//atualiza peso de uma ligação
 	void setDistanceNode(double);				//atribui distância entre dois nós
 	void setDegreeCentrality(int);				//atribui o valor da centralidade de grau
 	void setBetweenCentrality(double);			//atribui o valor da centralidade de intermediação	
@@ -51,6 +52,7 @@ public:
 	int getNumberOfNodesFromPath(int);	//número de nodos em um caminho minimo
 
 	void addNodePath(int);					//adiciona nodo ao caminho
+	void removeNode(int);					//remove nodo da lista de adjacências
 	int returnNode(int,int);				//retorna nodo das posições indicadas localizada na matriz de caminhos mínimos
 	vector< vector<int> > returnPaths();	//retorna caminhos mínimos 
 
