@@ -19,38 +19,37 @@ tree<int> Suurballe::makeTree(Graph graph, vector<int> nodes, int source)
 	tree<int>::iterator root, top, parent;
 
 	top = tr.begin();
-
    	root = tr.insert( top, source );
 
    	while( count < nodes.size() )
    	{
-   		if (nodes[count] >= 0)
-   		{
-   			parent = tr.append_child(root,nodes[count]);
+		parent = tr.append_child(root,nodes[count]);
 
-   			vector<int> adjacents = auxiliar[ nodes[count] ].getAdjacentsNodes();
+		vector<int> adjacents = auxiliar[ nodes[count] ].getAdjacentsNodes();
 
-   			unsigned int it = 0;
+		unsigned int it = 0;
 
-   			/**
-   			 * inserir nós adjacentes do filho
-   			 */
-   			while( it < adjacents.size() )
-   			{
-   				if (nodes[ adjacents[it] ] == -1)
-   				{
-   					tr.append_child(parent,adjacents[it]);
+		/**
+		 * inserir nós adjacentes do filho
+		 */
+		while( it < adjacents.size() )
+		{
+			
+			tr.append_child(parent,adjacents[it]);
 
-   					nodes[ adjacents[it] ] = adjacents[it];
-   				}
+			temp[ adjacents[it] ] = adjacents[it];
 
-   				it++;
-   			}
+			temp[ adjacents[it] ] =  adjacents[it];
+
+			it++;	
    		}
 
    		count++;
    	}
 
+   	kptree::print_tree_bracketed(tr,cout); //imprime árvore
+
+   	cout<<"\n"<<endl;
    	return tr;
 }
 
@@ -84,7 +83,6 @@ void Suurballe::updateEdgesWeight(const tree<int>& t, typename tree<int>::iterat
 
 			double weight = 0 ;//w'(u,v) = w (w,u) - d(s,v) + d(s,u)
 
-
 		}
 
 		updateEdgesWeight(t,iChildren,nodes,graph,source);
@@ -111,7 +109,8 @@ void Suurballe::changeEdgesWeights(Graph & graph, tree<int> tr, vector<int> node
 	int headCount = tr.number_of_siblings(tr.begin());//número de cabeças da árvore
 
 	typename tree<int>::sibling_iterator iRoot = tr.begin();
-	updateEdgesWeight(tr,iRoot,nodes,graph,source);
+	
+	updateEdgesWeight(tr,iRoot,nodes,graph,source);//atualiza peso e remove ligações
 }
 
 bool Suurballe::execute(Graph & graph)
@@ -120,37 +119,53 @@ bool Suurballe::execute(Graph & graph)
 	bool survivor = false;
 	Dijkstra dijkstra; 
 	
+	this->distance = vector<vector<int>> (graph.getNumberOfNodes(),vector<int>( graph.getNumberOfNodes(), std::numeric_limits<double>::max() ));
 	/**
-	 * Para cada par de nós encontrar caminhos disjuntos
+	 * Para cada par de nós (u,v) 
+	 * Obtêm caminho mínimo 
 	 */
-	for (unsigned int i = 0; i < graph.getNumberOfNodes()-1; i++)
+	for (unsigned int u = 0; u < graph.getNumberOfNodes()-1; u++)
 	{
-
-		for(unsigned int j = i+1; j < graph.getNumberOfNodes(); j++)
+		for(unsigned int v = u+1; v < graph.getNumberOfNodes(); v++)
 		{
+			cout<<"source "<<u<<" target "<<v<<endl;	
+			this->distance[u][v] = this->distance[v][u] = dijkstra.execute(graph,u,v);
+		
+			this->path.push_back( dijkstra.shortestPath(v) );
+		}
+	}
+
+	for (int i = 0; i < this->path.size(); i++)
+	{
+		for (int j = 0; j < this->path[i].size(); j++)
+		{
+			cout<<" "<<this->path[i][j];
+		}
+		cout<<endl;
+	}
+
+	int iterator = 0;
+
+	for (unsigned int u = 0; u < graph.getNumberOfNodes()-1; u++)
+	{
+		for (unsigned int v = u+1; v < graph.getNumberOfNodes(); v++)
+		{
+
 			Graph auxiliar = graph;
 
-			//int count = 0;
-
 			/**
-			 * Encontrar dois caminhos mínimos
+			 * mudança de peso nas arestas
+			 * Monta árvore a partir do nó u
 			 */
-			// while (count < 2)
-			// {
-				cout<<"source "<<i<<" target "<<j<<endl;	
-				dijkstra.execute(auxiliar,i,j);
-				
-				vector<int> nodes = dijkstra.shortestPath(j);
+			tree<int> tr = makeTree(auxiliar, this->path[iterator], u);
+			changeEdgesWeights(auxiliar, tr, this->path[iterator]);
 
-				/**
-				 * mudança de peso nas arestas
-				 * Monta árvore a partir do nó i
-				 */
-				//tree<int> tr = makeTree(auxiliar, nodes, i);
-				//changeEdgesWeights(auxiliar, tr, nodes);
+			//int distance = dijkstra.execute(graph,u,v);
+			//cout<<" distance "<<distance<<endl;
 
-			// 	count++;
-			// }
+			//vector<int> newPath = dijkstra.shortestPath(v);	
+
+			iterator++;
 		}
 	}
 
