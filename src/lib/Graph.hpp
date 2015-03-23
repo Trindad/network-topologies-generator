@@ -25,6 +25,7 @@ public:
 	void setAverageDegree(double);
 	void removeEgde(int,int);
 	void setWeight(int,int,double);
+	void setWeightEdgeDirected(int, int, double);
 	void setMinimumDistanceOfNode(int);
 	void setDistancePairOfNodes(int,int,double);
 

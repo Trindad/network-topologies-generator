@@ -66,6 +66,11 @@ void Graph::setDistancePairOfNodes(int u,int v,double distance)
 	this->nodes[v].setDistanceNode(distance);
 }
 
+void Graph::setWeightEdgeDirected(int u,int v, double value)
+{
+	this->nodes[u].setWeight(v,value);//peso 1 caso ocorra ligação
+}
+
 void Graph::setWeight(int u,int v, double value)
 {
 	cout<<" u "<<u<<" v "<<v<<endl;
