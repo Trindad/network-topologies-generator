@@ -18,13 +18,14 @@ Node::~Node(){}
 void Node::setEdgeNode(int target){
 
 	adjacents.push_back(target);
+	weight.push_back(1);//padrão para 1 como havendo ligação
 
 	setDegree();
 }
 
 void Node::setDegree(){
 
-	this->degree += 1;
+	this->degree++;
 }
 
 void Node::setDistanceNode(double distance){
@@ -34,13 +35,12 @@ void Node::setDistanceNode(double distance){
 
 void Node::setWeight(int node, double value)
 {
-	unsigned int n = getDegreeNode();
 
-	for (unsigned int i = 0; i < n; i++)
+	for (unsigned int i = 0; i < this->adjacents.size(); i++)
 	{
-		if (adjacents[i] == node)
+		if (this->adjacents[i] == node)
 		{
-			weight[i] = value;
+			this->weight[i] = value;
 
 			break;
 		}
@@ -103,8 +103,8 @@ double Node::getEfficientCentrality()
 	return this->efficientCentrality;
 }
 
-int Node::getDegreeNode(){
-
+int Node::getDegree()
+{
 	return this->degree;
 }
 
@@ -150,7 +150,7 @@ double Node::getWeightEdge(int position)
 
 int Node::getAdjacentNode(int position)
 {
-	this->adjacents[position];
+	return this->adjacents[position];
 }
 
 void Node::addNodePath(int newNode) 

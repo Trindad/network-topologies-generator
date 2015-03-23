@@ -37,7 +37,7 @@ public:
 	/**
 	 * Getters
 	 */
-	int getDegreeNode(); 				//retorna o grau do nó passado como parâmetro do método
+	int getDegree(); 					//retorna o grau do nó passado como parâmetro do método
 	bool getEdgeNode(int); 				//verifica a existência de uma ligação entre dois vértices passados como parâmetros
 	int getNumberOfPaths();				//número de caminhos mínimos
 	int getNumberOfNodes();				//retorna o número de caminhos mínimos

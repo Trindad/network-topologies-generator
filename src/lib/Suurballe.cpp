@@ -8,7 +8,6 @@ Suurballe::Suurballe(){}
 
 Suurballe::~Suurballe(){}
 
-
 tree<int> Suurballe::makeTree(Graph graph, vector<int> nodes, int source)
 {
 	vector<Node> auxiliar;
@@ -69,14 +68,13 @@ void Suurballe::updateEdgesWeight(const tree<int>& t, typename tree<int>::iterat
 
 	typename tree<int>::sibling_iterator iChildren;
 	
-	for (iChildren = t.begin(iRoot), siblingNum = 0; iChildren != t.end(iRoot); ++iChildren, ++siblingNum) {
-		
-
+	for (iChildren = t.begin(iRoot), siblingNum = 0; iChildren != t.end(iRoot); ++iChildren, ++siblingNum) 
+	{	
 		/**
 		 * Remove arestas do caminho mínimo de ida
 		 * Deixando somente as arestas de volta
 		 */
-		if ( nodes[*iRoot] == *iRoot && nodes[*iChildren] == *iChildren)
+		if ( nodes[ *iRoot ] == *iRoot && nodes[ *iChildren ] == *iChildren)
 		{
 			graph.setWeight(*iRoot,*iChildren,0.0f);
 			graph.removeNode(*iRoot,*iChildren);
@@ -85,6 +83,8 @@ void Suurballe::updateEdgesWeight(const tree<int>& t, typename tree<int>::iterat
 		{
 
 			double weight = 0 ;//w'(u,v) = w (w,u) - d(s,v) + d(s,u)
+
+
 		}
 
 		updateEdgesWeight(t,iChildren,nodes,graph,source);
@@ -116,6 +116,7 @@ void Suurballe::changeEdgesWeights(Graph & graph, tree<int> tr, vector<int> node
 
 bool Suurballe::execute(Graph & graph)
 {
+	cout<<"Suurballe "<<endl;
 	bool survivor = false;
 	Dijkstra dijkstra; 
 	
@@ -129,24 +130,27 @@ bool Suurballe::execute(Graph & graph)
 		{
 			Graph auxiliar = graph;
 
-			int count = 0;
+			//int count = 0;
 
 			/**
 			 * Encontrar dois caminhos mínimos
 			 */
-			while (count < 2)
-			{	
-				vector<int> nodes = dijkstra.execute(auxiliar,i,j);
+			// while (count < 2)
+			// {
+				cout<<"source "<<i<<" target "<<j<<endl;	
+				dijkstra.execute(auxiliar,i,j);
 				
+				vector<int> nodes = dijkstra.shortestPath(j);
+
 				/**
 				 * mudança de peso nas arestas
 				 * Monta árvore a partir do nó i
 				 */
-				tree<int> tr = makeTree(auxiliar, nodes, i);
-				changeEdgesWeights(auxiliar, tr, nodes);
+				//tree<int> tr = makeTree(auxiliar, nodes, i);
+				//changeEdgesWeights(auxiliar, tr, nodes);
 
-				count++;
-			}
+			// 	count++;
+			// }
 		}
 	}
 

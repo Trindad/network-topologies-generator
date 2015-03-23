@@ -1,6 +1,9 @@
 /**
  * Definições de função-membro que aparecem em Graph.cpp
  */
+#ifndef DIJKSTRA_H
+#define DIJKSTRA_H
+
 #include "Node.hpp"
 
 using namespace std;
@@ -24,7 +27,6 @@ public:
 	void setWeight(int,int,double);
 	void setMinimumDistanceOfNode(int);
 	void setDistancePairOfNodes(int,int,double);
-
 
 
 	/**
@@ -58,3 +60,4 @@ private:
 	vector <Node> nodes;			//vetor de informações de um nó do grafo
 };
 
+#endif

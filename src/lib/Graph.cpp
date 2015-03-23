@@ -68,7 +68,9 @@ void Graph::setDistancePairOfNodes(int u,int v,double distance)
 
 void Graph::setWeight(int u,int v, double value)
 {
-	nodes[u].setWeight(v, value);
+	cout<<" u "<<u<<" v "<<v<<endl;
+	this->nodes[u].setWeight(v,value);//peso 1 caso ocorra ligação 
+	this->nodes[v].setWeight(u,value);//peso 1 caso ocorra ligação 
 }
 
 
@@ -92,7 +94,12 @@ bool Graph::getEdge(int u,int v)
 
 int Graph::getDegree(int node)
 {
-	return this->nodes[node].getDegreeNode();
+	cout << "NOdes? " << this->nodes.size() << endl;
+
+	int degree = this->nodes[node].getDegree();
+
+	cout<<"degree[ "<<node<<" "<<degree;
+	return degree;
 }
 
 

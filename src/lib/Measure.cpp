@@ -119,7 +119,7 @@ void Measure::degreeCentrality(vector<Node> &nodes)
 
 	for (int i = 0; i < this->numberOfNodes; i++)
 	{
-		int degree = nodes[i].getDegreeNode();
+		int degree = nodes[i].getDegree();
 
 		nodes[i].setDegreeCentrality(degree);
 
