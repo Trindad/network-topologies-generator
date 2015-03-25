@@ -10,7 +10,7 @@ Suurballe::~Suurballe(){}
 
 void Suurballe::insereSubtreee(Graph graph, tree<int> &tr, typename tree<int>::iterator root,vector<int> nodes, vector<int> &controller, int source)
 {
-	cout<<"Suurballe source "<<source<<endl;
+	//cout<<"Suurballe source "<<source<<endl;
 	Node node = graph.getNodeAtPosition(source);
 	vector<int> adjacents = node.getAdjacentsNodes();
 	typename tree<int>::iterator temp;
@@ -29,7 +29,7 @@ void Suurballe::insereSubtreee(Graph graph, tree<int> &tr, typename tree<int>::i
 			
 			if( find(nodes.begin(),nodes.end(),adjacents[it]) != nodes.end() )
 			{
-				cout<<"Entra"<<adjacents[it]<<endl;
+				//cout<<"Entra"<<adjacents[it]<<endl;
 				newRoot = temp;
 				newSource = adjacents[it];
 			}
@@ -92,29 +92,40 @@ void Suurballe::updateEdgesWeight(const tree<int>& t, typename tree<int>::iterat
 		int siblingNum;
 
 		typename tree<int>::sibling_iterator iChildren;
-		
+		double weight = 0.0f ;//w'(u,v) = w (w,u) - d(s,v) + d(s,u)
+
 		for (iChildren = t.begin(iRoot), siblingNum = 0; iChildren != t.end(iRoot); ++iChildren, ++siblingNum) 
 		{	
-			cout<<"iRoot "<<*iRoot<<" iChildren "<<*iChildren<<endl;
+			weight = 0.0f;
+			int u = *iRoot, v = *iChildren;
+
 			/**
 			 * Remove arestas do caminho mínimo de ida
 			 * Deixando somente as arestas de volta
 			 */
-			if ( nodes[ *iRoot ] == *iRoot && nodes[ *iChildren ] == *iChildren)
+			if ( nodes[ u ] == u && nodes[ v ] == v)
 			{
-				graph.setWeightEdgeDirected(*iRoot,*iChildren,0.0f);
-				graph.removeNode(*iRoot,*iChildren);
+				graph.setWeightEdgeDirected(u,v,weight);
+				graph.removeNode(u,v);
+				cout<<"w("<<u<<" , "<<v<<" ) = "<<weight<<endl;
 			}
 			else
 			{
+				
 
-				double weight = 0.0f ;//w'(u,v) = w (w,u) - d(s,v) + d(s,u)
+				weight = this->distance[u][v] - this->distance[source][v] + this->distance[source][u];
+				//cout<<" "<<this->distance[u][v]<<" "<<this->distance[source][v]<<" "<<this->distance[source][u]<<endl;
+				cout<<"w("<<u<<" , "<<v<<" ) = "<<weight<<endl;
+				graph.setWeightEdgeDirected(u,v,weight);
 
-				weight = distance[ *iRoot ][ *iChildren ] - distance[source][*iChildren] + distance[source][*iRoot];
-			
-				graph.setWeightEdgeDirected(*iRoot,*iChildren,weight);
+				u = *iChildren, v = *iRoot;
+
+				weight = this->distance[u][v] - this->distance[source][v] + this->distance[source][u];
+
+				graph.setWeightEdgeDirected(u,v,weight);
+
+				cout<<"w("<<u<<" , "<<v<<" ) = "<<weight<<endl;
 			}
-
 			updateEdgesWeight(t,iChildren,nodes,graph,source);
 		}
 	}	
@@ -146,7 +157,7 @@ void Suurballe::changeEdgesWeights(Graph & graph, tree<int> tr, vector<int> node
 
 	vector<int> temp = vector<int> (this->numberOfNodes,-1);
 
-	while(count < nodes.size())
+	while( count < nodes.size() )
 	{
 		temp[ nodes[count] ] = nodes[count];
 
@@ -158,13 +169,13 @@ void Suurballe::changeEdgesWeights(Graph & graph, tree<int> tr, vector<int> node
 
 bool Suurballe::execute(Graph & graph)
 {
-	cout<<"Suurballe "<<endl;
+	//cout<<"Suurballe "<<endl;
 	bool survivor = false;
 	Dijkstra dijkstra; 
 
 	this->numberOfNodes = graph.getNumberOfNodes();
 	
-	this->distance = vector<vector<int>> (this->numberOfNodes,vector<int>( graph.getNumberOfNodes(), std::numeric_limits<double>::max() ));
+	this->distance = vector<vector<int>> (this->numberOfNodes,vector<int>( this->numberOfNodes,0) );
 	/**
 	 * Para cada par de nós (u,v) 
 	 * Obtêm caminho mínimo 
@@ -173,8 +184,8 @@ bool Suurballe::execute(Graph & graph)
 	{
 		for(unsigned int v = u+1; v < this->numberOfNodes; v++)
 		{
-			cout<<"source "<<u<<" target "<<v<<endl;	
 			this->distance[u][v] = this->distance[v][u] = dijkstra.execute(graph,u,v);
+			//cout<<"source "<<u<<" target "<<v<<" "<<this->distance[u][v]<<endl;	
 		
 			this->path.push_back( dijkstra.shortestPath(v) );
 		}
@@ -201,10 +212,11 @@ bool Suurballe::execute(Graph & graph)
 			 * mudança de peso nas arestas
 			 * Monta árvore a partir do nó u
 			 */
-			cout<<"u "<<u<<" v "<<v<<endl;
+			cout<<"----------------------------\n"<<endl;
+			cout<<"U "<<u<<" V "<<v<<endl;
 			tree<int> tr = makeTree(auxiliar, this->path[iterator], u);
 			changeEdgesWeights(auxiliar, tr, this->path[iterator]);
-
+			cout<<"\n----------------------------\n"<<endl;
 			//int distance = dijkstra.execute(graph,u,v);
 			//cout<<" distance "<<distance<<endl;
 
