@@ -196,3 +196,8 @@ void Graph::removeNode(int u,int v)
 {
 	this->nodes[u].removeNode(v);
 }
+
+void Graph::printAdjacents(int node)
+{
+	this->nodes[node].printAdjacents();
+}

@@ -177,19 +177,27 @@ vector<vector<int>> Node::returnPaths()
 	return this->paths;
 }
 
-void Node::removeNode(int index)
+void Node::removeNode(int node)
 {
 	int n = this->degree;
 
 	for (int i = 0; i < degree; i++)
 	{
 	
-		if (this->adjacents[i] == index)
+		if (this->adjacents[i] == node)
 		{
-			this->adjacents.erase(this->adjacents.begin()+i);;
+			this->adjacents.erase(this->adjacents.begin()+i);
 			this->degree--;
-
 			break;	
 		}	
 	}
+}
+
+void Node::printAdjacents()
+{
+	for (unsigned int i = 0; i < this->adjacents.size(); i++)
+	{
+		cout<<" "<<adjacents[i];
+	}
+	cout<<endl;
 }

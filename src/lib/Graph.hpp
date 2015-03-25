@@ -49,6 +49,7 @@ public:
 	void memsetGraph();
 	void limitEdges(int); 
 	void removeNode(int,int);
+	void printAdjacents(int);
 
 private:
 

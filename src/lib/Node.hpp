@@ -55,6 +55,7 @@ public:
 	void removeNode(int);					//remove nodo da lista de adjacências
 	int returnNode(int,int);				//retorna nodo das posições indicadas localizada na matriz de caminhos mínimos
 	vector< vector<int> > returnPaths();	//retorna caminhos mínimos 
+	void printAdjacents();
 
 private:
 

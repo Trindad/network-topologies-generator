@@ -165,6 +165,77 @@ void Suurballe::changeEdgesWeights(Graph & graph, tree<int> tr, vector<int> node
 	}
 
 	updateEdgesWeight(tr,iRoot,temp,graph,source);//atualiza peso e remove ligações
+
+
+}
+
+void Suurballe::makePathVector(vector<int> p1,vector<int> &p2)
+{
+
+	for ( unsigned int u = 0; u < p1.size()-1; u++)
+	{
+		p2.push_back( p1[u] );
+		p2.push_back( p1[u+1] );
+	}
+}
+
+vector< vector<int> > Suurballe::makeDisjointPaths(vector<int> path1, vector<int> path2)
+{
+
+	vector<int> p1,p2;
+
+	makePathVector(path1,p1);
+	makePathVector(path2,p2);
+
+	/**
+	 * Remover arestas invertidas
+	 * Dos caminhos mínimos p1 e p2 
+	 */
+	
+	for ( unsigned int u = 0; u < p1.size()-1; u+=2)
+	{
+		for (unsigned int v = 0; v < p2.size()-1; v+=2)
+		{
+			//exclui aresta
+			if (p1[u] == p2[v+1] && p1[u+1] == p2[v])
+			{
+				p1.erase( p1.begin() + u );
+				p1.erase( p1.begin() + ( u + 1 ) );
+
+				p2.erase( p2.begin() + v );
+				p2.erase( p2.begin() + ( v + 1 ) );
+			}
+		}
+	}
+	
+	/**
+	 * Contruir sub-grafo
+	 */
+	vector< vector<int> > subGraph = vector< vector<int> > ( this->numberOfNodes, vector<int> (this->numberOfNodes,0) ); 
+	
+	for ( unsigned int u = 0; u < p1.size()-1; u+=2)
+	{
+		subGraph[ p1[u] ][ p1[u+1] ] = subGraph[ p1[u+1] ][ p1[u] ] = 1;
+	}
+
+	for ( unsigned int u = 0; u < p2.size()-1; u+=2)
+	{
+		cout<<" u "<<p2[u]<<" v "<<p2[u+1]<<endl;
+		subGraph[ p2[u] ][ p2[u+1] ] = subGraph[ p2[u+1] ][ p2[u] ] = 1;
+	}
+
+	for (int u = 0; u < this->numberOfNodes; u++)
+	{
+		for (int v = 0; v < this->numberOfNodes; v++)
+		{
+			cout<<" "<<subGraph[u][v];
+		}
+		cout<<endl;
+	}
+
+	/**
+	 * Gerar caminhos disjuntos
+	 */
 }
 
 bool Suurballe::execute(Graph & graph)
@@ -216,11 +287,29 @@ bool Suurballe::execute(Graph & graph)
 			cout<<"U "<<u<<" V "<<v<<endl;
 			tree<int> tr = makeTree(auxiliar, this->path[iterator], u);
 			changeEdgesWeights(auxiliar, tr, this->path[iterator]);
-			cout<<"\n----------------------------\n"<<endl;
+
 			//int distance = dijkstra.execute(graph,u,v);
 			//cout<<" distance "<<distance<<endl;
+			for (int i = 0; i < this->numberOfNodes; i++)
+			{
+				auxiliar.printAdjacents(i);
+			}
+			
+			dijkstra.execute(auxiliar,u,v);	
 
-			//vector<int> newPath = dijkstra.shortestPath(v);	
+			vector<int> newPath = dijkstra.shortestPath(v);
+
+			cout<<" tamanho do newPath "<<newPath.size()<<endl;
+			for (unsigned int i = 0; i < newPath.size(); i++)
+			{
+				cout<<" "<<newPath[i];
+			}
+
+			cout<<"\n";
+			vector< vector<int> > pathsDisjoint =  makeDisjointPaths(path[iterator],newPath);
+
+			cout<<endl;
+			cout<<"\n----------------------------\n"<<endl;
 
 			iterator++;
 		}
