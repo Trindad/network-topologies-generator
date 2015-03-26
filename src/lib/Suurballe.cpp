@@ -169,14 +169,45 @@ void Suurballe::changeEdgesWeights(Graph & graph, tree<int> tr, vector<int> node
 
 }
 
-void Suurballe::makePathVector(vector<int> p1,vector<int> &p2)
+void Suurballe::makePathVector(vector<int> p1,vector<int> &p2, vector<int> &inPath)
 {
 
 	for ( unsigned int u = 0; u < p1.size()-1; u++)
 	{
 		p2.push_back( p1[u] );
 		p2.push_back( p1[u+1] );
+
+		inPath[ p1[u] ] = p1[u];
+		inPath[ p1[u+1] ] = p1[u+1];
 	}
+}
+void Suurballe::removeEdges(Graph &g)
+{
+
+}
+
+/**
+ * armazena nós visitados em visited
+ */
+bool Suurballe::findPath(vector<Node> nodes,int source, int target)  
+{  
+    if( this->visited[source] == 1 || source == target ) return true;  
+
+    this->visited[source] = 1;  
+
+    vector<int> adjacents = nodes[source].getAdjacentsNodes();
+
+    for( int u = 0; u < this->numberOfNodes; u++)  
+    {  
+    	//existe ligação
+    	if ( find(adjacents.begin(),adjacents.end(),u) != adjacents.end() )
+        {  
+        	cout<<"u "<<source<<" v "<<u<<endl;
+            if( findPath(nodes,u,target) ) return true;                       
+        }  
+    }
+
+    return false;    
 }
 
 bool Suurballe::makeDisjointPaths(vector<int> path1, vector<int> path2)
@@ -184,8 +215,11 @@ bool Suurballe::makeDisjointPaths(vector<int> path1, vector<int> path2)
 
 	vector<int> p1,p2;
 
-	makePathVector(path1,p1);
-	makePathVector(path2,p2);
+	vector<int> temp = vector<int> (this->numberOfNodes,-1);
+
+	makePathVector(path1,p1,temp);
+	makePathVector(path2,p2,temp);
+
 
 	/**
 	 * Remover arestas invertidas
@@ -213,30 +247,100 @@ bool Suurballe::makeDisjointPaths(vector<int> path1, vector<int> path2)
 	 */
 	vector< vector<int> > subGraph = vector< vector<int> > ( this->numberOfNodes, vector<int> (this->numberOfNodes,0) ); 
 	
-	for ( unsigned int u = 0; u < p1.size()-1; u+=2)
-	{
-		subGraph[ p1[u] ][ p1[u+1] ] = subGraph[ p1[u+1] ][ p1[u] ] = 1;
-	}
+	Graph g;
 
-	for ( unsigned int u = 0; u < p2.size()-1; u+=2)
-	{
-		cout<<" u "<<p2[u]<<" v "<<p2[u+1]<<endl;
-		subGraph[ p2[u] ][ p2[u+1] ] = subGraph[ p2[u+1] ][ p2[u] ] = 1;
-	}
+	g.setNumberOfNodes(this->numberOfNodes);
 
-	for (int u = 0; u < this->numberOfNodes; u++)
-	{
-		for (int v = 0; v < this->numberOfNodes; v++)
-		{
-			cout<<" "<<subGraph[u][v];
-		}
-		cout<<endl;
-	}
+	g.memsetGraph();
 
 	/**
-	 * Gerar caminhos disjuntos
+	 * Insere as arestas e seus respectivos pesos 
 	 */
+	g.setMaximumDegree(g.getNumberOfNodes()-1);
+	g.setMinimumDegree(1);
+
+
+	for (int u = 0; u < p1.size(); u+=2)
+	{
+		g.setEdgeDirected(p1[u],p1[u+1]);
+	}
+
+	for (int u = 0; u < p2.size(); u+=2)
+	{
+		g.setEdgeDirected(p2[u],p2[u+1]);
+	}
+	cout<<"\n";
+	cout<<"----------subGraph------------\n";
+	for (int u = 0; u < g.getNumberOfNodes(); u++)
+	{
+		cout<<" node "<<u<<" - ";
+		g.printAdjacents(u);
+	}
+	cout<<"---------------------------------\n";
+	// for ( unsigned int u = 0; u < p1.size()-1; u+=2)
+	// {
+	// 	subGraph[ p1[u] ][ p1[u+1] ] = subGraph[ p1[u+1] ][ p1[u] ] = 1;
+	// }
+
+	// for ( unsigned int u = 0; u < p2.size()-1; u+=2)
+	// {
+	// 	cout<<" u "<<p2[u]<<" v "<<p2[u+1]<<endl;
+	// 	subGraph[ p2[u] ][ p2[u+1] ] = subGraph[ p2[u+1] ][ p2[u] ] = 1;
+	// }
+
+	int source = path1[0];
+	int target = path1[ path1.size()-1 ];
+
+	// for (int u = 0; u < this->numberOfNodes; u++)
+	// {
+	// 	for (int v = 0; v < this->numberOfNodes; v++)
+	// 	{
+	// 		cout<<" "<<subGraph[u][v];
+	// 	}
+	// 	cout<<endl;
+	// }
+
+	/**
+	 * Verifica se existem duas arestas de saída no source
+	 * E duas arestas de entrada no target, além disso deve
+	 * haver uma de entrada e uma de saída nos nós restantes
+	 */
+	vector< vector<int> > path;	
 	
+	int count = 0;
+
+	vector<Node> nodes = g.getNodes();
+
+	//nó origem com mais de uma aresta de saída
+	if ( nodes[source].getAdjacentsNodes().size() >= 3 )
+	{
+		return false;
+	}
+
+	//nó destino possui aresta de saída
+	if ( nodes[target].getAdjacentsNodes().size() >= 1 )
+	{
+		return false;
+	}
+	
+	/**
+	 * constrói os caminhos disjuntos
+	 * remove arestas já visitadas
+	 * constrói novo caminho
+	 */
+
+	this->visited = vector<int> (this->numberOfNodes,0);
+
+	dfs(nodes,source,target);
+
+	removeEdges(g);
+
+	this->visited = vector<int> (this->numberOfNodes,0);
+
+	//dfs(nodes,source);
+
+	//removeEdges(g);
+
 	return true;
 }
 
@@ -308,7 +412,12 @@ bool Suurballe::execute(Graph & graph)
 			cout<<"\n";
 			
 			survivor = makeDisjointPaths(path[iterator],newPath);
-			
+
+			if (survivor == false)
+			{
+				break;
+			}
+
 			cout<<endl;
 			cout<<"\n----------------------------\n"<<endl;
 

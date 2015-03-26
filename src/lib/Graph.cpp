@@ -8,7 +8,7 @@ using namespace std;
 
 Graph::Graph() {
 
-	setNode(0);					//número de nós
+	setNumberOfNodes(0);					//número de nós
 	setAverageDegree(0);		//grau máximo da topologia
 	setMinimumDegree(0);		//grau minimo da topologia
 	setMaximumDegree(0.0);		//grau médio da topologia
@@ -29,7 +29,18 @@ void Graph::setEdge(int u,int v)
 	}
 }
 
-void Graph::setNode(int n)
+
+void Graph::setEdgeDirected(int u,int v)
+{
+	if (getDegree(u) < this->maxDegree  && getDegree(v) < this->maxDegree && u != v)
+	{
+		this->nodes[u].setEdgeNode(v);
+
+		this->nEdges++;
+	}
+}
+
+void Graph::setNumberOfNodes(int n)
 {
 	this->nNodes = n;
 	memsetGraph();

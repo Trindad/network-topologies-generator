@@ -159,7 +159,7 @@ main(void)
 	
 	Graph g;
 
-	g.setNode(6);
+	g.setNumberOfNodes(6);
 	g.memsetGraph();
 
 	/**

@@ -18,8 +18,9 @@ public:
 	/**
 	 * Setters
 	 */
-	void setNode(int);
-	void setEdge(int,int);
+	void setNumberOfNodes(int);
+	void setEdge(int,int); 				//para grafo não dirigido
+	void setEdgeDirected(int,int);		//para grafo dirigido
 	void setMinimumDegree(int);
 	void setMaximumDegree(int);
 	void setAverageDegree(double);
