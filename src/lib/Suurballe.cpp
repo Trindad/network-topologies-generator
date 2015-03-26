@@ -10,7 +10,6 @@ Suurballe::~Suurballe(){}
 
 void Suurballe::insereSubtreee(Graph graph, tree<int> &tr, typename tree<int>::iterator root,vector<int> nodes, vector<int> &controller, int source)
 {
-	//cout<<"Suurballe source "<<source<<endl;
 	Node node = graph.getNodeAtPosition(source);
 	vector<int> adjacents = node.getAdjacentsNodes();
 	typename tree<int>::iterator temp;
@@ -29,7 +28,6 @@ void Suurballe::insereSubtreee(Graph graph, tree<int> &tr, typename tree<int>::i
 			
 			if( find(nodes.begin(),nodes.end(),adjacents[it]) != nodes.end() )
 			{
-				//cout<<"Entra"<<adjacents[it]<<endl;
 				newRoot = temp;
 				newSource = adjacents[it];
 			}
@@ -67,15 +65,13 @@ tree<int> Suurballe::makeTree(Graph graph, vector<int> nodes, int source)
 
    	insereSubtreee(graph,tr,root,nodes,controller,source);
 
-   	kptree::print_tree_bracketed(tr,cout); //imprime árvore
-
-   	cout<<"\n"<<endl;
+	//kptree::print_tree_bracketed(tr,cout); //imprime árvore
+	
    	return tr;
 }
 
 void Suurballe::updateEdgesWeight(const tree<int>& t, typename tree<int>::iterator iRoot, vector<int> nodes, Graph & graph, int source) 
 {
-
 	if( t.empty() )
 	{
 		return;
@@ -171,7 +167,6 @@ void Suurballe::changeEdgesWeights(Graph & graph, tree<int> tr, vector<int> node
 
 void Suurballe::makePathVector(vector<int> p1,vector<int> &p2, vector<int> &inPath)
 {
-
 	for ( unsigned int u = 0; u < p1.size()-1; u++)
 	{
 		p2.push_back( p1[u] );
@@ -181,15 +176,36 @@ void Suurballe::makePathVector(vector<int> p1,vector<int> &p2, vector<int> &inPa
 		inPath[ p1[u+1] ] = p1[u+1];
 	}
 }
-void Suurballe::removeEdges(Graph &g)
-{
 
+vector<int> Suurballe::disjointPath(int target)
+{
+	vector<int> path;
+
+	int u = target;
+
+	path.push_back( target );
+
+	while( this->parent[u] != -1 )
+	{
+		path.push_back( this->parent[u] );
+		u = this->parent[u];
+	}
+
+	reverse( path.begin(),path.end() );//inverte caminho
+
+	for (unsigned int i = 0; i < path.size(); i++)
+	{
+		cout<<" "<<path[i];
+	}
+	cout<<endl;
+
+	return path;
 }
 
 /**
  * armazena nós visitados em visited
  */
-bool Suurballe::findPath(vector<Node> nodes,int source, int target)  
+bool Suurballe::findPath(Graph &g, vector<Node> nodes,int source, int target)  
 {  
     if( this->visited[source] == 1 || source == target ) return true;  
 
@@ -199,15 +215,67 @@ bool Suurballe::findPath(vector<Node> nodes,int source, int target)
 
     for( int u = 0; u < this->numberOfNodes; u++)  
     {  
-    	//existe ligação
+    	//verifica se existe ligação
     	if ( find(adjacents.begin(),adjacents.end(),u) != adjacents.end() )
         {  
-        	cout<<"u "<<source<<" v "<<u<<endl;
-            if( findPath(nodes,u,target) ) return true;                       
+        	// cout<<"u "<<source<<" v "<<u<<endl;
+
+        	g.removeNode(source,u);
+        	this->parent[u] = source;
+
+            if( findPath(g, nodes,u,target) ) return true;                       
         }  
     }
 
     return false;    
+}
+
+bool Suurballe::makeSubgraphDisjointPaths(Graph &g, int source, int target)
+{
+	vector<Node> nodes = g.getNodes();
+
+	//nó origem com mais de uma aresta de saída
+	if ( nodes[source].getAdjacentsNodes().size() >= 3 )
+	{
+		return false;
+	}
+
+	//nó destino possui aresta de saída
+	if ( nodes[target].getAdjacentsNodes().size() >= 1 )
+	{
+		return false;
+	}
+
+	int count = 0;
+
+	vector<vector<int>> p;
+
+	while(count < 2)
+	{
+
+		this->visited = vector<int> (g.getNumberOfNodes(),0);
+		this->parent = vector<int> (g.getNumberOfNodes(),-1);
+
+		findPath(g,nodes,source,target);
+
+		p.push_back( disjointPath(target) );
+
+		nodes = g.getNodes();
+		count++;
+	}
+
+	nodes = g.getNodes();
+
+	//verifica se os nós não possuem mais nenhuma ligação
+	for (int u = 0; u < g.getNumberOfNodes(); u++)
+	{
+		if (nodes[u].getAdjacentsNodes().size() >= 1 )
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 bool Suurballe::makeDisjointPaths(vector<int> path1, vector<int> path2)
@@ -269,6 +337,7 @@ bool Suurballe::makeDisjointPaths(vector<int> path1, vector<int> path2)
 	{
 		g.setEdgeDirected(p2[u],p2[u+1]);
 	}
+
 	cout<<"\n";
 	cout<<"----------subGraph------------\n";
 	for (int u = 0; u < g.getNumberOfNodes(); u++)
@@ -277,28 +346,10 @@ bool Suurballe::makeDisjointPaths(vector<int> path1, vector<int> path2)
 		g.printAdjacents(u);
 	}
 	cout<<"---------------------------------\n";
-	// for ( unsigned int u = 0; u < p1.size()-1; u+=2)
-	// {
-	// 	subGraph[ p1[u] ][ p1[u+1] ] = subGraph[ p1[u+1] ][ p1[u] ] = 1;
-	// }
-
-	// for ( unsigned int u = 0; u < p2.size()-1; u+=2)
-	// {
-	// 	cout<<" u "<<p2[u]<<" v "<<p2[u+1]<<endl;
-	// 	subGraph[ p2[u] ][ p2[u+1] ] = subGraph[ p2[u+1] ][ p2[u] ] = 1;
-	// }
+	
 
 	int source = path1[0];
 	int target = path1[ path1.size()-1 ];
-
-	// for (int u = 0; u < this->numberOfNodes; u++)
-	// {
-	// 	for (int v = 0; v < this->numberOfNodes; v++)
-	// 	{
-	// 		cout<<" "<<subGraph[u][v];
-	// 	}
-	// 	cout<<endl;
-	// }
 
 	/**
 	 * Verifica se existem duas arestas de saída no source
@@ -308,20 +359,6 @@ bool Suurballe::makeDisjointPaths(vector<int> path1, vector<int> path2)
 	vector< vector<int> > path;	
 	
 	int count = 0;
-
-	vector<Node> nodes = g.getNodes();
-
-	//nó origem com mais de uma aresta de saída
-	if ( nodes[source].getAdjacentsNodes().size() >= 3 )
-	{
-		return false;
-	}
-
-	//nó destino possui aresta de saída
-	if ( nodes[target].getAdjacentsNodes().size() >= 1 )
-	{
-		return false;
-	}
 	
 	/**
 	 * constrói os caminhos disjuntos
@@ -329,19 +366,7 @@ bool Suurballe::makeDisjointPaths(vector<int> path1, vector<int> path2)
 	 * constrói novo caminho
 	 */
 
-	this->visited = vector<int> (this->numberOfNodes,0);
-
-	dfs(nodes,source,target);
-
-	removeEdges(g);
-
-	this->visited = vector<int> (this->numberOfNodes,0);
-
-	//dfs(nodes,source);
-
-	//removeEdges(g);
-
-	return true;
+	return makeSubgraphDisjointPaths(g,source,target);
 }
 
 bool Suurballe::execute(Graph & graph)
@@ -354,6 +379,7 @@ bool Suurballe::execute(Graph & graph)
 	
 	this->distance = vector<vector<int>> (this->numberOfNodes,vector<int>( this->numberOfNodes,0) );
 
+	int n = 0;
 	/**
 	 * Para cada par de nós (u,v) 
 	 * Obtêm caminho mínimo 
@@ -365,6 +391,13 @@ bool Suurballe::execute(Graph & graph)
 			this->distance[u][v] = this->distance[v][u] = dijkstra.execute(graph,u,v);
 		
 			this->path.push_back( dijkstra.shortestPath(v) );
+
+			if ( path[n].size() <= 1)
+			{
+				return survivor;
+			}
+
+			n++;
 		}
 	}
 
