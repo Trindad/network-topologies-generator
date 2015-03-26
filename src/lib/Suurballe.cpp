@@ -179,7 +179,7 @@ void Suurballe::makePathVector(vector<int> p1,vector<int> &p2)
 	}
 }
 
-vector< vector<int> > Suurballe::makeDisjointPaths(vector<int> path1, vector<int> path2)
+bool Suurballe::makeDisjointPaths(vector<int> path1, vector<int> path2)
 {
 
 	vector<int> p1,p2;
@@ -236,6 +236,8 @@ vector< vector<int> > Suurballe::makeDisjointPaths(vector<int> path1, vector<int
 	/**
 	 * Gerar caminhos disjuntos
 	 */
+	
+	return true;
 }
 
 bool Suurballe::execute(Graph & graph)
@@ -247,6 +249,7 @@ bool Suurballe::execute(Graph & graph)
 	this->numberOfNodes = graph.getNumberOfNodes();
 	
 	this->distance = vector<vector<int>> (this->numberOfNodes,vector<int>( this->numberOfNodes,0) );
+
 	/**
 	 * Para cada par de nós (u,v) 
 	 * Obtêm caminho mínimo 
@@ -256,7 +259,6 @@ bool Suurballe::execute(Graph & graph)
 		for(unsigned int v = u+1; v < this->numberOfNodes; v++)
 		{
 			this->distance[u][v] = this->distance[v][u] = dijkstra.execute(graph,u,v);
-			//cout<<"source "<<u<<" target "<<v<<" "<<this->distance[u][v]<<endl;	
 		
 			this->path.push_back( dijkstra.shortestPath(v) );
 		}
@@ -288,8 +290,6 @@ bool Suurballe::execute(Graph & graph)
 			tree<int> tr = makeTree(auxiliar, this->path[iterator], u);
 			changeEdgesWeights(auxiliar, tr, this->path[iterator]);
 
-			//int distance = dijkstra.execute(graph,u,v);
-			//cout<<" distance "<<distance<<endl;
 			for (int i = 0; i < this->numberOfNodes; i++)
 			{
 				auxiliar.printAdjacents(i);
@@ -306,8 +306,9 @@ bool Suurballe::execute(Graph & graph)
 			}
 
 			cout<<"\n";
-			vector< vector<int> > pathsDisjoint =  makeDisjointPaths(path[iterator],newPath);
-
+			
+			survivor = makeDisjointPaths(path[iterator],newPath);
+			
 			cout<<endl;
 			cout<<"\n----------------------------\n"<<endl;
 
