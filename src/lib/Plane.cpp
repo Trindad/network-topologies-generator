@@ -131,9 +131,9 @@ void Plane::getNumberOfNodesRegion(int numberRegion, vector<int> &nodes)
 	if (this->nRegions < this->side)
 	{
 		column = floor( numberRegion / getBreadth() ) * this->regionColumn;	//armazena a linha do plano 
-		cout<<"Coluna init "<<column<<endl;
+		//cout<<"Coluna init "<<column<<endl;
 		row =  floor( numberRegion / this->regionRow ) * this->regionRow;	//armazena a coluna do plano 
-		cout<<"Linhas init "<<row<<endl;
+		//cout<<"Linhas init "<<row<<endl;
 		columns = column + this->regionColumn;			//limite de colunas da região
 		rows = row + this->regionRow;
 	}
@@ -143,7 +143,7 @@ void Plane::getNumberOfNodesRegion(int numberRegion, vector<int> &nodes)
 		column = (numberRegion % this->regionRow) * this->regionColumn;	//armazena a linha do plano 
 		row =  floor( numberRegion / this->regionRow )*this->regionRow;	//armazena a coluna do plano 
 
-		cout<<"Região "<<numberRegion<<" column "<<column<<" row "<<row<<endl;
+		//cout<<"Região "<<numberRegion<<" column "<<column<<" row "<<row<<endl;
 		
 		// int row = getRegionX(numberRegion/planeColumn);	
 		// int column = getRegionY( floor(numberRegion/planeRow) );		
@@ -151,13 +151,13 @@ void Plane::getNumberOfNodesRegion(int numberRegion, vector<int> &nodes)
 		columns = column + this->regionColumn;			//limite de colunas da região
 		rows = row + this->regionRow; 					//limite de linhas da região
 
-		cout<<"row "<<row<<"rows "<<rows<<"regionRow "<<this->regionRow <<endl;
+		//cout<<"row "<<row<<"rows "<<rows<<"regionRow "<<this->regionRow <<endl;
 
 	}
 	
-	cout<<"Coluna init "<<column<<" até "<<columns<<endl;
-	cout<<"Linhas init "<<row<<" até "<<rows<<endl;
-	cout<<"\n\n";
+	// cout<<"Coluna init "<<column<<" até "<<columns<<endl;
+	// cout<<"Linhas init "<<row<<" até "<<rows<<endl;
+	// cout<<"\n\n";
 
 	for (int i = column; i < columns; i++)
 	{
@@ -182,7 +182,7 @@ void Plane::setColumns(int columns)
 
 	this->regionColumn = columns;
 	this->length = this->side/columns;//obtêm o comprimento do plano
-	cout<<"length "<<this->length<<endl;
+	//cout<<"length "<<this->length<<endl;
 }
 
 /**
@@ -192,11 +192,11 @@ void Plane::setColumns(int columns)
 void Plane::setRows(int rows) 
 {
 
-	cout<<"setRows"<<endl;
+	//cout<<"setRows"<<endl;
 	this->regionRow = rows;
 
 	this->breadth = this->side/rows;//obtêm a largura do plano
-	cout<<"breadth "<<this->breadth<<endl;
+	//cout<<"breadth "<<this->breadth<<endl;
 }
 
 /**
@@ -311,7 +311,7 @@ void Plane::setRegionsMeasures()
 		setColumns( (int)floor( X/K ) ); 	//altura de cada regiao
 	}
 
-	cout<<"column "<<this->regionColumn<<" row "<<this->regionRow<<endl;
+	//cout<<"column "<<this->regionColumn<<" row "<<this->regionRow<<endl;
 }
 
 /**
@@ -645,7 +645,7 @@ int Plane::targetSearch(int source,Graph graph, vector<vector<int>> nodes,int in
 
 	while(count < maximum) 
 	{
-		cout<<"Maximum "<<maximum<<" count "<<count<<endl;
+		//cout<<"Maximum "<<maximum<<" count "<<count<<endl;
 		int targetNow = random(0,maximum-1);
 
 		int radiusNow = 0, radiusEarlier = 1; 
@@ -672,7 +672,7 @@ int Plane::targetSearch(int source,Graph graph, vector<vector<int>> nodes,int in
 					{
 						if(radiusNow < radiusEarlier && regionEqual(nodes[indexRegion],targetNow) == false && graph.getEdge(source,targetNow) == false)
 						{
-							cout<<" target "<<targetNow<<" source "<<source<<"\n\n\n"<<endl;
+							//cout<<" target "<<targetNow<<" source "<<source<<"\n\n\n"<<endl;
 							target = targetNow;
 							radiusEarlier = radiusNow;
 							
@@ -693,7 +693,7 @@ int Plane::targetSearch(int source,Graph graph, vector<vector<int>> nodes,int in
 		}
 	}
 
-	cout<<"source "<<source<<" target "<<target<<endl;
+	//cout<<"source "<<source<<" target "<<target<<endl;
 	return target;
 }
 
@@ -824,7 +824,7 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>
 
 			while(controller < n)
 			{
-				 cout<<"Controladores"<<controller<<endl;
+				// cout<<"Controladores"<<controller<<endl;
 
 				/**
 				 * Verifica se o nodo já foi origem
@@ -857,7 +857,7 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>
 					}
 					else if(targets[target] == 0 && target != end && controller < n && waxmanProbability(graph,source,target) == true)
 					{
-						cout<<"ligação entre "<<source<<" e "<<target<<endl;
+						//cout<<"ligação entre "<<source<<" e "<<target<<endl;
 						graph.setEdge(source,target);//liga os dois nós no grafo
 
 						targets[target] = 1;
@@ -869,7 +869,7 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>
 					}
 					else if( targets[target] == 0  && controller == n-1 && waxmanProbability(graph,source,target) == true) 
 					{
-						cout<<"ligação entre "<<source<<" e "<<target<<endl;
+						//cout<<"ligação entre "<<source<<" e "<<target<<endl;
 						graph.setEdge(source,target);//liga os dois nós no grafo
 						
 						targets[target] = 1;
@@ -1016,7 +1016,7 @@ void Plane::initialize(Graph &graph)
 		regionsInterconnection(graph,nodesFromRegion);
 	}
 
-	cout<<graph.getNumberOfEdges();
+	//cout<<graph.getNumberOfEdges();
 }
 
 
@@ -1028,7 +1028,7 @@ void Plane::initialize(Graph &graph)
  */
 void Plane::randomLink(Graph &graph) 
 {
-	cout<<"ligações randomicas"<<endl;
+	//cout<<"ligações randomicas"<<endl;
 	vector<int> nodes;
 	int maximum = graph.getMaximumDegree();
 
@@ -1040,7 +1040,7 @@ void Plane::randomLink(Graph &graph)
 		// cout<<"v "<<i<<" degree "<<graph.getDegree(i)<<endl;	
 		if (graph.getDegree(i) < maximum)
 		{
-			cout<<"nodo "<<i<<endl;
+			//cout<<"nodo "<<i<<endl;
 			nodes.push_back(i);
 		}	
 	}
@@ -1053,7 +1053,7 @@ void Plane::randomLink(Graph &graph)
 	{
 		if ( !graph.getEdge(nodes[0],nodes[1]) ==  true && waxmanProbability(graph,nodes[0],nodes[1]) == true )
 		{
-			cout<<"Ligação entre "<<nodes[0]<<" e "<<nodes[1]<<endl;
+			//cout<<"Ligação entre "<<nodes[0]<<" e "<<nodes[1]<<endl;
 			graph.setEdge(nodes[0],nodes[1]);	
 
 			return;
@@ -1107,7 +1107,7 @@ void Plane::randomLink(Graph &graph)
 		 */
 		if ( !graph.getEdge(source,target) ==  true && waxmanProbability(graph,source,target) == true )
 		{
-			cout<<"ligação entre "<<source<<" e "<<target<<endl;
+			//cout<<"ligação entre "<<source<<" e "<<target<<endl;
 			graph.setEdge(source,target);	
 
 			return;

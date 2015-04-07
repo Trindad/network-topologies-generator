@@ -103,7 +103,7 @@ void Suurballe::updateEdgesWeight(const tree<int>& t, typename tree<int>::iterat
 			{
 				graph.setWeightEdgeDirected(u,v,weight);
 				graph.removeNode(u,v);
-				cout<<"w("<<u<<" , "<<v<<" ) = "<<weight<<endl;
+				// cout<<"w("<<u<<" , "<<v<<" ) = "<<weight<<endl;
 			}
 			else
 			{
@@ -111,7 +111,7 @@ void Suurballe::updateEdgesWeight(const tree<int>& t, typename tree<int>::iterat
 
 				weight = this->distance[u][v] - this->distance[source][v] + this->distance[source][u];
 				//cout<<" "<<this->distance[u][v]<<" "<<this->distance[source][v]<<" "<<this->distance[source][u]<<endl;
-				cout<<"w("<<u<<" , "<<v<<" ) = "<<weight<<endl;
+				// cout<<"w("<<u<<" , "<<v<<" ) = "<<weight<<endl;
 				graph.setWeightEdgeDirected(u,v,weight);
 
 				u = *iChildren, v = *iRoot;
@@ -120,7 +120,7 @@ void Suurballe::updateEdgesWeight(const tree<int>& t, typename tree<int>::iterat
 
 				graph.setWeightEdgeDirected(u,v,weight);
 
-				cout<<"w("<<u<<" , "<<v<<" ) = "<<weight<<endl;
+				// cout<<"w("<<u<<" , "<<v<<" ) = "<<weight<<endl;
 			}
 			updateEdgesWeight(t,iChildren,nodes,graph,source);
 		}
@@ -193,11 +193,11 @@ vector<int> Suurballe::disjointPath(int target)
 
 	reverse( path.begin(),path.end() );//inverte caminho
 
-	for (unsigned int i = 0; i < path.size(); i++)
-	{
-		cout<<" "<<path[i];
-	}
-	cout<<endl;
+	// for (unsigned int i = 0; i < path.size(); i++)
+	// {
+	// 	cout<<" "<<path[i];
+	// }
+	// cout<<endl;
 
 	return path;
 }
@@ -338,14 +338,14 @@ bool Suurballe::makeDisjointPaths(vector<int> path1, vector<int> path2)
 		g.setEdgeDirected(p2[u],p2[u+1]);
 	}
 
-	cout<<"\n";
-	cout<<"----------subGraph------------\n";
-	for (int u = 0; u < g.getNumberOfNodes(); u++)
-	{
-		cout<<" node "<<u<<" - ";
-		g.printAdjacents(u);
-	}
-	cout<<"---------------------------------\n";
+	// cout<<"\n";
+	// cout<<"----------subGraph------------\n";
+	// for (int u = 0; u < g.getNumberOfNodes(); u++)
+	// {
+	// 	cout<<" node "<<u<<" - ";
+	// 	g.printAdjacents(u);
+	// }
+	// cout<<"---------------------------------\n";
 	
 
 	int source = path1[0];
@@ -401,14 +401,14 @@ bool Suurballe::execute(Graph & graph)
 		}
 	}
 
-	for (int i = 0; i < this->path.size(); i++)
-	{
-		for (int j = 0; j < this->path[i].size(); j++)
-		{
-			cout<<" "<<this->path[i][j];
-		}
-		cout<<endl;
-	}
+	// for (int i = 0; i < this->path.size(); i++)
+	// {
+	// 	for (int j = 0; j < this->path[i].size(); j++)
+	// 	{
+	// 		cout<<" "<<this->path[i][j];
+	// 	}
+	// 	cout<<endl;
+	// }
 
 	int iterator = 0;
 
@@ -422,8 +422,8 @@ bool Suurballe::execute(Graph & graph)
 			 * mudança de peso nas arestas
 			 * Monta árvore a partir do nó u
 			 */
-			cout<<"----------------------------\n"<<endl;
-			cout<<"U "<<u<<" V "<<v<<endl;
+			// cout<<"----------------------------\n"<<endl;
+			// cout<<"U "<<u<<" V "<<v<<endl;
 			tree<int> tr = makeTree(auxiliar, this->path[iterator], u);
 			changeEdgesWeights(auxiliar, tr, this->path[iterator]);
 
@@ -436,13 +436,13 @@ bool Suurballe::execute(Graph & graph)
 
 			vector<int> newPath = dijkstra.shortestPath(v);
 
-			cout<<" tamanho do newPath "<<newPath.size()<<endl;
-			for (unsigned int i = 0; i < newPath.size(); i++)
-			{
-				cout<<" "<<newPath[i];
-			}
+			// //cout<<" tamanho do newPath "<<newPath.size()<<endl;
+			// for (unsigned int i = 0; i < newPath.size(); i++)
+			// {
+			// 	cout<<" "<<newPath[i];
+			// }
 
-			cout<<"\n";
+			// cout<<"\n";
 			
 			survivor = makeDisjointPaths(path[iterator],newPath);
 
@@ -451,8 +451,8 @@ bool Suurballe::execute(Graph & graph)
 				break;
 			}
 
-			cout<<endl;
-			cout<<"\n----------------------------\n"<<endl;
+			// cout<<endl;
+			// cout<<"\n----------------------------\n"<<endl;
 
 			iterator++;
 		}
