@@ -121,12 +121,9 @@ vector<int> Node::getAdjacentsNodes()
  */
 bool Node::getEdgeNode(int target){
 
-	for (unsigned int i = 0; i < adjacents.size(); i++)
+	if( find(this->adjacents.begin(),this->adjacents.end(),target) != this->adjacents.end() )
 	{
-		if (adjacents[i] == target)
-		{
-			return true;
-		}
+		return true;
 	}
 	
 	return false;

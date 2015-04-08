@@ -1099,7 +1099,7 @@ int Plane::randomLink(Graph &graph)
 		 * Verifica se já existe ligação entre o par de nodos
 		 * Conecta os nodos verificanda a probabilidade de Waxman
 		 */
-		if ( !graph.getEdge(source,target) ==  true && waxmanProbability(graph,source,target) == true )
+		if ( graph.getEdge(source,target) == false && waxmanProbability(graph,source,target) == true )
 		{
 			//cout<<"ligação entre "<<source<<" e "<<target<<endl;
 			graph.setEdge(source,target);	

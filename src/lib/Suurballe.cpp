@@ -288,7 +288,7 @@ bool Suurballe::makeDisjointPaths(vector<int> path1, vector<int> path2)
 	makePathVector(path1,p1,temp);
 	makePathVector(path2,p2,temp);
 
-
+	cout<<"tamanho p1 "<<p1.size()<<" tamanho p2 "<<p2.size()<<endl;
 	/**
 	 * Remover arestas invertidas
 	 * Dos caminhos mínimos p1 e p2 
@@ -427,22 +427,33 @@ bool Suurballe::execute(Graph & graph)
 			tree<int> tr = makeTree(auxiliar, this->path[iterator], u);
 			changeEdgesWeights(auxiliar, tr, this->path[iterator]);
 
-			for (int i = 0; i < this->numberOfNodes; i++)
-			{
-				auxiliar.printAdjacents(i);
-			}
+			// for (int i = 0; i < this->numberOfNodes; i++)
+			// {
+			// 	auxiliar.printAdjacents(i);
+			// }
 			
-			dijkstra.execute(auxiliar,u,v);	
+			double distance = dijkstra.execute(auxiliar,u,v);	
+
+			if ( distance == std::numeric_limits<double>::max() )
+			{
+				return false;
+			}
 
 			vector<int> newPath = dijkstra.shortestPath(v);
 
-			// //cout<<" tamanho do newPath "<<newPath.size()<<endl;
-			// for (unsigned int i = 0; i < newPath.size(); i++)
-			// {
-			// 	cout<<" "<<newPath[i];
-			// }
+			//não encontrou caminho
+			if (newPath.size() == 1)
+			{
+				return false;
+			}
 
-			// cout<<"\n";
+			cout<<" tamanho do newPath "<<newPath.size()<<" v "<<v<<" "<<u<<endl;
+			for (unsigned int i = 0; i < newPath.size(); i++)
+			{
+				cout<<" "<<newPath[i];
+			}
+
+			cout<<"\n";
 			
 			survivor = makeDisjointPaths(path[iterator],newPath);
 
