@@ -127,7 +127,7 @@ main(void)
 	// 	cout<<"v "<<i<<" degree "<< graph.getDegree(i) <<endl;
 	// }
 
-	int notMax = 0;
+	int notMax = std::numeric_limits<int>::max();
 
 	cout<<"Numero de ligações "<<graph.getNumberOfEdges()<<" máximo de ligações "<<graph.getMaximumNumberOfEdges()<<endl;
 	while( graph.getNumberOfEdges() < graph.getMinimumNumberOfEdges() && notMax >= 2)
