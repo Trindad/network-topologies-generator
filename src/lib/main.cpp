@@ -108,9 +108,11 @@ main(void)
 	{
 		cout<<error<<endl;
 	}
+	cout<<"Incialize o plano"<<endl;
 
 	plane.initialize(graph);
 
+	cout<<"Fim das interligações"<<endl;
 	/**
 	 * Verifica se o número de ligações foi atingido
 	 * Se sim verifica se a topologia gerada é sobrevivente
@@ -125,40 +127,42 @@ main(void)
 	// 	cout<<"v "<<i<<" degree "<< graph.getDegree(i) <<endl;
 	// }
 
-	cout<<"Número de ligações até o momento "<<graph.getNumberOfEdges()<<endl;
-	while( graph.getNumberOfEdges() < graph.getMinimumNumberOfEdges() )
+	int notMax = 0;
+
+	cout<<"Numero de ligações "<<graph.getNumberOfEdges()<<" máximo de ligações "<<graph.getMaximumNumberOfEdges()<<endl;
+	while( graph.getNumberOfEdges() < graph.getMinimumNumberOfEdges() && notMax >= 2)
 	{
-		plane.randomLink(graph);
+		notMax = plane.randomLink(graph);//retorna o número de nós que ainda não atingiram o limite de ligações
 	}
 
 
-	while( graph.getNumberOfEdges() < graph.getMaximumNumberOfEdges() )
+	while( graph.getNumberOfEdges() < graph.getMaximumNumberOfEdges() && notMax >= 2)
 	{
-		plane.randomLink(graph);
+		notMax = plane.randomLink(graph);//retorna o número de nós que ainda não atingiram o limite de ligações
 	}
 
 	cout<<"Numero de ligações "<<graph.getNumberOfEdges()<<" máximo de ligações "<<graph.getMaximumNumberOfEdges()<<endl;
 
-	vector<Node> p = graph.getNodes();
-	//cout<<"ligações "<<graph.getNumberOfEdges()<<"limite de ligações "<<graph.getMaximumNumberOfLinks()<<endl;
-	for (int i = 0; i < graph.getNumberOfNodes(); i++)
-	{
-		cout<<"v "<<i<<" degree "<<graph.getDegree(i)<<endl;
+	// vector<Node> p = graph.getNodes();
+	// cout<<"ligações "<<graph.getNumberOfEdges()<<"limite de ligações "<<graph.getMaximumNumberOfLinks()<<endl;
+	// for (int i = 0; i < graph.getNumberOfNodes(); i++)
+	// {
+	// 	cout<<"v "<<i<<" degree "<<graph.getDegree(i)<<endl;
 
 		
-		vector<int> adj = p[i].getAdjacentsNodes();
-		for (int j = 0; j < adj.size(); j++)
-		{
-			cout<<" "<<adj[j];
-		}
-		cout<<endl;
-	}
+	// 	vector<int> adj = p[i].getAdjacentsNodes();
+	// 	for (int j = 0; j < adj.size(); j++)
+	// 	{
+	// 		cout<<" "<<adj[j];
+	// 	}
+	// 	cout<<endl;
+	// }
 
+	cout<<"Measure"<<endl;
+	Measure measures;
 
-	// Measure measures;
-
-	// vector<Node> _nodes = graph.getNodes();
-	// measures.initialize( _nodes,nNodes); //obtêm as medidas de centralidade para cada nó da rede
+	vector<Node> _nodes = graph.getNodes();
+	measures.initialize( _nodes,nNodes); //obtêm as medidas de centralidade para cada nó da rede
 
 
 	/**

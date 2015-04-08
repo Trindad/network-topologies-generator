@@ -56,7 +56,7 @@ public:
 	void memsetPlane();															//inicializa matriz do plano em -1 para todos as coordenadas
 	void limitArea(int); 														//verifica se o número de nós é : 2N <= R <= N^2
 	int random(int,int); 														//gera um número randomico através de uma função probalistica
-	void randomLink(Graph &);													//sorteio randomizado de um par de nodos qualquer
+	int randomLink(Graph &);													//sorteio randomizado de um par de nodos qualquer
 	void initialize(Graph &);													//inicializa as configurações 
 	void limitRegion(int,int);													//limites de cada região do plano
 	void memsetCoordinates(int);  												//inicializa vetor de coordenads em 0

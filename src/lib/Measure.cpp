@@ -58,7 +58,10 @@ void Measure::initialize(vector<Node> & nodes,int n)
 	this->numberOfNodes = n;
 
 	vector< vector<int> > graph = vector< vector<int> > ( n, vector<int> ( n,0 ) );
+	
+	ofstream saida;
 
+    saida.open("saida");
 	/**
 	 * Gera matriz de adjacência do grafo a partir do vetor de nós
 	 */
@@ -83,11 +86,15 @@ void Measure::initialize(vector<Node> & nodes,int n)
 		cout<<"getNumberOfPaths "<<nodes[i].returnPaths().size()<<endl;
 	}
 
-	for (int i = 0; i < this->numberOfNodes; i++)
+	for (int i = 0; i < this->numberOfNodes-1; i++)
 	{
-		for (int j = 0; j < this->numberOfNodes; j++)
+		for (int j = i+1; j < this->numberOfNodes; j++)
 		{
-			cout<<graph[i][j]<<"\t";
+			if (graph[i][j] == 1)
+			{
+				saida <<" "<<i<<" "<<j<<endl;
+			}
+			
 		}
 		cout<<"\n";
 	}
@@ -107,7 +114,7 @@ void Measure::initialize(vector<Node> & nodes,int n)
 
 	for (unsigned int i = 0; i < this->numberOfNodes; i++)
 	{
-		cout<<"bc["<<i<<"] = "<< nodes[i].getBetweenCentrality();
+		saida<<"bc["<<i<<"] = "<< nodes[i].getBetweenCentrality();
 	}
 }
 

@@ -771,6 +771,7 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>
 	vector<int> sources = vector<int> (graph.getNumberOfNodes(),0);
 	vector<int> targets = vector<int> (graph.getNumberOfNodes(),0);
 
+	cout<<" nRegions "<<this->nRegions<<endl;
 	for (int i = 0; i < this->nRegions; i++)
 	{
 
@@ -782,16 +783,17 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>
 
 		nodes.push_back( temp );//retorna os nós de uma região
 
-		// for (unsigned int p = 0; p < nodes[i].size(); p++)
-		// {
-		// 	cout<<"v = "<<nodes[i][p]<<endl;
-		// }
+		cout<<"nodes em "<<i<<endl;
 
+		for (unsigned int p = 0; p < nodes[i].size(); p++)
+		{
+			cout<<" "<<nodes[i][p];
+		}
+		cout<<endl;
 
 		int controller = 0;
 		int n = nodes[i].size();
 
-		// cout<<"N Nodes "<<n<<endl;
 		/**
 		 * Região possui somente dois nós
 		 */
@@ -801,11 +803,7 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>
 
 			continue;
 		}
-
-		/**
-		 * Região deverá gerar um anel
-		 */
-		if (n >= 3)
+		else if (n >= 3)
 		{
 			random_shuffle(nodes[i].begin(),nodes[i].end());//sorteio
 
@@ -824,7 +822,6 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>
 
 			while(controller < n)
 			{
-				// cout<<"Controladores"<<controller<<endl;
 
 				/**
 				 * Verifica se o nodo já foi origem
@@ -883,19 +880,6 @@ vector<vector<int>> Plane::connectionNodesRegion(Graph &graph,vector<vector<int>
 
  				source = target;
 			}
-
-
-			/**
-			 * Verifica se formou um anel na região
-			 */
-			if ( controller == n )
-			{
-				break;
-			}
-			else
-			{
-				i--;
-			}
 		}
 			
 	}
@@ -913,6 +897,7 @@ void Plane::regionsInterconnection(Graph &graph,vector<vector<int>> nodes)
 
 	int controller = 0;
 
+	cout<<" nRegions "<<this->nRegions<<endl;
 	for (int i = 0; i < this->nRegions; i++)
 	{
 		int neighbor,j = 0;
@@ -923,7 +908,12 @@ void Plane::regionsInterconnection(Graph &graph,vector<vector<int>> nodes)
 		 * então haverá ligação entre dois nós 
 		 * mais próximos.
 		 */
-		if ( nodes[i].size() == 1)
+		cout<<"numero de nodos em "<<i<<" = "<<nodes[i].size()<<endl;
+		if (nodes[i].size() == 0)
+		{
+			continue;
+		}
+		else if ( nodes[i].size() == 1)
 		{
 			
 			neighbor = targetSearch(nodes[i][0],graph,nodes,i);
@@ -944,6 +934,7 @@ void Plane::regionsInterconnection(Graph &graph,vector<vector<int>> nodes)
 		}
 		else
 		{
+			cout<<"count "<<count<<" "<< nodes[i].size()<<endl;
 			while( count < nodes[i].size() )
 			{
 				
@@ -955,6 +946,7 @@ void Plane::regionsInterconnection(Graph &graph,vector<vector<int>> nodes)
 
 				j++;
 			}
+			cout<<"count "<<count<<" "<< nodes[i].size()<<endl;
 		}
 	}
 }
@@ -991,6 +983,7 @@ void Plane::initialize(Graph &graph)
 	print();
 
 	vector<vector<int>> nodesFromRegion;
+
 	/**
 	 * Obtêm o número de nós em um subplano 'i'
 	 * Interconecta todos nós em uma região i do plano
@@ -1025,8 +1018,9 @@ void Plane::initialize(Graph &graph)
  * Ambos os nodos não devem ter grau máximo e 
  * Não deve haver ligação entre estes
  * O nodo destino deve ser diferente da sua origem
+ * Retorna o número de nós que não atingiu o grau máximo
  */
-void Plane::randomLink(Graph &graph) 
+int Plane::randomLink(Graph &graph) 
 {
 	//cout<<"ligações randomicas"<<endl;
 	vector<int> nodes;
@@ -1045,9 +1039,9 @@ void Plane::randomLink(Graph &graph)
 		}	
 	}
 
-	if (nodes.size() == 0)
+	if (nodes.size() <= 1)
 	{
-		return;
+		return nodes.size();
 	}
 	else if (nodes.size() == 2)
 	{
@@ -1056,7 +1050,7 @@ void Plane::randomLink(Graph &graph)
 			//cout<<"Ligação entre "<<nodes[0]<<" e "<<nodes[1]<<endl;
 			graph.setEdge(nodes[0],nodes[1]);	
 
-			return;
+			return nodes.size();
 		}
 	}
 
@@ -1074,8 +1068,8 @@ void Plane::randomLink(Graph &graph)
 	{
 
 		int indexNode = random(0,nodes.size()-1); 
-		// cout<<"indexNode "<<indexNode<<endl;
 		int source = nodes[ indexNode ];
+		cout<<"indexNode "<<indexNode<<" node "<<source<<endl;
 
 		indexNode = random(0,nodes.size()-1);
 		int target = nodes[ indexNode ];
@@ -1092,7 +1086,7 @@ void Plane::randomLink(Graph &graph)
 
 				if(controller == graph.getNumberOfNodes())
 				{
-					return;
+					return nodes.size();
 				} 
 				
 				controller++;
@@ -1110,7 +1104,9 @@ void Plane::randomLink(Graph &graph)
 			//cout<<"ligação entre "<<source<<" e "<<target<<endl;
 			graph.setEdge(source,target);	
 
-			return;
+			return nodes.size();
 		}
 	}
+
+	return nodes.size();
 }

@@ -10,7 +10,8 @@
 #include <limits> //limites numéricos
 #include <stdexcept> // for std::runtime_error
 #include <vector>
-#include <random>
+#include <random>	
+#include <fstream>//manipulação de arquivos
 
 using namespace std;
 

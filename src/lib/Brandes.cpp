@@ -180,8 +180,7 @@ void Brandes::execute(vector<vector<int>> graph, int source,vector<Node> &nodes)
 
   vector<int> sptSet = vector<int> (this->nNodes,0);
 
-  vector<vector<int>> edge = vector< vector<int> > ( this->nNodes, vector<int>(2,-1) );
-
+  vector< vector<int> > edge = vector< vector<int> > ( this->nNodes, vector<int>(2,-1) );
 
   distance[source] = 0;
 
@@ -240,6 +239,8 @@ void Brandes::execute(vector<vector<int>> graph, int source,vector<Node> &nodes)
             if (check == 0)
             {
               insertPaths(nodes,source,v,nodeAdjacent[k]);
+              cout<<"increment "<<increment<<"  "<<v<<" "<<nodeAdjacent[k]<<endl;
+              
 
               edge[increment][0] = v;
               edge[increment][1] = nodeAdjacent[k];
