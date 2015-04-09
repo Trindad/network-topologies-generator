@@ -1045,12 +1045,16 @@ int Plane::randomLink(Graph &graph)
 	}
 	else if (nodes.size() == 2)
 	{
-		if ( !graph.getEdge(nodes[0],nodes[1]) ==  true && waxmanProbability(graph,nodes[0],nodes[1]) == true )
+		if ( graph.getEdge(nodes[0],nodes[1]) ==  false && waxmanProbability(graph,nodes[0],nodes[1]) == true )
 		{
 			//cout<<"Ligação entre "<<nodes[0]<<" e "<<nodes[1]<<endl;
 			graph.setEdge(nodes[0],nodes[1]);	
 
 			return nodes.size();
+		}
+		else
+		{
+			return 0;
 		}
 	}
 

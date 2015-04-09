@@ -166,6 +166,7 @@ void Brandes::insertPaths(vector<Node> &nodes,int source,int target,int adjacent
       addNode(nodes,path,1,shortestPath[source][target],source);   
     } 
   }
+  
 }
 
 
@@ -180,7 +181,7 @@ void Brandes::execute(vector<vector<int>> graph, int source,vector<Node> &nodes)
 
   vector<int> sptSet = vector<int> (this->nNodes,0);
 
-  vector< vector<int> > edge = vector< vector<int> > ( this->nNodes, vector<int>(2,-1) );
+  vector< vector<int> > edge = vector< vector<int> > ( this->nNodes+1, vector<int>(2,-1) );
 
   distance[source] = 0;
 
@@ -241,11 +242,13 @@ void Brandes::execute(vector<vector<int>> graph, int source,vector<Node> &nodes)
               insertPaths(nodes,source,v,nodeAdjacent[k]);
               cout<<"increment "<<increment<<"  "<<v<<" "<<nodeAdjacent[k]<<endl;
               
+              if (edge[increment][0] == -1 && edge[increment][1] == -1)
+              {
+                edge[increment][0] = v;
+                edge[increment][1] = nodeAdjacent[k];
+                increment++;
+              }
 
-              edge[increment][0] = v;
-              edge[increment][1] = nodeAdjacent[k];
-
-              increment++;
             }       
           }
           nodeAuxiliar[v] = currentTarget;
