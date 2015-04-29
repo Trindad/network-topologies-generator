@@ -20,7 +20,7 @@ int Brandes::minimumDistance(vector<int> &distance, vector<int> &sptSet, vector<
 {
 
   int min = std::numeric_limits<int>::max(), min_index,count = 0;
- 
+
   for (int v = 0; v < this->nNodes; v++) {
 
     if (sptSet[v] == 0 && distance[v] < min)
@@ -32,20 +32,20 @@ int Brandes::minimumDistance(vector<int> &distance, vector<int> &sptSet, vector<
       }
       else
       {
-        min = distance[v]; 
-        min_index = v;    
+        min = distance[v];
+        min_index = v;
       }
-    } 
+    }
   }
-    
+
   for (int v = 0; v < this->nNodes; v++) {
-    
+
     if (sptSet[v] == 0 && distance[v] <= min)
     {
       min = distance[v];
       nodeAdjacent[count] = v;
-      count++;   
-    } 
+      count++;
+    }
   }
 
   for (int v = 0; v < count; v++)
@@ -58,13 +58,13 @@ int Brandes::minimumDistance(vector<int> &distance, vector<int> &sptSet, vector<
 
 
 /**
- * Adiona os nodes do caminho na estrutura node  
+ * Adiona os nodes do caminho na estrutura node
  */
-void Brandes::addNode(vector<Node> &nodes, vector<vector<int>> & path,int numNodes, int nPaths,int source) 
+void Brandes::addNode(vector<Node> &nodes, vector<vector<int>> & path,int numNodes, int nPaths,int source)
 {
 
   for (int i = 0; i < nPaths; i++)
-  {   
+  {
     if (path[i][numNodes-1] > -1)
     {
       nodes[source].incrementPaths(1);//incrementa o número de caminhos mínimos
@@ -74,36 +74,36 @@ void Brandes::addNode(vector<Node> &nodes, vector<vector<int>> & path,int numNod
     {
       if (path[i][numNodes-j] > -1)
       {
-        
+
         int temp = path[ i ][ numNodes-j ]+0;
 
-        nodes[source].addNodePath( temp );//adiciona nodo ao caminho 
-      } 
+        nodes[source].addNodePath( temp );//adiciona nodo ao caminho
+      }
     }
   }
 }
 
 /**
- * Adiciona todos os caminhos minimos distintos na matriz caminho 
+ * Adiciona todos os caminhos minimos distintos na matriz caminho
  * @param graph com uma matriz adjacente, e o source
  */
-int Brandes::addPaths(vector<Node> & nodes,vector<vector<int>> &path,int adjacent,int source,int target) 
+int Brandes::addPaths(vector<Node> & nodes,vector<vector<int>> &path,int adjacent,int source,int target)
 {
 
   int i = 0, j = 0,nodesPath = 0,minimum = 0 ;
   int k = nodes[source].getNumberOfPaths();
 
   for(int temp = 1; temp  < nodes[source].getNumberOfPaths(); temp++)
-  { 
+  {
 
     int count = nodes[source].getNumberOfNodesFromPath(k-temp); //número de nodos no caminho
     int auxiliar = count-1;
 
     if (nodes[source].returnNode(k-temp,auxiliar) == adjacent && k-temp >= 0)
     {
-      while( temp < nodes[source].getNumberOfPaths() && k-temp >= 0) 
+      while( temp < nodes[source].getNumberOfPaths() && k-temp >= 0)
       {
-        
+
         nodesPath =  nodes[source].getNumberOfNodesFromPath(k-temp);
         minimum = shortestPath[source][target];
 
@@ -138,7 +138,7 @@ int Brandes::addPaths(vector<Node> & nodes,vector<vector<int>> &path,int adjacen
 /**
  * Insere caminhos mínimos encontrados
  */
-void Brandes::insertPaths(vector<Node> &nodes,int source,int target,int adjacent) 
+void Brandes::insertPaths(vector<Node> &nodes,int source,int target,int adjacent)
 {
 
   vector< vector<int> > path = vector< vector<int> > ( this->nNodes, vector<int>(this->nNodes,-1) );
@@ -153,7 +153,7 @@ void Brandes::insertPaths(vector<Node> &nodes,int source,int target,int adjacent
   else
   {
     if (shortestPath[source][target] == 2)
-    { 
+    {
       path[0][0] = target+0;
       path[0][1] = adjacent+0;
 
@@ -163,16 +163,16 @@ void Brandes::insertPaths(vector<Node> &nodes,int source,int target,int adjacent
     {
       path[0][0] = target+0;
 
-      addNode(nodes,path,1,shortestPath[source][target],source);   
-    } 
+      addNode(nodes,path,1,shortestPath[source][target],source);
+    }
   }
-  
+
 }
 
 
 
 /**
- * Calcula o menor caminho, de um node até outro  
+ * Calcula o menor caminho, de um node até outro
  * @param graph com uma matriz adjacente, e o source
  */
 void Brandes::execute(vector<vector<int>> graph, int source,vector<Node> &nodes)
@@ -188,22 +188,22 @@ void Brandes::execute(vector<vector<int>> graph, int source,vector<Node> &nodes)
   for (int count = 0; count < this->nNodes; count++)
   {
     nodeAdjacent = vector<int> (this->nNodes,-1);
-   
+
     vector<int> u;
 
     int nMin = minimumDistance(distance,sptSet,u,source);
-    
+
     for (int k = 0; k < nMin; k++)
     {
       sptSet[ u[k] ] = 1;
     }
-     
+
     int increment = 0;
     int currentTarget = nodeAdjacent[0],lastTarget = nodeAdjacent[0];
-    
+
     for (int k = 0; k < nMin; k++)
     {
-      
+
       int aux = -1;
 
       for (int v = 0; v < this->nNodes; v++) {
@@ -212,7 +212,7 @@ void Brandes::execute(vector<vector<int>> graph, int source,vector<Node> &nodes)
         {
           continue;
         }
-        
+
         if (!sptSet[v] && graph[ nodeAdjacent[k] ][ v ] && distance[ nodeAdjacent[k] ] != std::numeric_limits<int>::max() && distance[ nodeAdjacent[k] ] + graph[ nodeAdjacent[k] ][v] <= distance[ v ] && currentTarget != v )
         {
           currentTarget = v;
@@ -223,7 +223,7 @@ void Brandes::execute(vector<vector<int>> graph, int source,vector<Node> &nodes)
 
           distance[v] =  temp + graph[ nodeAdjacent[k] ][v];
           shortestPath[source][v] = shortestPath[v][source] = distance[v];
-          
+
           if ( shortestPath[source][v] > 0)
           {
             int check = 0;
@@ -241,7 +241,7 @@ void Brandes::execute(vector<vector<int>> graph, int source,vector<Node> &nodes)
             {
               insertPaths(nodes,source,v,nodeAdjacent[k]);
               cout<<"increment "<<increment<<"  "<<v<<" "<<nodeAdjacent[k]<<endl;
-              
+
               if (edge[increment][0] == -1 && edge[increment][1] == -1)
               {
                 edge[increment][0] = v;
@@ -249,12 +249,12 @@ void Brandes::execute(vector<vector<int>> graph, int source,vector<Node> &nodes)
                 increment++;
               }
 
-            }       
+            }
           }
           nodeAuxiliar[v] = currentTarget;
         }
       }
-    
+
       if (currentTarget != lastTarget)
       {
         distance[currentTarget] = aux;
@@ -269,7 +269,7 @@ void Brandes::execute(vector<vector<int>> graph, int source,vector<Node> &nodes)
         distance[ nodeAuxiliar[i] ] = shortestPath[source][ nodeAuxiliar[i] ];
       }
     }
-    
+
     for (int v = 0; v < this->nNodes; v++)
     {
       nodeAuxiliar[v] = nodeAdjacent[v];

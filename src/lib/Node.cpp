@@ -47,6 +47,11 @@ void Node::setWeight(int node, double value)
 	}
 }
 
+void Node::setEuclideanDistance(double distance)
+{
+	this->distanceEuclidean.push_back(distance);
+}
+
 void Node::incrementPaths(int n)
 {
 	this->numberOfPaths  = this->numberOfPaths + n;
@@ -60,6 +65,8 @@ void Node::setDegreeCentrality(int value)
 
 void Node::setBetweenCentrality(double value)
 {
+	cout<<"<bc> "<<value<<endl;
+
 	this->betweenCentrality = value;
 }
 
@@ -80,7 +87,8 @@ void Node::setRelativeDegreeCentrality(double value)
 	this->relativeDegreeCentrality = value;
 }
 
-double Node::getDegreeCentrality()
+
+int Node::getDegreeCentrality()
 {
 	return this->degreeCentrality;
 }
@@ -108,6 +116,10 @@ int Node::getDegree()
 	return this->degree;
 }
 
+vector<double> Node::getEuclideanDistance()
+{
+	return this->distanceEuclidean;
+}
 
 vector<int> Node::getAdjacentsNodes() 
 {
@@ -121,11 +133,14 @@ vector<int> Node::getAdjacentsNodes()
  */
 bool Node::getEdgeNode(int target){
 
-	if( find(this->adjacents.begin(),this->adjacents.end(),target) != this->adjacents.end() )
+	vector<int>::iterator it;
+	it = find(this->adjacents.begin(),this->adjacents.end(),target);
+
+	if (it  != this->adjacents.end())
 	{
 		return true;
 	}
-	
+
 	return false;
 }
 

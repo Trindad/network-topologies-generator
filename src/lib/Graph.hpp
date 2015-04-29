@@ -29,6 +29,8 @@ public:
 	void setWeightEdgeDirected(int, int, double);
 	void setMinimumDistanceOfNode(int);
 	void setDistancePairOfNodes(int,int,double);
+	void setEuclideanDistance(int,int,double);
+	void setNodesMeasures(vector<Node> &);
 
 
 	/**
@@ -48,7 +50,7 @@ public:
 	int getMaximumNumberOfEdges();
 
 	void memsetGraph();
-	void limitEdges(int); 
+	void limitDegree(); 
 	void removeNode(int,int);
 	void printAdjacents(int);
 

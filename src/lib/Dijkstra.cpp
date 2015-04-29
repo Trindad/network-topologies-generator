@@ -1,5 +1,5 @@
 /**
- * Definição de estraura para o algoritmo de Dijkstra 
+ * Definição de estraura para o algoritmo de Dijkstra
  */
 
 #include "Dijkstra.hpp"
@@ -13,103 +13,103 @@ Dijkstra::~Dijkstra(){}
  */
 vector<int> Dijkstra::shortestPath(int target)
 {
-	vector<int> path;
+    vector<int> path;
 
-	int u = target;
+    int u = target;
 
-	path.push_back( target );
+    path.push_back( target );
 
-	while( this->parent[u] != -1 )
-	{
-		path.push_back( this->parent[u] );
-		u = this->parent[u];
-	}
+    while( this->parent[u] != -1 )
+    {
+        path.push_back( this->parent[u] );
+        u = this->parent[u];
+    }
 
-	reverse( path.begin(),path.end() );//inverte caminho
+    reverse( path.begin(),path.end() );//inverte caminho
 
-	return path;
+    return path;
 }
 
 /**
  * Implementação baseada no livro The Algorithm Design Manual -- Skiena
  */
-int Dijkstra::execute( Graph graph, int source, int target) 
+int Dijkstra::execute( Graph graph, int source, int target)
 {
-	Node p; 					//vetor temporário
-	vector<bool> inTree;		//O nó já esta na árvore?
-	vector<double> distance;	//armazena distância para source
-	int v;						//nó atual
-	int w;						//candidato a próximo nó
-	int n;						//número de nós adjacentes
-	double weight;				//peso da aresta
-	double dist;				//melhor distância atual para o nó de partida
+    Node p; 					//vetor temporário
+    vector<bool> inTree;		//O nó já esta na árvore?
+    vector<double> distance;	//armazena distância para source
+    int v;						//nó atual
+    int w;						//candidato a próximo nó
+    int n;						//número de nós adjacentes
+    double weight;				//peso da aresta
+    double dist;				//melhor distância atual para o nó de partida
 
 
-	inTree = vector<bool> ( graph.getNumberOfNodes(), false);
-	distance = vector<double> ( graph.getNumberOfNodes(), std::numeric_limits<double>::max() );
-	this->parent = vector<int> ( graph.getNumberOfNodes(), -1);
+    inTree = vector<bool> ( graph.getNumberOfNodes(), false);
+    distance = vector<double> ( graph.getNumberOfNodes(), std::numeric_limits<double>::max() );
+    this->parent = vector<int> ( graph.getNumberOfNodes(), -1);
 
-	v = source;
-	distance[v] = 0;
+    v = source;
+    distance[v] = 0;
 
-	while( inTree[target] == false)
-	{
-		inTree[v] = true;
+    while( inTree[target] == false)
+    {
+        inTree[v] = true;
 
-		p = graph.getNodeAtPosition(v);
+        p = graph.getNodeAtPosition(v);
 
-		n = p.getDegree();
+        n = p.getDegree();
 
-		if (n == 0)
-		{
-			cout<<"Topologia com nó "<<v<<" desconexo."<<endl;
+        if (n == 0)
+        {
+            cout<<"Topologia com nó "<<v<<" desconexo."<<endl;
 
-			return -std::numeric_limits<double>::max() ;
-		}
-		
-		int iterator = 0;
-		
-		while( iterator < n )
-		{
-			w = p.getAdjacentNode(iterator); 
-			weight = p.getWeightEdge(iterator); //obtêm peso da aresta
+            return -std::numeric_limits<double>::max() ;
+        }
 
-			/**
-			 * Verificação de caminho
-			 */
-			if ( distance[w] > ( distance[v] + weight ) && inTree[w] == false )
-			{
-				distance[w] = distance[v] + weight;
-				this->parent[w] = v;
-			}
+        int iterator = 0;
 
-			iterator++;
-		}
+        while( iterator < n )
+        {
+            w = p.getAdjacentNode(iterator);
+            weight = p.getWeightEdge(iterator); //obtêm peso da aresta
 
-		v = 0;
+            /**
+             * Verificação de caminho
+             */
+            if ( distance[w] > ( distance[v] + weight ) && inTree[w] == false )
+            {
+                distance[w] = distance[v] + weight;
+                this->parent[w] = v;
+            }
 
-		dist = std::numeric_limits<double>::max();
+            iterator++;
+        }
 
-		for (unsigned int i = 0; i < graph.getNumberOfNodes(); i++)
-		{
-			if ( ( inTree[i] == false ) && ( dist > distance[i] ) )
-			{
-				dist = distance[i];
-				v = i;		
-			}
-		}
+        v = 0;
 
-		if (inTree[v] == true)
-		{
-			break;
-		}
-	}
+        dist = std::numeric_limits<double>::max();
 
-	for (unsigned int i = 0; i < parent.size(); i++)
-	{
-		cout<<" "<<parent[i];
-	}
-	cout<<endl;
-	
-	return distance[target];//retorna distância
+        for (unsigned int i = 0; i < graph.getNumberOfNodes(); i++)
+        {
+            if ( ( inTree[i] == false ) && ( dist > distance[i] ) )
+            {
+                dist = distance[i];
+                v = i;
+            }
+        }
+
+        if (inTree[v] == true)
+        {
+            break;
+        }
+    }
+
+    for (unsigned int i = 0; i < parent.size(); i++)
+    {
+        cout<<" "<<parent[i];
+    }
+    cout<<endl;
+
+    return distance[target];//retorna distância
 }

@@ -8,15 +8,21 @@ using namespace std;
 
 Graph::Graph() {
 
-	setNumberOfNodes(0);				//número de nós
-	setAverageDegree(0);				//grau médio da topologia
-	setMinimumDegree(0);				//grau minimo da topologia
-	setMaximumDegree(0.0);				//grau máximo da topologia
-	setMinimumDistanceOfNode(0);		//distância mínima entre um par de nodos
+	setNumberOfNodes(0);					//número de nós
+	setAverageDegree(0);		//grau máximo da topologia
+	setMinimumDegree(0);		//grau minimo da topologia
+	setMaximumDegree(0.0);		//grau médio da topologia
+	setMinimumDistanceOfNode(0);//distância mínima entre um par de nodos
+	this->nEdges = 0;
 }
 
 Graph::~Graph() {}
 
+
+void Graph::setNodesMeasures(vector<Node> &newNodes)
+{
+	this->nodes = newNodes;
+}
 
 void Graph::setEdge(int u,int v)
 {
@@ -29,10 +35,18 @@ void Graph::setEdge(int u,int v)
 	}
 }
 
+/**
+ * Atribui distancia euclidiana entre dois nós
+ */
+void Graph::setEuclideanDistance(int u,int v,double euclidean)
+{
+	nodes[u].setEuclideanDistance(euclidean);
+	nodes[v].setEuclideanDistance(euclidean);
+}
 
 void Graph::setEdgeDirected(int u,int v)
 {
-	if ( getDegree(u) < this->maxDegree  && getDegree(v) < this->maxDegree && u != v )
+	if (getDegree(u) < this->maxDegree  && getDegree(v) < this->maxDegree && u != v)
 	{
 		this->nodes[u].setEdgeNode(v);
 
@@ -84,6 +98,7 @@ void Graph::setWeightEdgeDirected(int u,int v, double value)
 
 void Graph::setWeight(int u,int v, double value)
 {
+    //cout<<" u "<<u<<" v "<<v<<endl;
 	this->nodes[u].setWeight(v,value);//peso 1 caso ocorra ligação 
 	this->nodes[v].setWeight(u,value);//peso 1 caso ocorra ligação 
 }
@@ -109,8 +124,11 @@ bool Graph::getEdge(int u,int v)
 
 int Graph::getDegree(int node)
 {
+    //cout << "NOdes? " << this->nodes.size() << endl;
+
 	int degree = this->nodes[node].getDegree();
 
+    //cout<<"degree[ "<<node<<" "<<degree;
 	return degree;
 }
 
@@ -128,10 +146,11 @@ int Graph::getNumberOfNodes()
 int Graph::getMaximumNumberOfEdges() 
 {
 	int maximumDegree = ( ( this->maxDegree * this->nNodes )/ 2 ); //máximo de ligações que terá a topologia
-	
+
+    //cout<<"maximo de ligações "<<maximumDegree<<endl;
 	try 
 	{
-		limitEdges( maximumDegree );
+        limitDegree();
 	}
 	catch(const char *error) 
 	{
@@ -187,14 +206,14 @@ void Graph::memsetGraph()
  * possuem o mesmo grau ele não ultrapassa o limite
  * Se passar lança uma exception.
  */
-void Graph::limitEdges(int max) 
+void Graph::limitDegree() 
 {
+	// int temp = ( this->nNodes * ( this->nNodes-1 ) ) / 2; //número máximo de nós em um grafo completo
 
-	int temp = ( this->nNodes * ( this->nNodes-1 ) ) / 2; //número máximo de nós em um grafo completo
-
-	if ( max > temp )	
+	if ( this->maxDegree >= this->nNodes  )	
 	{
-		throw "2 ≤ Maximum Degree ≤ [N*(N-1)]/2";
+		// throw "2 ≤ Maximum Degree ≤ [N*(N-1)]/2";
+		throw "limitDegree";
 	}
 }
 

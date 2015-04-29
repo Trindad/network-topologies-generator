@@ -1,7 +1,7 @@
 /**
  * Definições de função-membro que aparecem em Brandes.cpp
  */
-#include "Node.hpp"
+#include "Graph.hpp"
 
 using namespace std;
 

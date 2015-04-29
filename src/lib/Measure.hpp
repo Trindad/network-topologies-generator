@@ -31,8 +31,8 @@
 	void efficientCentrality(vector<Node> &, vector<vector <int> >);	
 
  	double geodesic(vector<Node>,int);
- 	void initialize(vector<Node> &,int);
  	int nodeSearch(vector< vector<int> > &, int, int);
+ 	void initialize(Graph &,int,bool,bool,bool,bool);
  	int pathsSearch(vector<Node>, int, int,vector< vector<int>> &);
 
 private:
