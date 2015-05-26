@@ -11,7 +11,9 @@
 #include <stdexcept> // for std::runtime_error
 #include <vector>
 #include <random>
+#include <string>
 #include <fstream>//manipulação de arquivos
+#include <iostream>
 
 using namespace std;
 

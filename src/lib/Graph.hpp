@@ -1,8 +1,8 @@
 /**
  * Definições de função-membro que aparecem em Graph.cpp
  */
-#ifndef DIJKSTRA_H
-#define DIJKSTRA_H
+#ifndef GRAPH_H
+#define GRAPH_H
 
 #include "Node.hpp"
 
