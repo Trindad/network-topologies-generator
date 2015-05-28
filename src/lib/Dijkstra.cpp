@@ -21,12 +21,17 @@ vector<int> Dijkstra::shortestPath(int target)
 
     while( this->parent[u] != -1 )
     {
-        path.push_back( this->parent[u] );
+        path.push_back( this->parent[u]);
         u = this->parent[u];
     }
-
     reverse( path.begin(),path.end() );//inverte caminho
 
+
+    // for (int i = 0; i < path.size() ; i++)
+    // {
+    //     cout<<" "<<path[i]+1;
+    // }
+    // cout<<endl;
     return path;
 }
 
@@ -62,7 +67,7 @@ int Dijkstra::execute( Graph graph, int source, int target)
 
         if (n == 0)
         {
-            cout<<"Topologia com nó "<<v<<" desconexo."<<endl;
+            // cout<<"Topologia com nó "<<v<<" desconexo."<<endl;
 
             return -std::numeric_limits<double>::max() ;
         }
@@ -104,12 +109,6 @@ int Dijkstra::execute( Graph graph, int source, int target)
             break;
         }
     }
-
-    for (unsigned int i = 0; i < parent.size(); i++)
-    {
-        cout<<" "<<parent[i];
-    }
-    cout<<endl;
 
     return distance[target];//retorna distância
 }

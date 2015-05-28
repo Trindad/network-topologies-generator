@@ -275,6 +275,7 @@ bool Suurballe::makeSubgraphDisjointPaths(Graph &g, int source, int target)
         }
     }
 
+
     return true;
 }
 
@@ -288,7 +289,7 @@ bool Suurballe::makeDisjointPaths(vector<int> path1, vector<int> path2)
     makePathVector(path1,p1,temp);
     makePathVector(path2,p2,temp);
 
-    cout<<"tamanho p1 "<<p1.size()<<" tamanho p2 "<<p2.size()<<endl;
+   // cout<<"tamanho p1 "<<p1.size()<<" tamanho p2 "<<p2.size()<<endl;
     /**
      * Remover arestas invertidas
      * Dos caminhos mínimos p1 e p2
@@ -327,16 +328,21 @@ bool Suurballe::makeDisjointPaths(vector<int> path1, vector<int> path2)
     g.setMaximumDegree(g.getNumberOfNodes()-1);
     g.setMinimumDegree(1);
 
+    int u = 0;
 
-    for (int u = 0; u < p1.size(); u+=2)
+    for (u = 0; u < p1.size(); u+=2)
     {
         g.setEdgeDirected(p1[u],p1[u+1]);
+
     }
 
-    for (int u = 0; u < p2.size(); u+=2)
+    for (u = 0; u < p2.size(); u+=2)
     {
         g.setEdgeDirected(p2[u],p2[u+1]);
+
     }
+
+
 
     // cout<<"\n";
     // cout<<"----------subGraph------------\n";
@@ -350,124 +356,202 @@ bool Suurballe::makeDisjointPaths(vector<int> path1, vector<int> path2)
 
     int source = path1[0];
     int target = path1[ path1.size()-1 ];
+    int pair = 0;
+    this->datas<<"Working path ["<<source+1<<" , "<<target+1<<" ]"<<" number of hops = "<<p1.size()/2<<endl;
+    for (u = 0; u < p1.size(); u++)
+    {
+        if (pair < 1)
+        {
+            this->datas<<p1[u]+1<<" ";
+            pair++;
+        }
+        else
+        {
+            this->datas<<p1[u]+1<<endl;
+            pair = 0;
+        }
+    }
+    // cout<<" number of hops "<<p1.size()/2<<endl;
+    this->datas<<"\n";
+    
+    
+    this->datas<<"Backup path ["<<source+1<<" , "<<target+1<<" ]"<<" number of hops = "<<p2.size()/2<<endl;
+    for (u = 0; u < p2.size(); u++)
+    {
+        if (pair < 1)
+        {
+            this->datas<<p2[u]+1<<" ";
+            pair++;
+        }
+        else
+        {
+            this->datas<<p2[u]+1<<endl;
+            pair = 0;
+        }
+
+    }
+    this->datas<<"\n";
 
     /**
      * Verifica se existem duas arestas de saída no source
      * E duas arestas de entrada no target, além disso deve
      * haver uma de entrada e uma de saída nos nós restantes
      */
-    vector< vector<int> > path;
-
-    int count = 0;
-
-    /**
-     * constrói os caminhos disjuntos
-     * remove arestas já visitadas
-     * constrói novo caminho
-     */
-
+    // cout<<"tamanho de path1 "<<path1.size()<<" tamanho de path2 "<<path2.size()<<endl;
+    this->hopBackup[source][target] =  (double)(path2.size()/2);
+    this->hopWorking[source][target] = (double) (path1.size()/2);
+   // cout<<" Número de enlaces de "<<source<<" até "<<target<< " = "<<g.getNumberOfEdges()<<endl;
     return makeSubgraphDisjointPaths(g,source,target);
 }
 
-bool Suurballe::execute(Graph & graph)
+bool Suurballe::execute(Graph & graph, string nameFile)
 {
-    //cout<<"Suurballe "<<endl;
+    nameFile = "out_"+nameFile;
+    // cout<<"nameFile "<<nameFile<<endl;
+    this->datas.open(nameFile);
+
     bool survivor = false;
-    Dijkstra dijkstra;
-
-    this->numberOfNodes = graph.getNumberOfNodes();
-
-    this->distance = vector<vector<int>> (this->numberOfNodes,vector<int>( this->numberOfNodes,0) );
-
-    int n = 0;
-    /**
-     * Para cada par de nós (u,v)
-     * Obtêm caminho mínimo
-     */
-    for (unsigned int u = 0; u < this->numberOfNodes-1; u++)
+    if (this->datas.is_open())
     {
-        for(unsigned int v = u+1; v < this->numberOfNodes; v++)
+
+        this->numberOfPaths = 0;
+        //cout<<"Suurballe "<<endl;
+        Dijkstra dijkstra;
+
+        this->numberOfNodes = graph.getNumberOfNodes();
+
+        this->distance = vector<vector<int>> (this->numberOfNodes,vector<int>( this->numberOfNodes,0) );
+
+        int n = 0;
+        /**
+         * Inicializa matrizes de saltos
+         */
+        this->hopWorking = vector< vector<double> > (this->numberOfNodes, vector<double> (this->numberOfNodes,0) );
+        this->hopBackup = vector< vector<double> > (this->numberOfNodes, vector<double> (this->numberOfNodes,0) );
+        
+        /**
+         * Para cada par de nós (u,v)
+         * Obtêm caminho mínimo
+         */
+        for (unsigned int u = 0; u < this->numberOfNodes-1; u++)
         {
-            this->distance[u][v] = this->distance[v][u] = dijkstra.execute(graph,u,v);
-
-            this->path.push_back( dijkstra.shortestPath(v) );
-
-            if ( path[n].size() <= 1)
+            for(unsigned int v = u+1; v < this->numberOfNodes; v++)
             {
-                return survivor;
+                this->distance[u][v] = this->distance[v][u] = dijkstra.execute(graph,u,v);
+                // cout<<"distance entre "<<u<<" e "<<v<<" = "<<this->distance[u][v]<<endl;
+                this->path.push_back( dijkstra.shortestPath(v) );
+
+                if ( path[n].size() <= 1)
+                {
+                    return survivor;
+                }
+                this->numberOfPaths++;
+                n++;
             }
-
-            n++;
         }
-    }
 
-    // for (int i = 0; i < this->path.size(); i++)
-    // {
-    // 	for (int j = 0; j < this->path[i].size(); j++)
-    // 	{
-    // 		cout<<" "<<this->path[i][j];
-    // 	}
-    // 	cout<<endl;
-    // }
+        // for (int i = 0; i < this->path.size(); i++)
+        // {
+        // 	for (int j = 0; j < this->path[i].size(); j++)
+        // 	{
+        // 		cout<<" "<<this->path[i][j];
+        // 	}
+        // 	cout<<endl;
+        // }
 
-    int iterator = 0;
+        int iterator = 0;
+        double dist = 0;
 
-    for (unsigned int u = 0; u < this->numberOfNodes-1; u++)
-    {
-        for (unsigned int v = u+1; v < this->numberOfNodes; v++)
+        for (unsigned int u = 0; u < this->numberOfNodes-1; u++)
         {
-            Graph auxiliar = graph;
-
-            /**
-             * mudança de peso nas arestas
-             * Monta árvore a partir do nó u
-             */
-            // cout<<"----------------------------\n"<<endl;
-            // cout<<"U "<<u<<" V "<<v<<endl;
-            tree<int> tr = makeTree(auxiliar, this->path[iterator], u);
-            changeEdgesWeights(auxiliar, tr, this->path[iterator]);
-
-            // for (int i = 0; i < this->numberOfNodes; i++)
-            // {
-            // 	auxiliar.printAdjacents(i);
-            // }
-
-            double distance = dijkstra.execute(auxiliar,u,v);
-
-            if ( distance == std::numeric_limits<double>::max() )
+            for (unsigned int v = u+1; v < this->numberOfNodes; v++)
             {
-                return false;
+                Graph auxiliar = graph;
+
+                /**
+                 * mudança de peso nas arestas
+                 * Monta árvore a partir do nó u
+                 */
+                // cout<<"----------------------------\n"<<endl;
+                // cout<<"U "<<u<<" V "<<v<<endl;
+                tree<int> tr = makeTree(auxiliar, this->path[iterator], u);
+                // cout<<"------------------------ "<<u+1<<" "<<v+1<<"------------------"<<endl;
+                changeEdgesWeights(auxiliar, tr, this->path[iterator]);
+                // auxiliar.printAdjacents(u);
+                // cout<<"----------------------------------------------------------"<<endl;
+                dist =  dijkstra.execute(auxiliar,u,v);
+
+                if ( dist == std::numeric_limits<double>::max() )
+                {
+                    return false;
+                }
+
+                vector<int> newPath = dijkstra.shortestPath(v);
+
+                //não encontrou caminho
+                if (newPath.size() == 1)
+                {
+                    return false;
+                }
+
+                // cout<<" tamanho do newPath "<<newPath.size()<<" v "<<v<<" "<<u<<endl;
+                // for (unsigned int i = 0; i < newPath.size(); i++)
+                // {
+                //     cout<<" "<<newPath[i];
+                // }
+
+                // cout<<"\n";
+
+                survivor = makeDisjointPaths(path[iterator],newPath);
+
+                if (survivor == false)
+                {
+                    break;
+                }
+
+                // cout<<endl;
+                // cout<<"\n----------------------------\n"<<endl;
+
+                iterator++;
             }
-
-            vector<int> newPath = dijkstra.shortestPath(v);
-
-            //não encontrou caminho
-            if (newPath.size() == 1)
-            {
-                return false;
-            }
-
-            cout<<" tamanho do newPath "<<newPath.size()<<" v "<<v<<" "<<u<<endl;
-            for (unsigned int i = 0; i < newPath.size(); i++)
-            {
-                cout<<" "<<newPath[i];
-            }
-
-            cout<<"\n";
-
-            survivor = makeDisjointPaths(path[iterator],newPath);
-
-            if (survivor == false)
-            {
-                break;
-            }
-
-            // cout<<endl;
-            // cout<<"\n----------------------------\n"<<endl;
-
-            iterator++;
         }
+        Suurballe::averageHops();
     }
-
     return survivor;
+}
+
+/**
+ * Calcula a média dos saltos dos caminhos de trabalho 
+ * Calcula a media dos saltos dos caminhos de backup
+ * Retorna o valor de cada um
+ */
+vector<double> Suurballe::averageHops()
+{
+
+    vector<double> avgHops;
+    double kp = 0;
+
+    double avgWorkingHops = 0, averageBackupHops = 0;
+
+    for (int u = 0; u < this->numberOfNodes-1; u++)
+    {
+        for (int v = u; v < this->numberOfNodes; v++)
+        {
+            avgWorkingHops = avgWorkingHops + this->hopWorking[u][v];
+            averageBackupHops = averageBackupHops + this->hopBackup[u][v];
+        }
+    }
+
+    avgWorkingHops = (avgWorkingHops/this->numberOfPaths);
+    averageBackupHops = (averageBackupHops/this->numberOfPaths);
+
+    avgHops.push_back(avgWorkingHops);
+    avgHops.push_back(averageBackupHops);
+
+    kp = avgHops[1]/avgHops[0];
+    // cout<<"averageBackupHops "<<averageBackupHops<<" avgWorkingHops "<<avgWorkingHops<<endl;
+    this->datas<<"protection coefficient = "<<kp<<endl;
+
+    this->datas.close();
+    return avgHops;
 }

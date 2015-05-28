@@ -46,7 +46,7 @@ void Graph::setEuclideanDistance(int u,int v,double euclidean)
 
 void Graph::setEdgeDirected(int u,int v)
 {
-	if (getDegree(u) < this->maxDegree  && getDegree(v) < this->maxDegree && u != v)
+	if (getDegree(u) < this->maxDegree  && getDegree(v) < this->maxDegree && u != v )
 	{
 		this->nodes[u].setEdgeNode(v);
 

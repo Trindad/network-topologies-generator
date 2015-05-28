@@ -209,7 +209,7 @@ void Node::printAdjacents()
 {
 	for (unsigned int i = 0; i < this->adjacents.size(); i++)
 	{
-		cout<<" "<<adjacents[i];
+		cout<<" "<<adjacents[i]+1;
 	}
 	cout<<endl;
 }
