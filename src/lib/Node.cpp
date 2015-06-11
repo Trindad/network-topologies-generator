@@ -136,7 +136,7 @@ bool Node::getEdgeNode(int target){
 	vector<int>::iterator it;
 	it = find(this->adjacents.begin(),this->adjacents.end(),target);
 
-	if (it  != this->adjacents.end())
+	if (it != this->adjacents.end())
 	{
 		return true;
 	}

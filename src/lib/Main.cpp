@@ -44,14 +44,30 @@ int main(int argc, char const *argv[])
 
 			int u = stoi(nodes[0])-1;
 			int v = stoi(nodes[1])-1;
+			// g.setEdgeDirected(u,v);
 			g.setEdge(u,v);
+			g.setWeight(u,v,1.0);
+			g.setWeight(v,u,1.0);
 		}
+		
+		// g.setWeightEdgeDirected(1-1,8-1,2.0f);
+		// g.setWeightEdgeDirected(1-1,7-1,8.0f);
+		// g.setWeightEdgeDirected(1-1,2-1,3.0f);
+		// g.setWeightEdgeDirected(2-1,3-1,1.0f);
+		// g.setWeightEdgeDirected(2-1,6-1,6.0f);
+		// g.setWeightEdgeDirected(2-1,7-1,4.0f);
+		// g.setWeightEdgeDirected(3-1,4-1,5.0f);
+		// g.setWeightEdgeDirected(5-1,4-1,7.0f);
+		// g.setWeightEdgeDirected(6-1,5-1,2.0f);
+		// g.setWeightEdgeDirected(5-1,8-1,3.0f);
+		// g.setWeightEdgeDirected(8-1,6-1,5.0f);
+		// g.setWeightEdgeDirected(7-1,4-1,1.0f);
 
 		Suurballe s;
 
 		bool sobrevivente = s.execute(g,pathFile[pathFile.size()-1]);
 
-		// cout<<"sobrevivente "<<sobrevivente<<endl;
+		cout<<"sobrevivente "<<sobrevivente<<endl;
 
 		file.close();
 

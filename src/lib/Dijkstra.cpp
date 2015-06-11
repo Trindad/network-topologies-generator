@@ -29,9 +29,9 @@ vector<int> Dijkstra::shortestPath(int target)
 
     // for (int i = 0; i < path.size() ; i++)
     // {
-    //     cout<<" "<<path[i]+1;
+    //     cout<<" "<<path[i];
     // }
-    // cout<<endl;
+    cout<<endl;
     return path;
 }
 
